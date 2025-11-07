@@ -508,6 +508,11 @@ st.set_page_config(page_title="スキルシート自動入力＆Gemini要約ア�
 st.title("スキルシート自動入力＆Gemini要約アプリ")
 st.caption("経歴書Excelファイルをアップロードしてください")
 
+with st.sidebar:
+    st.header("📂 サイドメニュー")
+    page = st.radio("ページ選択", ["ホーム", "設定", "ヘルプ"])
+    username = st.text_input("ユーザー名")
+
 uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
     type=["xlsx", "csv"],
