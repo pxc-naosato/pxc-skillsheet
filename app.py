@@ -507,10 +507,9 @@ def generate_overview_callback():
 st.set_page_config(page_title="スキルシート自動入力＆Gemini要約アプリ", layout="centered")
 st.title("スキルシート自動入力＆Gemini要約アプリ")
 st.caption("経歴書Excelファイルをアップロードしてください")
- st.sidebar:
+with st.sidebar:
     st.header("📂 サイドメニュー")
-    page = st.radio("ページ選択", ["ホーム", "設定", "ヘルプ"])
-    username = st.text_input("ユーザー名")
+    page = st.radio("ページ選択", ["ホーム", "基本情報", "開発経験サマリ", "業務履歴", "AIによる改善"])
 
 uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
