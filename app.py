@@ -518,20 +518,6 @@ uploaded_file = st.file_uploader(
     on_change=load_from_excel_callback
 )
 
-if page == "ホーム":
-    basic_info()
-    deve_expe()
-    business_history()
-    ai_impr()
-elif page == "基本情報":
-    basic_info()
-elif page == "開発経験サマリ":
-    deve_expe()
-elif page == "業務履歴":
-    business_history()
-elif page == "AIによる改善":
-    ai_impr()
-
 def basic_info():
     st.header("個人情報")
     cols = st.columns(2)
@@ -703,3 +689,17 @@ def ai_impr():
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
         st.success("Excelを生成しました。")
+
+if page == "ホーム":
+    basic_info()
+    deve_expe()
+    business_history()
+    ai_impr()
+elif page == "基本情報":
+    basic_info()
+elif page == "開発経験サマリ":
+    deve_expe()
+elif page == "業務履歴":
+    business_history()
+elif page == "AIによる改善":
+    ai_impr()
