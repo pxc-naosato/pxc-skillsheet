@@ -519,18 +519,18 @@ uploaded_file = st.file_uploader(
 )
 
 if page == "ホーム":
-    import basic_info()
-    import deve_expe()
-    import business_history()
-    import ai_impr()
+    basic_info()
+    deve_expe()
+    business_history()
+    ai_impr()
 elif page == "基本情報":
-    import basic_info()
+    basic_info()
 elif page == "開発経験サマリ":
-    import deve_expe()
+    deve_expe()
 elif page == "業務履歴":
-    import business_history()
+    business_history()
 elif page == "AIによる改善":
-    import ai_impr()
+    ai_impr()
 
 dnf basic_info() :
     st.header("個人情報")
