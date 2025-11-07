@@ -1,4 +1,4 @@
-import streamlit as st
+fimport streamlit as st
 import pandas as pd
 from datetime import datetime, date
 import io
@@ -532,7 +532,7 @@ elif page == "業務履歴":
 elif page == "AIによる改善":
     ai_impr()
 
-dnf basic_info():
+def basic_info():
     st.header("個人情報")
     cols = st.columns(2)
     with cols[0]:
@@ -549,11 +549,11 @@ dnf basic_info():
     st.subheader("情報処理資格")
     st.session_state.pi_qualifications_input = st.text_area("（1行1資格）", value=st.session_state.pi_qualifications_input, height=100)
 
-dnf deve_expe():
+def deve_expe():
     st.subheader("開発経験サマリ")
     st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, height=120)
 
-dnf business_history():
+def business_history():
     st.header("業務経歴")
     if st.button("新しい案件を追加"):
         st.session_state.projects.append({})
@@ -586,7 +586,7 @@ dnf business_history():
             st.rerun()
         st.markdown("---")
 
-dnf ai_impr():
+def ai_impr():
     st.header("生成AIによるスキルシート改善")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
 
