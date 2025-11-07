@@ -518,7 +518,21 @@ uploaded_file = st.file_uploader(
     on_change=load_from_excel_callback
 )
 
-dnf basic_info() :
+if page == "ホーム":
+    basic_info()
+    deve_expe()
+    business_history()
+    ai_impr()
+elif page == "基本情報":
+    basic_info()
+elif page == "開発経験サマリ":
+    deve_expe()
+elif page == "業務履歴":
+    business_history()
+elif page == "AIによる改善":
+    ai_impr()
+
+dnf basic_info():
     st.header("個人情報")
     cols = st.columns(2)
     with cols[0]:
@@ -535,11 +549,11 @@ dnf basic_info() :
     st.subheader("情報処理資格")
     st.session_state.pi_qualifications_input = st.text_area("（1行1資格）", value=st.session_state.pi_qualifications_input, height=100)
 
-dnf deve_expe() :
+dnf deve_expe():
     st.subheader("開発経験サマリ")
     st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, height=120)
 
-dnf business_history() :
+dnf business_history():
     st.header("業務経歴")
     if st.button("新しい案件を追加"):
         st.session_state.projects.append({})
@@ -572,7 +586,7 @@ dnf business_history() :
             st.rerun()
         st.markdown("---")
 
-dnf ai_impr() :
+dnf ai_impr():
     st.header("生成AIによるスキルシート改善")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
 
@@ -689,17 +703,3 @@ dnf ai_impr() :
             mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         )
         st.success("Excelを生成しました。")
-
-if page == "ホーム":
-    basic_info()
-    deve_expe()
-    business_history()
-    ai_impr()
-elif page == "基本情報":
-    basic_info()
-elif page == "開発経験サマリ":
-    deve_expe()
-elif page == "業務履歴":
-    business_history()
-elif page == "AIによる改善":
-    ai_impr()
