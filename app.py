@@ -68,25 +68,14 @@ def parse_date_like(v) -> Union[date, None]:
         return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
-    m = re.search(r"(\d{4})\s*年\s*(\d{1,2})\s*月(?:[\s]*(\d{1,2})\s*日)?", s)
+    m = re.search(r"(\d{4})[./-](\d{1,2})(?:[./-](\d{1,2}))?", s)
     if not m:
         return None
-    if m:
-        try:
-            y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
-            return date(y, mo, d)
-        except Exception:
-            pass
-
-    if m_tes:
-        m_tes = re.search(r"(\d{4})[./-](\d{1,2})(?:[./-](\d{1,2}))?", s)
-        if not m_tes:
-            return None
-        try:
-            y, mo, d = int(m_tes.group(1)), int(m_tes.group(2)), int(m_tes.group(3) or 1)
-            return date(y, mo, d)
-        except Exception:
-            return None
+    try:
+        y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
+        return date(y, mo, d)
+    except Exception:
+        return None
 
 def looks_like_proc_codes(s: str) -> bool:
     return bool(re.fullmatch(r"[0-9.．]+", s.strip()))
