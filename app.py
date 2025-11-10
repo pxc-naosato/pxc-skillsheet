@@ -523,7 +523,7 @@ with cols[0]:
     st.session_state.pi_address = st.text_input("現住所", st.session_state.pi_address)
     st.session_state.pi_nearest_station = st.text_input("最寄駅", st.session_state.pi_nearest_station)
 with cols[1]:
-    st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d"))
+    st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date)
     st.session_state.pi_gender = st.selectbox("性別", ["未選択","男性","女性","その他"], index=["未選択","男性","女性","その他"].index(st.session_state.pi_gender))
     st.session_state.pi_available_date = st.date_input("稼働可能日", st.session_state.pi_available_date)
     st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
