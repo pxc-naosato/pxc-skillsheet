@@ -333,6 +333,8 @@ def parse_projects(df: pd.DataFrame) -> list:
         cur["periods"].append(period_val)
         is_firstline = bool(parse_date_like(period_val))  # 案件1行目かどうか
 
+        idv = cell(r, C_ID)
+        
         name_val = cell(r, C_NAME)
         if name_val:
             if is_firstline and cur["project_name"] is None:
