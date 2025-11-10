@@ -76,6 +76,7 @@ def parse_date_like(v) -> Union[date, None]:
             y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
             return date(y, mo, d)
         except Exception:
+            st.write("失敗だよ:", m)
             pass  # パターン1が失敗しても、次のパターン2を試す
 
     # パターン2: YYYY年MM月(DD日) 形式（日本語表記）に対応
@@ -87,6 +88,7 @@ def parse_date_like(v) -> Union[date, None]:
             y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
             return date(y, mo, d)
         except Exception:
+            st.write("失敗だよ:", m)
             return None # 年月パース失敗
 
     return None # どちらのパターンにも一致しない
