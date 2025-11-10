@@ -68,39 +68,10 @@ def parse_date_like(v) -> Union[date, None]:
         return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
-    pattern = re.compile(
-        r"""
-        (?:
-            # 1) yyyy/mm/dd, yyyy-mm-dd, yyyy.mm.dd
-            (?P<ymd>(\d{4})[-./](\d{1,2})[-./](\d{1,2}))
-            |
-            # 2) yyyy/mm, yyyy-mm, yyyy.mm
-            (?P<ym>(\d{4})[-./](\d{1,2}))
-            |
-            # 3) yyyy年mm月dd日, yyyy年mm月
-            (?P<jp>(\d{4})年(\d{1,2})月(\d{1,2})?日?)
-        )
-        """,
-        re.VERBOSE,
-    )
-
-
-    
-    m = pattern.search(s)
-
-
+    m = re.search(r"(\d{4})[./-](\d{1,2})(?:[./-](\d{1,2}))?", s)
     if not m:
         return None
-    if m.group("ymd"):
-        y, mo, d = int(m.group(2)), int(m.group(3)), int(m.group(4))
-    elif m.group("ym"):
-        y, mo, d = int(m.group(6)), int(m.group(7)), 1
-    elif m.group("jp"):
-        y, mo = int(m.group(9)), int(m.group(10))
-        d = int(m.group(11)) if m.group(11) else 1
-    else:
-        return None
-
+    y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
     try:
         return date(y, mo, d)
     except Exception:
