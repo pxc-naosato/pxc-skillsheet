@@ -73,7 +73,7 @@ def parse_date_like(v) -> Union[date, None]:
         return None
     y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
     try:
-        return date(y, mo, d).strftime("%Y/%m/%d")
+        return date(y, mo, d)
     except Exception:
         return None
 
