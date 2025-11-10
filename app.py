@@ -90,7 +90,8 @@ def parse_date_like(v) -> Union[date, None]:
         except Exception:
             st.write("失敗だよ:", m)
             return None # 年月パース失敗
-
+            
+    st.write("何で？？？？:", m)
     return None # どちらのパターンにも一致しない
 
 def looks_like_proc_codes(s: str) -> bool:
