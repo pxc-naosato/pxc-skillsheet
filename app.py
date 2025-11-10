@@ -507,9 +507,6 @@ def generate_overview_callback():
 st.set_page_config(page_title="スキルシート自動入力＆Gemini要約アプリ", layout="centered")
 st.title("スキルシート自動入力＆Gemini要約アプリ")
 st.caption("経歴書Excelファイルをアップロードしてください")
-with st.sidebar:
-    st.header("📂 サイドメニュー")
-    page = st.radio("ページ選択", ["ホーム", "基本情報", "開発経験サマリ", "業務履歴", "AIによる改善"])
 
 uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
@@ -518,188 +515,170 @@ uploaded_file = st.file_uploader(
     on_change=load_from_excel_callback
 )
 
-def basic_info():
-    st.header("個人情報")
+st.header("個人情報")
+cols = st.columns(2)
+with cols[0]:
+    st.session_state.pi_furigana = st.text_input("フリガナ", st.session_state.pi_furigana)
+    st.session_state.pi_name = st.text_input("氏名", st.session_state.pi_name)
+    st.session_state.pi_address = st.text_input("現住所", st.session_state.pi_address)
+    st.session_state.pi_nearest_station = st.text_input("最寄駅", st.session_state.pi_nearest_station)
+with cols[1]:
+    st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date)
+    st.session_state.pi_gender = st.selectbox("性別", ["未選択","男性","女性","その他"], index=["未選択","男性","女性","その他"].index(st.session_state.pi_gender))
+    st.session_state.pi_available_date = st.date_input("稼働可能日", st.session_state.pi_available_date)
+    st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
+
+st.subheader("情報処理資格")
+st.session_state.pi_qualifications_input = st.text_area("（1行1資格）", value=st.session_state.pi_qualifications_input, height=100)
+
+st.subheader("開発経験サマリ")
+st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, height=120)
+
+st.header("業務経歴")
+if st.button("新しい案件を追加"):
+    st.session_state.projects.append({})
+for i, p in enumerate(st.session_state.projects):
+    st.subheader(f"案件 {i+1}")
     cols = st.columns(2)
     with cols[0]:
-        st.session_state.pi_furigana = st.text_input("フリガナ", st.session_state.pi_furigana)
-        st.session_state.pi_name = st.text_input("氏名", st.session_state.pi_name)
-        st.session_state.pi_address = st.text_input("現住所", st.session_state.pi_address)
-        st.session_state.pi_nearest_station = st.text_input("最寄駅", st.session_state.pi_nearest_station)
+        p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
+        p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
+        p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""))
+        p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""))
     with cols[1]:
-        st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date)
-        st.session_state.pi_gender = st.selectbox("性別", ["未選択","男性","女性","その他"], index=["未選択","男性","女性","その他"].index(st.session_state.pi_gender))
-        st.session_state.pi_available_date = st.date_input("稼働可能日", st.session_state.pi_available_date)
-        st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
+        p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
+        p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
+        p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
+        p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
+        p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
+        p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
+    p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""))
+    selected = st.multiselect(
+        f"作業工程 (案件 {i+1})",
+        options=list(WORK_PROCESS_MAP.keys()),
+        format_func=lambda k: WORK_PROCESS_MAP[k],
+        default=[k for k, v in WORK_PROCESS_MAP.items() if v in p.get("work_process_list", [])]
+    )
+    p["work_process_list"] = [WORK_PROCESS_MAP[k] for k in selected]
+    p["work_process_str"] = ", ".join(p["work_process_list"])
+    if st.button(f"この案件を削除 (案件 {i+1})"):
+        st.session_state.projects.pop(i)
+        st.rerun()
+    st.markdown("---")
 
-    st.subheader("情報処理資格")
-    st.session_state.pi_qualifications_input = st.text_area("（1行1資格）", value=st.session_state.pi_qualifications_input, height=100)
+st.header("生成AIによるスキルシート改善")
+st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
 
-def deve_expe():
-    st.subheader("開発経験サマリ")
-    st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, height=120)
+st.header("スキルシート概要の抽出")
+st.button("概要を抽出", on_click=generate_overview_callback)
+if st.session_state.generated_overview:
+    st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
 
-def business_history():
-    st.header("業務経歴")
-    if st.button("新しい案件を追加"):
-        st.session_state.projects.append({})
-    for i, p in enumerate(st.session_state.projects):
-        st.subheader(f"案件 {i+1}")
-        cols = st.columns(2)
-        with cols[0]:
-            p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
-            p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
-            p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""))
-            p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""))
-        with cols[1]:
-            p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
-            p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
-            p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
-            p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
-            p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
-            p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
-        p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""))
-        selected = st.multiselect(
-            f"作業工程 (案件 {i+1})",
-            options=list(WORK_PROCESS_MAP.keys()),
-            format_func=lambda k: WORK_PROCESS_MAP[k],
-            default=[k for k, v in WORK_PROCESS_MAP.items() if v in p.get("work_process_list", [])]
-        )
-        p["work_process_list"] = [WORK_PROCESS_MAP[k] for k in selected]
-        p["work_process_str"] = ", ".join(p["work_process_list"])
-        if st.button(f"この案件を削除 (案件 {i+1})"):
-            st.session_state.projects.pop(i)
-            st.rerun()
-        st.markdown("---")
+# ---- Excel出力（既存の出力レイアウトはそのまま） ----
+if st.button("スキルシートを生成 (Excel形式)"):
+    output = io.BytesIO()
+    with pd.ExcelWriter(output, engine="openpyxl") as writer:
+        wb = writer.book
+        if "Sheet" in wb.sheetnames:
+             wb.remove(wb["Sheet"])
+        ws = wb.create_sheet("スキルシート")
+        wb.active = ws
 
-def ai_impr():
-    st.header("生成AIによるスキルシート改善")
-    st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
+        title_font = Font(size=18, bold=True, color="000080")
+        section_title_font = Font(bold=True, size=12, color="FFFFFF")
+        bold_font = Font(bold=True)
+        section_title_fill = PatternFill(start_color="4682B4", end_color="4682B4", fill_type="solid")
+        header_fill = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid")
+        project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
+        thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+        wrap_text_alignment = Alignment(wrapText=True, vertical='top')
 
-    st.header("スキルシート概要の抽出")
-    st.button("概要を抽出", on_click=generate_overview_callback)
-    if st.session_state.generated_overview:
-        st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
+        cur = 1
+        def style(cell, font=None, fill=None, border=None, align=None):
+            if font: cell.font = font
+            if fill: cell.fill = fill
+            if border: cell.border = border
+            if align: cell.alignment = align
 
-    # ---- Excel出力（既存の出力レイアウトはそのまま） ----
-    if st.button("スキルシートを生成 (Excel形式)"):
-        output = io.BytesIO()
-        with pd.ExcelWriter(output, engine="openpyxl") as writer:
-            wb = writer.book
-            if "Sheet" in wb.sheetnames:
-                 wb.remove(wb["Sheet"])
-            ws = wb.create_sheet("スキルシート")
-            wb.active = ws
+        cell = ws.cell(row=cur, column=1, value="スキルシート"); style(cell, font=title_font); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 2
 
-            title_font = Font(size=18, bold=True, color="000080")
-            section_title_font = Font(bold=True, size=12, color="FFFFFF")
-            bold_font = Font(bold=True)
-            section_title_fill = PatternFill(start_color="4682B4", end_color="4682B4", fill_type="solid")
-            header_fill = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid")
-            project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
-            thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-            wrap_text_alignment = Alignment(wrapText=True, vertical='top')
-
-            cur = 1
-            def style(cell, font=None, fill=None, border=None, align=None):
-                if font: cell.font = font
-                if fill: cell.fill = fill
-                if border: cell.border = border
-                if align: cell.alignment = align
-
-            cell = ws.cell(row=cur, column=1, value="スキルシート"); style(cell, font=title_font); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 2
-
-            cell = ws.cell(row=cur, column=1, value="1. 個人情報"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
-            rows = [
-                ("氏名", st.session_state.pi_name, "フリガナ", st.session_state.pi_furigana),
-                ("生年月日", st.session_state.pi_birth_date.strftime("%Y年%m月%d日"), "性別", st.session_state.pi_gender),
-                ("現住所", st.session_state.pi_address, "最寄駅", st.session_state.pi_nearest_station),
-                ("最終学歴", st.session_state.pi_education, "稼働可能日", st.session_state.pi_available_date.strftime("%Y年%m月%d日")),
-            ]
-            for a,b,c,d in rows:
-                style(ws.cell(row=cur, column=1, value=a), font=bold_font, fill=header_fill, border=thin_border)
-                style(ws.cell(row=cur, column=2, value=b), border=thin_border)
-                style(ws.cell(row=cur, column=3, value=c), font=bold_font, fill=header_fill, border=thin_border)
-                style(ws.cell(row=cur, column=4, value=d), border=thin_border)
-                cur += 1
+        cell = ws.cell(row=cur, column=1, value="1. 個人情報"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
+        rows = [
+            ("氏名", st.session_state.pi_name, "フリガナ", st.session_state.pi_furigana),
+            ("生年月日", st.session_state.pi_birth_date.strftime("%Y年%m月%d日"), "性別", st.session_state.pi_gender),
+            ("現住所", st.session_state.pi_address, "最寄駅", st.session_state.pi_nearest_station),
+            ("最終学歴", st.session_state.pi_education, "稼働可能日", st.session_state.pi_available_date.strftime("%Y年%m月%d日")),
+        ]
+        for a,b,c,d in rows:
+            style(ws.cell(row=cur, column=1, value=a), font=bold_font, fill=header_fill, border=thin_border)
+            style(ws.cell(row=cur, column=2, value=b), border=thin_border)
+            style(ws.cell(row=cur, column=3, value=c), font=bold_font, fill=header_fill, border=thin_border)
+            style(ws.cell(row=cur, column=4, value=d), border=thin_border)
             cur += 1
+        cur += 1
 
-            cell = ws.cell(row=cur, column=1, value="2. 資格"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
-            qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
-            if not qlist: qlist = ["- なし"]
-            for q in qlist:
-                style(ws.cell(row=cur, column=1, value=f"- {q}"), border=thin_border); cur += 1
-            cur += 1
+        cell = ws.cell(row=cur, column=1, value="2. 資格"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
+        qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
+        if not qlist: qlist = ["- なし"]
+        for q in qlist:
+            style(ws.cell(row=cur, column=1, value=f"- {q}"), border=thin_border); cur += 1
+        cur += 1
 
-            cell = ws.cell(row=cur, column=1, value="3. 開発経験サマリ"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
-            ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7)
-            style(ws.cell(row=cur, column=1, value=st.session_state.pi_summary), align=wrap_text_alignment, border=thin_border); cur += 2
+        cell = ws.cell(row=cur, column=1, value="3. 開発経験サマリ"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
+        ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7)
+        style(ws.cell(row=cur, column=1, value=st.session_state.pi_summary), align=wrap_text_alignment, border=thin_border); cur += 2
 
-            cell = ws.cell(row=cur, column=1, value="4. 業務経歴"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
+        cell = ws.cell(row=cur, column=1, value="4. 業務経歴"); style(cell, font=section_title_font, fill=section_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
 
-            for p in st.session_state.projects:
-                cell = ws.cell(row=cur, column=1, value=f"【案件名称】 {p.get('project_name','')}"); style(cell, font=bold_font, fill=project_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
-                start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
-                end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
-                delta_txt = ""
-                if p.get("start_date") and p.get("end_date"):
-                    days = (p["end_date"] - p["start_date"]).days
-                    delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
-                style(ws.cell(row=cur, column=1, value="作業期間"), font=bold_font, fill=header_fill)
-                ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
-                ws.cell(row=cur, column=2, value=f"{start_date_str} ～ {end_date_str} {delta_txt}"); cur += 1
+        for p in st.session_state.projects:
+            cell = ws.cell(row=cur, column=1, value=f"【案件名称】 {p.get('project_name','')}"); style(cell, font=bold_font, fill=project_title_fill); ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=7); cur += 1
+            start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
+            end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
+            delta_txt = ""
+            if p.get("start_date") and p.get("end_date"):
+                days = (p["end_date"] - p["start_date"]).days
+                delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
+            style(ws.cell(row=cur, column=1, value="作業期間"), font=bold_font, fill=header_fill)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
+            ws.cell(row=cur, column=2, value=f"{start_date_str} ～ {end_date_str} {delta_txt}"); cur += 1
 
-                style(ws.cell(row=cur, column=1, value="業種"), font=bold_font, fill=header_fill)
-                ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
-                ws.cell(row=cur, column=2, value=p.get("industry","")); cur += 1
+            style(ws.cell(row=cur, column=1, value="業種"), font=bold_font, fill=header_fill)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
+            ws.cell(row=cur, column=2, value=p.get("industry","")); cur += 1
 
-                style(ws.cell(row=cur, column=1, value="作業内容"), font=bold_font, fill=header_fill, align=Alignment(vertical='top'))
-                lines = str(p.get("work_content","")).split("\n"); n = max(1, len(lines))
-                ws.merge_cells(start_row=cur, start_column=2, end_row=cur+n-1, end_column=7)
-                style(ws.cell(row=cur, column=2, value=p.get("work_content","")), align=wrap_text_alignment); cur += n
+            style(ws.cell(row=cur, column=1, value="作業内容"), font=bold_font, fill=header_fill, align=Alignment(vertical='top'))
+            lines = str(p.get("work_content","")).split("\n"); n = max(1, len(lines))
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur+n-1, end_column=7)
+            style(ws.cell(row=cur, column=2, value=p.get("work_content","")), align=wrap_text_alignment); cur += n
 
-                style(ws.cell(row=cur, column=1, value="環境"), font=bold_font, fill=header_fill)
-                ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
-                ws.cell(row=cur, column=2, value=f"OS: {p.get('os','')} / DB/DC: {p.get('db_dc','')} / 言語/ツール: {p.get('lang_tool','')}"); cur += 1
+            style(ws.cell(row=cur, column=1, value="環境"), font=bold_font, fill=header_fill)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
+            ws.cell(row=cur, column=2, value=f"OS: {p.get('os','')} / DB/DC: {p.get('db_dc','')} / 言語/ツール: {p.get('lang_tool','')}"); cur += 1
 
-                style(ws.cell(row=cur, column=1, value="作業工程"), font=bold_font, fill=header_fill)
-                ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
-                ws.cell(row=cur, column=2, value=p.get("work_process_str","")); cur += 1
+            style(ws.cell(row=cur, column=1, value="作業工程"), font=bold_font, fill=header_fill)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=7)
+            ws.cell(row=cur, column=2, value=p.get("work_process_str","")); cur += 1
 
-                style(ws.cell(row=cur, column=1, value="役割"), font=bold_font, fill=header_fill)
-                ws.cell(row=cur, column=2, value=p.get("role",""))
-                style(ws.cell(row=cur, column=3, value="ポジション"), font=bold_font, fill=header_fill)
-                ws.cell(row=cur, column=4, value=p.get("position",""))
-                style(ws.cell(row=cur, column=5, value="規模"), font=bold_font, fill=header_fill)
-                ws.cell(row=cur, column=6, value=p.get("scale","")); cur += 1
+            style(ws.cell(row=cur, column=1, value="役割"), font=bold_font, fill=header_fill)
+            ws.cell(row=cur, column=2, value=p.get("role",""))
+            style(ws.cell(row=cur, column=3, value="ポジション"), font=bold_font, fill=header_fill)
+            ws.cell(row=cur, column=4, value=p.get("position",""))
+            style(ws.cell(row=cur, column=5, value="規模"), font=bold_font, fill=header_fill)
+            ws.cell(row=cur, column=6, value=p.get("scale","")); cur += 1
 
-            # 幅
-            ws.column_dimensions["A"].width = 15
-            ws.column_dimensions["B"].width = 30
-            ws.column_dimensions["C"].width = 15
-            ws.column_dimensions["D"].width = 20
-            ws.column_dimensions["E"].width = 15
-            ws.column_dimensions["F"].width = 20
-            ws.column_dimensions["G"].width = 15
+        # 幅
+        ws.column_dimensions["A"].width = 15
+        ws.column_dimensions["B"].width = 30
+        ws.column_dimensions["C"].width = 15
+        ws.column_dimensions["D"].width = 20
+        ws.column_dimensions["E"].width = 15
+        ws.column_dimensions["F"].width = 20
+        ws.column_dimensions["G"].width = 15
 
-        st.download_button(
-            label="スキルシートをダウンロード",
-            data=output.getvalue(),
-            file_name=f"{st.session_state.pi_name or 'スキルシート'}.xlsx",
-            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-        )
-        st.success("Excelを生成しました。")
-
-if page == "ホーム":
-    basic_info()
-    deve_expe()
-    business_history()
-    ai_impr()
-elif page == "基本情報":
-    basic_info()
-elif page == "開発経験サマリ":
-    deve_expe()
-elif page == "業務履歴":
-    business_history()
-elif page == "AIによる改善":
-    ai_impr()
+    st.download_button(
+        label="スキルシートをダウンロード",
+        data=output.getvalue(),
+        file_name=f"{st.session_state.pi_name or 'スキルシート'}.xlsx",
+        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    )
+    st.success("Excelを生成しました。")
