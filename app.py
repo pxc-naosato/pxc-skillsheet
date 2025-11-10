@@ -68,15 +68,28 @@ def parse_date_like(v) -> Union[date, None]:
         return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
-    m = re.search(r"(\d{4})[年./\-](\d{1,2})[月./\-](?:[日./\-]?(\d{1,2})日?)?", s)
-    if not m:
-        return None
-    y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
-    try:
-        st.write("確認用:", m)
-        return date(y, mo, d)
-    except Exception:
-        return None
+    m = re.search(r"(\d{4})[./-](\d{1,2})(?:[./-](\d{1,2}))?", s)
+    
+    if m:
+        try:
+            st.write("確認用だよ:", m)
+            y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
+            return date(y, mo, d)
+        except Exception:
+            pass  # パターン1が失敗しても、次のパターン2を試す
+
+    # パターン2: YYYY年MM月(DD日) 形式（日本語表記）に対応
+    # 日が無い場合は1日扱い
+    m = re.search(r"(\d{4})\s*年\s*(\d{1,2})\s*月(?:(\d{1,2})\s*日)?", s)
+    if m:
+        try:
+            st.write("確認用:", m)
+            y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
+            return date(y, mo, d)
+        except Exception:
+            return None # 年月パース失敗
+
+    return None # どちらのパターンにも一致しない
 
 def looks_like_proc_codes(s: str) -> bool:
     return bool(re.fullmatch(r"[0-9.．]+", s.strip()))
@@ -332,8 +345,6 @@ def parse_projects(df: pd.DataFrame) -> list:
         period_val = cell(r, C_PERIOD)
         cur["periods"].append(period_val)
         is_firstline = bool(parse_date_like(period_val))  # 案件1行目かどうか
-
-        idv = cell(r, C_ID)
         
         name_val = cell(r, C_NAME)
         if name_val:
