@@ -68,7 +68,8 @@ def parse_date_like(v) -> Union[date, None]:
         return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
-    m1 = re.search(r"(\d{4})[./-](\d{1,2})(?:[./-](\d{1,2}))?", s)
+    m1 = re.search(r"(\d{4})[./\-年](\d{1,2})[./\-月]?(?:[./\-日]?(\d{1,2})日?)?", s)
+    st.write("確認用:", m)
     if m1:
         y, mo, d = int(m1.group(1)), int(m1.group(2)), int(m1.group(3) or 1)
     else:
