@@ -58,7 +58,14 @@ def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 20):
     return ""
 
 def parse_date_like(v) -> Union[date, None]:
+    if isinstance(v, (pd.Timestamp, datetime)):
+        try:
+            return v.date()
+        except Exception:
+            return None
     s = safe_str(v)
+    if not s:
+        return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
     m = re.search(r"(\d{4})[./\-年](\d{1,2})[./\-月]?(?:[./\-日]?(\d{1,2})日?)?", s)
@@ -162,6 +169,7 @@ def read_personal(df: pd.DataFrame):
     if pos:
         r, c = pos
         b = parse_date_like(next_right_nonempty(df, r, c, 20))
+        b = b.strftime("%Y/%m/%d")
         result["birth"] = b or date(2000,1,1)
     # 性別
     pos = find_first(df_str, "性別")
@@ -185,6 +193,7 @@ def read_personal(df: pd.DataFrame):
             result["available"] = datetime.now().date()
         else:
             d = parse_date_like(s)
+            d = b.strftime("%Y/%m/%d")
             result["available"] = d or datetime.now().date()
     # 資格（行内の右方向をすべて収集。なければ数行下もスキャン）
     pos = find_first(df_str, "情報処理資格")
@@ -262,6 +271,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         dates = []
         for s in cur["periods"]:
             d = parse_date_like(s)
+            d = b.strftime("%Y/%m/%d")
             if d:
                 dates.append(d)
         start_date = min(dates) if dates else None
