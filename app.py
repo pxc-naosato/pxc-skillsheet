@@ -303,7 +303,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             "scale": cur["scale"] or "",
         })
 
-    for r in range(subheader_r + 1, df.shape[0]):
+    for r in range(header_r + 1, df.shape[0]):
         idv = cell(r, C_ID)
         is_new = bool(re.search(r"\d", idv))  # 数字が入っていれば新案件
 
