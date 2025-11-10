@@ -58,9 +58,6 @@ def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 20):
     return ""
 
 def parse_date_like(v) -> Union[date, None]:
-    s = safe_str(v)
-    if not s:
-        return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
     m = re.search(r"(\d{4})[./\-年](\d{1,2})[./\-月]?(?:[./\-日]?(\d{1,2})日?)?", s)
