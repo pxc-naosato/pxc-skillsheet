@@ -76,8 +76,6 @@ def parse_date_like(v) -> Union[date, None]:
         m2 = re.search(r"(\d{4})年(\d{1,2})月(?:(\d{1,2})日)?", s.strip())
         if m2:
             y, mo, d = int(m2.group(1)), int(m2.group(2)), int(m2.group(3) or 1)
-    if not m:
-        return None
     try:
         return date(y, mo, d)
     except Exception:
