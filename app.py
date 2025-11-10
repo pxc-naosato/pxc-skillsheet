@@ -68,22 +68,39 @@ def parse_date_like(v) -> Union[date, None]:
         return None
     # yyyy/mm/dd, yyyy-mm, yyyy/mm, yyyy.mm を緩く拾う
     # 日が無い場合は1日扱い
-    pattern = (
-        r"(?P<y>\d{4})"  # 年
-        r"(?:[./-]|年)"  # 区切り文字
-        r"(?P<m>\d{1,2})"  # 月
-        r"(?:[./-]|月)?"   # もう1つ区切り or '月'
-        r"(?P<d>\d{1,2})?" # 日(任意)
-        r"(?:日)?"          # '日'があってもOK
+    pattern = re.compile(
+        r"""
+        (?:
+            # 1) yyyy/mm/dd, yyyy-mm-dd, yyyy.mm.dd
+            (?P<ymd>(\d{4})[-./](\d{1,2})[-./](\d{1,2}))
+            |
+            # 2) yyyy/mm, yyyy-mm, yyyy.mm
+            (?P<ym>(\d{4})[-./](\d{1,2}))
+            |
+            # 3) yyyy年mm月dd日, yyyy年mm月
+            (?P<jp>(\d{4})年(\d{1,2})月(\d{1,2})?日?)
+        )
+        """,
+        re.VERBOSE,
     )
 
+
     
-    m = re.search(pattern, s)
+    m = pattern.search(s)
 
 
     if not m:
         return None
-    y, mo, d = int(m.group(1)), int(m.group(2)), int(m.group(3) or 1)
+    if m.group("ymd"):
+            y, mo, d = int(m.group(2)), int(m.group(3)), int(m.group(4))
+        elif m.group("ym"):
+            y, mo, d = int(m.group(6)), int(m.group(7)), 1
+        elif m.group("jp"):
+            y, mo = int(m.group(9)), int(m.group(10))
+            d = int(m.group(11)) if m.group(11) else 1
+        else:
+            return None
+
     try:
         return date(y, mo, d)
     except Exception:
