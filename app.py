@@ -92,14 +92,14 @@ def parse_date_like(v) -> Union[date, None]:
     if not m:
         return None
     if m.group("ymd"):
-            y, mo, d = int(m.group(2)), int(m.group(3)), int(m.group(4))
-        elif m.group("ym"):
-            y, mo, d = int(m.group(6)), int(m.group(7)), 1
-        elif m.group("jp"):
-            y, mo = int(m.group(9)), int(m.group(10))
-            d = int(m.group(11)) if m.group(11) else 1
-        else:
-            return None
+        y, mo, d = int(m.group(2)), int(m.group(3)), int(m.group(4))
+    elif m.group("ym"):
+        y, mo, d = int(m.group(6)), int(m.group(7)), 1
+    elif m.group("jp"):
+        y, mo = int(m.group(9)), int(m.group(10))
+        d = int(m.group(11)) if m.group(11) else 1
+    else:
+        return None
 
     try:
         return date(y, mo, d)
