@@ -54,7 +54,7 @@ def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 20):
         v = df.iloc[r, cc]
         s = safe_str(v)
         if s:
-            return s
+            return v
     return ""
 
 def parse_date_like(v) -> Union[date, None]:
