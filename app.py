@@ -338,7 +338,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             continue  # まだヘッダ直下の空行など
 
         # 基本セル
-        period_val = cell(r, C_PERIOD)
+        period_val = df.iloc[r, cidx] if (cidx is not None and cidx < df.shape[1]) else ""
         cur["periods"].append(period_val)
         is_firstline = bool(parse_date_like(period_val))  # 案件1行目かどうか
 
