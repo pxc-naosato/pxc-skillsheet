@@ -65,18 +65,10 @@ def parse_date_like(v) -> Union[date, None]:
             return None
 
     if isinstance(v, (int, float)):
-        try:
-            # vがNaNの場合、ここでNoneを返して終了
-            if pd.isna(v):
-                return None
-                
+        try:                
             # Excelのシリアル値（1900/1/1ベース）として変換を試みる
             # '1899-12-30' はExcelの1900年閏年バグを考慮した起点
             temp_date = pd.to_datetime(v, unit='D', origin='1899-12-30')
-
-            # 変換結果が NaT の場合も None を返す
-            if pd.isna(ts):
-                return None
             
             return temp_date.date()
         except Exception:
@@ -293,7 +285,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         start_date = min(dates) if dates else None
         end_date = max(dates) if dates else None
         # 「現」「現在」対策
-        txt_all = " ".join([safe_str(p) for p in cur["periods"]])
+        txt_all = " ".join(cur["periods"])
         if re.search(r"(現|現在)", txt_all):
             end_date = datetime.now().date()
 
@@ -347,7 +339,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             continue  # まだヘッダ直下の空行など
 
         # 基本セル
-        period_val = df.iloc[r, C_PERIOD] if (C_PERIOD is not None and C_PERIOD < df.shape[1]) else None
+        period_val = cell(r, C_PERIOD)
         cur["periods"].append(period_val)
         is_firstline = bool(parse_date_like(period_val))  # 案件1行目かどうか
 
