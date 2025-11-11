@@ -63,6 +63,16 @@ def parse_date_like(v) -> Union[date, None]:
             return v.date()
         except Exception:
             return None
+
+    if isinstance(v, (int, float)):
+        try:
+            # Excelのシリアル値（1900/1/1ベース）として変換を試みる
+            # '1899-12-30' はExcelの1900年閏年バグを考慮した起点
+            temp_date = pd.to_datetime(v, unit='D', origin='1899-12-30')
+            return temp_date.date()
+        except Exception:
+            pass # シリアル値でなかった場合は、下の文字列処理へ
+    
     s = safe_str(v)
     if not s:
         return None
@@ -303,7 +313,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             "scale": cur["scale"] or "",
         })
 
-    for r in range(subheader_r, df.shape[0]):
+    for r in range(subheader_r + 1, df.shape[0]):
         idv = cell(r, C_ID)
         is_new = bool(re.search(r"\d", idv))  # 数字が入っていれば新案件
 
