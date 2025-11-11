@@ -43,7 +43,6 @@ def find_first(df_str: pd.DataFrame, keyword: str):
         row = df_str.iloc[r]
         for c in range(df_str.shape[1]):
             if keyword in row.iloc[c]:
-                st.write("サーチ先:", keyword,"行:", r, "列:", c)
                 return r, c
     return None
 
@@ -176,7 +175,7 @@ def read_personal(df: pd.DataFrame):
                 "最終学歴": "education",
             }
             st.write("ループ元:", result_map[k])
-            result[result_map[k]] = safe_str(next_right_nonempty(df, r, c, 3))
+            result[result_map[k]] = safe_str(next_right_nonempty(df, r, c, 20))
     # 右側
     # 生年月日
     pos = find_first(df_str, "生年月日")
