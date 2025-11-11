@@ -48,8 +48,6 @@ def find_first(df_str: pd.DataFrame, keyword: str):
 
 def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 20):
     cc = c + 1
-    if cc >= df.shape[1]:
-        break
     v = df.iloc[r, cc]
     s = safe_str(v)
     if s:
