@@ -284,7 +284,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         start_date = min(dates) if dates else None
         end_date = max(dates) if dates else None
         # 「現」「現在」対策
-        txt_all = " ".join(cur["periods"])
+        txt_all = " ".join([safe_str(p) for p in cur["periods"]])
         if re.search(r"(現|現在)", txt_all):
             end_date = datetime.now().date()
 
