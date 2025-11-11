@@ -90,7 +90,7 @@ def parse_date_like(v) -> Union[date, None]:
         return None
 
 def looks_like_proc_codes(s: str) -> bool:
-    return bool(re.fullmatch(r"[0-9.．]+", s.strip()))
+    return bool(re.fullmatch(r"[0-9.．,]+", s.strip()))
 
 def pick_first_nonempty(values):
     for v in values:
@@ -294,7 +294,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         # 作業工程（番号→ラベル）
         proc_labels = []
         for s in cur["procs"]:
-            s2 = s.replace("．", ".")
+            s2 = s.replace("．", ".", ",")
             if looks_like_proc_codes(s2):
                 for k in [x for x in s2.split(".") if x]:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
