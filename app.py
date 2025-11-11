@@ -176,7 +176,7 @@ def read_personal(df: pd.DataFrame):
                 "最終学歴": "education",
             }
             st.write("ループ元:", result_map[k])
-            result[result_map[k]] = safe_str(next_right_nonempty(df, r, c, 20))
+            result[result_map[k]] = safe_str(next_right_nonempty(df, r, c, 3))
     # 右側
     # 生年月日
     pos = find_first(df_str, "生年月日")
