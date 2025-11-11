@@ -46,9 +46,9 @@ def find_first(df_str: pd.DataFrame, keyword: str):
                 return r, c
     return None
 
-def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 1):
+def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 20):
     for dc in range(1, max_look + 1):
-        cc = c + dc
+        cc = c + 1
         if cc >= df.shape[1]:
             break
         v = df.iloc[r, cc]
