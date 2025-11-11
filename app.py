@@ -66,9 +66,18 @@ def parse_date_like(v) -> Union[date, None]:
 
     if isinstance(v, (int, float)):
         try:
+            # vがNaNの場合、ここでNoneを返して終了
+            if pd.isna(v):
+                    return None
+                
             # Excelのシリアル値（1900/1/1ベース）として変換を試みる
             # '1899-12-30' はExcelの1900年閏年バグを考慮した起点
             temp_date = pd.to_datetime(v, unit='D', origin='1899-12-30')
+
+            # 変換結果が NaT の場合も None を返す
+                if pd.isna(ts):
+                    return None
+            
             return temp_date.date()
         except Exception:
             pass # シリアル値でなかった場合は、下の文字列処理へ
