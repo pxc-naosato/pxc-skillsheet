@@ -294,9 +294,9 @@ def parse_projects(df: pd.DataFrame) -> list:
         # 作業工程（番号→ラベル）
         proc_labels = []
         for s in cur["procs"]:
-            s2 = s.replace("．", ".", ",")
+            s2 = s.replace("．", ".")
             if looks_like_proc_codes(s2):
-                for k in [x for x in s2.split(".") if x]:
+                for k in [x for x inre.split(r"[.,]+", s2) if x]:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
                         proc_labels.append(WORK_PROCESS_MAP[k])
 
