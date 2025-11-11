@@ -175,7 +175,7 @@ def read_personal(df: pd.DataFrame):
                 "最寄駅": "station",
                 "最終学歴": "education",
             }
-            st.write("ループ元:", result[result_map[k]])
+            st.write("ループ元:", result_map[k])
             result[result_map[k]] = safe_str(next_right_nonempty(df, r, c, 20))
     # 右側
     # 生年月日
