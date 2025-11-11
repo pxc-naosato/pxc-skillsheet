@@ -43,7 +43,7 @@ def find_first(df_str: pd.DataFrame, keyword: str):
         row = df_str.iloc[r]
         for c in range(df_str.shape[1]):
             if keyword in row.iloc[c]:
-                st.write("列:", r, "行:", c)
+                st.write("サーチ先:", keyword,"列:", r, "行:", c)
                 return r, c
     return None
 
