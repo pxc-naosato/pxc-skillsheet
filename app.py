@@ -89,7 +89,8 @@ def parse_date_like(v) -> Union[date, None]:
         return None
 
 def looks_like_proc_codes(s: str) -> bool:
-    st.warning("中身:", str, bool(re.fullmatch(r"[0-9０-９.．,、〜～\s]+", s.strip())))
+    st.warning("中身:", str)
+    st.warning(bool(re.fullmatch(r"[0-9０-９.．,、〜～\s]+", s.strip())))
     return bool(re.fullmatch(r"[0-9０-９.．,、〜～\s]+", s.strip()))
 
 def pick_first_nonempty(values):
