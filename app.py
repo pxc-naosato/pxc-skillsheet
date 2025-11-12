@@ -293,31 +293,43 @@ def parse_projects(df: pd.DataFrame) -> list:
         # 作業工程（番号→ラベル）
         proc_labels = []
         for s in cur["procs"]:
-            s2 = s.replace("．", ".")
-            if looks_like_proc_codes(s2):
+            s_raw = s.strip()
+            
+            if looks_like_proc_codes(s_raw):
+                s_normalized = s_raw.translate(str.maketrans({
+                    # 全角数字 -> 半角数字
+                    '０': '0', '１': '1', '２': '2', '３': '3', '４': '4',
+                    '５': '5', '６': '6', '７': '7', '８': '8', '９': '9',
+                    # 全角記号 -> 半角または統一記号
+                    '．': '.',  # 全角ドット -> 半角ドット
+                    '､': ',',  # 全角カンマ -> 半角カンマ
+                    '、': ',',  # 読点 -> 半角カンマ
+                    '～': '〜',  # 全角チルダ -> 波ダッシュ (範囲記号として統一)
+                }))
+
+                final_codes = [] 
                 
-                final_codes = [] # 最終的な番号リスト
+                parts = re.split(r"[.,]+", s_normalized) 
                 
-                parts = re.split(r"[. ,、]+", s2) # ドット、スペース、カンマ、読点で区切る
                 for part in parts:
                     part = part.strip()
                     if not part:
                         continue
                     
-                    range_match = re.search(r"^(\d+)\s*[〜～]\s*(\d+)$", part)
+                    range_match = re.search(r"^(\d+)\s*〜\s*(\d+)$", part) 
                     
                     if range_match:
-                        # 「〜」が見つかった場合 (例: "1〜3")
                         try:
-                            start = int(range_match.group(1))
-                            end = int(range_match.group(2))
+                            start = int(range_match.group(1)) 
+                            end = int(range_match.group(2))   
                             for i in range(start, end + 1):
                                 final_codes.append(str(i))
                         except ValueError:
-                            pass # 数字への変換に失敗したら無視
+                            pass 
                     else:
-                        # 「〜」が見つからない場合 (例: "5")
-                        final_codes.append(part)
+                        # 範囲でない場合（単なる数字）
+                        if re.fullmatch(r"\d+", part):
+                            final_codes.append(part)
                 
                 for k in [x for x in final_codes if x]:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
