@@ -312,7 +312,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                 final_codes = [] 
                 
                 parts = re.split(r"[.,]+", s_normalized) 
-                
+                st.write("中身:", parts)
                 for part in parts:
                     part = part.strip()
                     if not part:
