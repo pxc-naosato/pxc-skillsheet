@@ -292,8 +292,11 @@ def parse_projects(df: pd.DataFrame) -> list:
         # 作業工程（番号→ラベル）
         proc_labels = []
         for s in cur["procs"]:
-            s2 = s.replace("．", ".").replace("、", ".").replace(",", ".")
-            if looks_like_proc_codes(s2):
+            # 全角ドットと読点を、半角の区切り文字(.)に統一
+            s2 = s.replace("．", ".").replace("、", ".").replace(",", ".") 
+            
+            if looks_like_proc_codes(s2): # チェック
+                
                 # 「.」で区切って、いったんリストにする (例: ["1〜3", "5"])
                 raw_codes = [x.strip() for x in s2.split(".") if x.strip()]
                 
@@ -316,7 +319,8 @@ def parse_projects(df: pd.DataFrame) -> list:
                     else:
                         # "5" のような通常の番号の場合
                         final_codes.append(code)
-                        
+
+                # 最終的なコードリスト (例: ["1", "2", "3", "5"]) でラベルを検索
                 for k in final_codes:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
                         proc_labels.append(WORK_PROCESS_MAP[k])
