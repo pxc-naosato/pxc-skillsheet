@@ -329,9 +329,10 @@ def parse_projects(df: pd.DataFrame) -> list:
                             pass 
                     else:
                         # 範囲でない場合（単なる数字）
-                        st.write(re.fullmatch(r"\d+", part))
                         if re.fullmatch(r"\d+", part):
                             final_codes.append(part)
+
+                st.write(final_codes)
                 
                 for k in [x for x in final_codes if x]:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
