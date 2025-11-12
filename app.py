@@ -89,7 +89,7 @@ def parse_date_like(v) -> Union[date, None]:
         return None
 
 def looks_like_proc_codes(s: str) -> bool:
-    return bool(re.fullmatch(r"[0-9.．,、～]+", s.strip()))
+    return bool(re.fullmatch(r"[0-9.．,、〜～\s]+", s.strip()))
 
 def pick_first_nonempty(values):
     for v in values:
@@ -303,7 +303,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                     if not part:
                         continue
                     
-                    range_match = re.search(r"^(\d+)\s*〜\s*(\d+)$", part) 
+                    range_match = re.search(r"^(\d+)\s*[〜～]\s*(\d+)$", part)
                     
                     if range_match:
                         # 「〜」が見つかった場合 (例: "1〜3")
