@@ -54,7 +54,6 @@ def next_right_nonempty(df: pd.DataFrame, r: int, c: int, max_look: int = 20):
         v = df.iloc[r, cc]
         s = safe_str(v)
         if s:
-            st.write("ループ数:", dc)
             return s
     return ""
 
@@ -174,7 +173,6 @@ def read_personal(df: pd.DataFrame):
                 "最寄駅": "station",
                 "最終学歴": "education",
             }
-            st.write("ループ元:", result_map[k])
             result[result_map[k]] = safe_str(next_right_nonempty(df, r, c, 3))
     # 右側
     # 生年月日
