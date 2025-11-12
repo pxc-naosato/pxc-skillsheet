@@ -311,8 +311,7 @@ def parse_projects(df: pd.DataFrame) -> list:
 
                 final_codes = [] 
                 
-                parts = re.split(r"[.,]+", s_normalized) 
-                st.write("中身:", parts)
+                parts = re.split(r"[.,]+", s_normalized)
                 for part in parts:
                     part = part.strip()
                     if not part:
@@ -330,6 +329,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                             pass 
                     else:
                         # 範囲でない場合（単なる数字）
+                        st.write(re.fullmatch(r"\d+", part))
                         if re.fullmatch(r"\d+", part):
                             final_codes.append(part)
                 
