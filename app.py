@@ -89,7 +89,7 @@ def parse_date_like(v) -> Union[date, None]:
         return None
 
 def looks_like_proc_codes(s: str) -> bool:
-    return bool(re.fullmatch(r"[0-9.．,、〜]+", s.strip()))
+    return bool(re.fullmatch(r"[0-9.．,、～]+", s.strip()))
 
 def pick_first_nonempty(values):
     for v in values:
@@ -298,7 +298,6 @@ def parse_projects(df: pd.DataFrame) -> list:
                 final_codes = [] # 最終的な番号リスト
                 
                 parts = re.split(r"[. ,、]+", s2) # ドット、スペース、カンマ、読点で区切る
-                st.warning(parts)
                 for part in parts:
                     part = part.strip()
                     if not part:
