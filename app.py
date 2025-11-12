@@ -313,11 +313,12 @@ def parse_projects(df: pd.DataFrame) -> list:
                             for i in range(start, end + 1):
                                 final_codes.append(str(i))
                         except ValueError:
-                            st.warning("〜を使ってないよ")
                             pass # 念のため
                     else:
                         # "5" のような通常の番号の場合
                         final_codes.append(code)
+
+                st.warning(final_codes)
 
                 # 最終的なコードリスト (例: ["1", "2", "3", "5"]) でラベルを検索
                 for k in final_codes:
