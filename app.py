@@ -294,12 +294,10 @@ def parse_projects(df: pd.DataFrame) -> list:
         for s in cur["procs"]:
             # 全角ドットと読点を、半角の区切り文字(.)に統一
             s2 = s.replace("．", ".").replace("、", ".").replace(",", ".") 
-            
-            if looks_like_proc_codes(s2): # チェック
+            if looks_like_proc_codes(s2):
                 
                 # 「.」で区切って、いったんリストにする (例: ["1〜3", "5"])
-                raw_codes = [x.strip() for x in s2.split(".") if x.strip()]
-                
+                raw_codes = [x.strip() for x in s2.split(".") if x.strip()]      
                 final_codes = [] # 最終的な番号リスト
                 for code in raw_codes:
                     
@@ -315,6 +313,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                             for i in range(start, end + 1):
                                 final_codes.append(str(i))
                         except ValueError:
+                            st.warning("〜を使ってないよ")
                             pass # 念のため
                     else:
                         # "5" のような通常の番号の場合
