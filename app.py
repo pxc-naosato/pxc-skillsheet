@@ -90,8 +90,8 @@ def parse_date_like(v) -> Union[date, None]:
 
 def looks_like_proc_codes(s: str) -> bool:
     st.write("中身:", s)
-    st.warning(bool(re.fullmatch(r"[0-9０-９.．,､、~〜]+", s.strip())))
-    return bool(re.fullmatch(r"[0-9０-９.．,､、~〜]+", s.strip()))
+    st.warning(bool(re.fullmatch(r"[0-9０-９.．,､、〜～]+", s.strip())))
+    return bool(re.fullmatch(r"[0-9０-９.．,､、〜～]+", s.strip()))
 
 def pick_first_nonempty(values):
     for v in values:
@@ -305,7 +305,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                     '．': '.',  # 全角ドット -> 半角ドット
                     '､': ',',  # 全角カンマ -> 半角カンマ
                     '、': ',',  # 読点 -> 半角カンマ
-                    '〜': '~',  # 全角チルダ -> 波ダッシュ (範囲記号として統一)
+                    '～': '〜',  # 全角チルダ -> 波ダッシュ (範囲記号として統一)
                 }))
 
                 final_codes = [] 
