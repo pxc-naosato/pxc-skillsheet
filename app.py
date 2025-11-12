@@ -294,6 +294,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         for s in cur["procs"]:
             # 全角ドットと読点を、半角の区切り文字(.)に統一
             s2 = s.replace("．", ".").replace("、", ".").replace(",", ".") 
+            st.warning(s2)
             if looks_like_proc_codes(s2):
                 
                 # 「.」で区切って、いったんリストにする (例: ["1〜3", "5"])
@@ -317,8 +318,6 @@ def parse_projects(df: pd.DataFrame) -> list:
                     else:
                         # "5" のような通常の番号の場合
                         final_codes.append(code)
-
-                st.warning(m)
 
                 # 最終的なコードリスト (例: ["1", "2", "3", "5"]) でラベルを検索
                 for k in final_codes:
