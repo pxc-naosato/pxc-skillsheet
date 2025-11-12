@@ -293,13 +293,12 @@ def parse_projects(df: pd.DataFrame) -> list:
         proc_labels = []
         for s in cur["procs"]:
             s2 = s.replace("．", ".")
-            st.warning(s2)
             if looks_like_proc_codes(s2):
                 
                 final_codes = [] # 最終的な番号リスト
                 
                 parts = re.split(r"[. ,、]+", s2) # ドット、スペース、カンマ、読点で区切る
-                
+                st.warning(parts)
                 for part in parts:
                     part = part.strip()
                     if not part:
@@ -310,8 +309,8 @@ def parse_projects(df: pd.DataFrame) -> list:
                     if range_match:
                         # 「〜」が見つかった場合 (例: "1〜3")
                         try:
-                            start = int(range_match.group(1)) # "1"
-                            end = int(range_match.group(2))   # "3"
+                            start = int(range_match.group(1))
+                            end = int(range_match.group(2))
                             for i in range(start, end + 1):
                                 final_codes.append(str(i))
                         except ValueError:
