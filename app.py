@@ -89,7 +89,7 @@ def parse_date_like(v) -> Union[date, None]:
         return None
 
 def looks_like_proc_codes(s: str) -> bool:
-    return bool(re.fullmatch(r"[0-9.．,]+", s.strip()))
+    return bool(re.fullmatch(r"[0-9.．,、〜]+", s.strip()))
 
 def pick_first_nonempty(values):
     for v in values:
@@ -292,11 +292,38 @@ def parse_projects(df: pd.DataFrame) -> list:
         # 作業工程（番号→ラベル）
         proc_labels = []
         for s in cur["procs"]:
-            s2 = s.replace("．", ".")
+            s2 = s.replace("．", ".").replace("、", ".").replace(",", ".")
             if looks_like_proc_codes(s2):
-                for k in [x for x in re.split(r"[.,]+", s2) if x]:
+                # 「.」で区切って、いったんリストにする (例: ["1〜3", "5"])
+                raw_codes = [x.strip() for x in s2.split(".") if x.strip()]
+                
+                final_codes = [] # 最終的な番号リスト
+                for code in raw_codes:
+                    
+                    # 「〜」で範囲指定されているかチェック (例: "1〜3")
+                    m = re.match(r"(\d+)\s*〜\s*(\d+)", code)
+                    
+                    if m:
+                        # "1〜3" の場合
+                        try:
+                            start = int(m.group(1))
+                            end = int(m.group(2))
+                            # startからendまでの番号をすべて追加 (endも含む)
+                            for i in range(start, end + 1):
+                                final_codes.append(str(i))
+                        except ValueError:
+                            pass # 念のため
+                    else:
+                        # "5" のような通常の番号の場合
+                        final_codes.append(code)
+                        
+                for k in final_codes:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
                         proc_labels.append(WORK_PROCESS_MAP[k])
+                             
+                #for k in [x for x in re.split(r"[.,]+", s2) if x]:
+                #    if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
+                #        proc_labels.append(WORK_PROCESS_MAP[k])
 
         projects.append({
             "start_date": start_date or date(2000,1,1),
