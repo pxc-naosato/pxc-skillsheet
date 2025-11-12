@@ -292,35 +292,35 @@ def parse_projects(df: pd.DataFrame) -> list:
         # 作業工程（番号→ラベル）
         proc_labels = []
         for s in cur["procs"]:
-            # 全角ドットと読点を、半角の区切り文字(.)に統一
-            s2 = s.replace("．", ".").replace("、", ".").replace(",", ".") 
+            s2 = s.replace("．", ".")
             st.warning(s2)
             if looks_like_proc_codes(s2):
                 
-                # 「.」で区切って、いったんリストにする (例: ["1〜3", "5"])
-                raw_codes = [x.strip() for x in s2.split(".") if x.strip()]      
                 final_codes = [] # 最終的な番号リスト
-                for code in raw_codes:
+                
+                parts = re.split(r"[. ,、]+", s2) # ドット、スペース、カンマ、読点で区切る
+                
+                for part in parts:
+                    part = part.strip()
+                    if not part:
+                        continue
                     
-                    # 「〜」で範囲指定されているかチェック (例: "1〜3")
-                    m = re.match(r"(\d+)\s*〜\s*(\d+)", code)
+                    range_match = re.search(r"^(\d+)\s*〜\s*(\d+)$", part) 
                     
-                    if m:
-                        # "1〜3" の場合
+                    if range_match:
+                        # 「〜」が見つかった場合 (例: "1〜3")
                         try:
-                            start = int(m.group(1))
-                            end = int(m.group(2))
-                            # startからendまでの番号をすべて追加 (endも含む)
+                            start = int(range_match.group(1)) # "1"
+                            end = int(range_match.group(2))   # "3"
                             for i in range(start, end + 1):
                                 final_codes.append(str(i))
                         except ValueError:
-                            pass # 念のため
+                            pass # 数字への変換に失敗したら無視
                     else:
-                        # "5" のような通常の番号の場合
-                        final_codes.append(code)
-
-                # 最終的なコードリスト (例: ["1", "2", "3", "5"]) でラベルを検索
-                for k in final_codes:
+                        # 「〜」が見つからない場合 (例: "5")
+                        final_codes.append(part)
+                
+                for k in [x for x in final_codes if x]:
                     if k in WORK_PROCESS_MAP and WORK_PROCESS_MAP[k] not in proc_labels:
                         proc_labels.append(WORK_PROCESS_MAP[k])
                              
