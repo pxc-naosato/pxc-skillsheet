@@ -735,6 +735,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         if not qlist: qlist = ["- なし"]
         
         for q in qlist:
+            ws.cell(row=cur, column=2, value="情報処理資格")
             cell = ws.cell(row=cur, column=4, value=f"- {q}")
             # 資格欄はテーブル幅(K列)まで結合
             ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
