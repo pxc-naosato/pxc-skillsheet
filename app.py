@@ -682,8 +682,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
             ("最寄駅", st.session_state.pi_nearest_station),
             ("最終学歴", st.session_state.pi_education, ),
         ]
+        count = 0
         for row in rows:
-            count = 0
             style(ws.cell(row=cur, column=2, value=row[0]), font=bold_font)
             style(ws.cell(row=cur, column=4, value=row[1]))
 
@@ -696,7 +696,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 else:
                     style(ws.cell(row=cur, column=10, value=row[3]))
             cur += 1
-        cur += 1 # 空白行
 
         # フリガナ
         ws.merge_cells(start_row=4, start_column=2, end_row=4, end_column=3)
