@@ -836,15 +836,15 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 1.3  # 項番
         ws.column_dimensions["B"].width = 2 # 期間
-        ws.column_dimensions["C"].width = 12.5 # 案件名/作業内容
+        ws.column_dimensions["C"].width = 12.25 # 案件名/作業内容
         ws.column_dimensions["D"].width = 15 # 業種
-        ws.column_dimensions["E"].width = 12.5 # OS
-        ws.column_dimensions["F"].width = 17 # 言語
+        ws.column_dimensions["E"].width = 12.25 # OS
+        ws.column_dimensions["F"].width = 20 # 言語
         ws.column_dimensions["G"].width = 12.5 # DB
-        ws.column_dimensions["H"].width = 4 # 工程
-        ws.column_dimensions["I"].width = 8 # 役割
+        ws.column_dimensions["H"].width = 4.25 # 工程
+        ws.column_dimensions["I"].width = 9.5 # 役割
         ws.column_dimensions["J"].width = 8.6 # ポジション
-        ws.column_dimensions["K"].width = 9 # 規模
+        ws.column_dimensions["K"].width = 9.75 # 規模
 
     st.download_button(
         label="スキルシートをダウンロード",
