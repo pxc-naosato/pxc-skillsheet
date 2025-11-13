@@ -669,7 +669,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if align: cell.alignment = align
 
         # --- 2行目: タイトル ---
-        cell = ws.cell(row=cur, column=1, value="業務経歴書")
+        cell = ws.cell(row=cur, column=2, value="業務経歴書")
         style(cell, font=title_font)
         ws.merge_cells('B2:K3')
         cur += 2 # 3行目は空白、4行目から
@@ -683,12 +683,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             ("最終学歴", st.session_state.pi_education, ),
         ]
         for row in rows:
-            style(ws.cell(row=cur, column=1, value=row[0]), font=bold_font)
-            style(ws.cell(row=cur, column=2, value=row[1]))
+            style(ws.cell(row=cur, column=2, value=row[0]), font=bold_font)
+            style(ws.cell(row=cur, column=4, value=row[1]))
 
             if len(row) == 4 :
-                style(ws.cell(row=cur, column=3, value=row[2]), font=bold_font)
-                style(ws.cell(row=cur, column=4, value=row[3]))
+                style(ws.cell(row=cur, column=7, value=row[2]), font=bold_font)
+                style(ws.cell(row=cur, column=10, value=row[3]))
             cur += 1
         cur += 1 # 空白行
 
@@ -706,7 +706,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # 性別
         ws.merge_cells(start_row=5, start_column=7, end_row=5, end_column=9)
-        ws.merge_cells(start_row=5, start_column=10, end_row=5, end_column=11)
+        ws.merge_cells(start_row=5, start_column=10, end_row=5, end_column=TABLE_COLS)
         
         # 現住所
         ws.merge_cells(start_row=6, start_column=2, end_row=6, end_column=3)
@@ -714,7 +714,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # 稼働可能日
         ws.merge_cells(start_row=6, start_column=7, end_row=6, end_column=9)
-        ws.merge_cells(start_row=6, start_column=10, end_row=65, end_column=11)
+        ws.merge_cells(start_row=6, start_column=10, end_row=65, end_column=TABLE_COLS)
         
         # 最寄駅
         ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
@@ -725,18 +725,14 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.merge_cells(start_row=8, start_column=4, end_row=8, end_column=6)
         
         
-        # --- 10行目: 2. 資格 ---
-        cell = ws.cell(row=cur, column=1, value="2. 資格")
-        style(cell, font=section_title_font)
-        cur += 1
-        
+        # --- 9行目: 2. 資格 ---        
         qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
         if not qlist: qlist = ["- なし"]
         
         for q in qlist:
             cell = ws.cell(row=cur, column=1, value=f"- {q}")
             # 資格欄はテーブル幅(K列)まで結合
-            ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=TABLE_COLS)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
             cur += 1
         cur += 1 # 空白行
 
@@ -795,7 +791,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             # 1行目書き込み
             for c_idx, val in enumerate(main_data):
-                cell = ws.cell(row=cur, column=c_idx + 1)
+                cell = ws.cell(row=cur, column=c_idx + 1, value=h)
                 # 1行目は全列に罫線と折り返し、上寄せ
                 style(cell, border=thin_border, align=wrap_text_alignment)
             
