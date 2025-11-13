@@ -775,10 +775,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ] # B列からK列
 
         for c_idx, h in enumerate(headers):
-            if c_idx >= 9
+            if c_idx >= 9:
                 cell = ws.cell(row=cur + 1, column=c_idx + 2)
                 style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
-            else
+            else:
                 cell = ws.cell(row=cur, column=c_idx + 2)
                 style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
         
