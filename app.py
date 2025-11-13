@@ -779,9 +779,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             (1,2), (1,5), (1,6), (1,8), (1,9)
         ]
 
-        for c_idx, h in enumerate(headers), row, col in targets:
-            
-
+        for row, col in targets:
             cell = ws.cell(row=cur + row + 1, column=col + 1, value=headers[col])
             style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
         
