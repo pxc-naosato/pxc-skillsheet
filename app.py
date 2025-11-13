@@ -727,7 +727,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # 最終学歴
         ws.merge_cells(start_row=8, start_column=2, end_row=8, end_column=3)
-        ws.merge_cells(start_row=8, start_column=4, end_row=8, end_column=6)
+        ws.merge_cells(start_row=8, start_column=4, end_row=8, end_column=TABLE_COLS)
         
         
         # --- 9行目: 2. 資格 ---        
@@ -735,9 +735,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
         if not qlist: qlist = ["- なし"]
         
         for q in qlist:
-            cell = ws.cell(row=cur, column=1, value=f"- {q}")
+            cell = ws.cell(row=cur, column=4, value=f"- {q}")
             # 資格欄はテーブル幅(K列)まで結合
-            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
+            ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
+            ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
             cur += 1
         cur += 1 # 空白行
 
