@@ -783,10 +783,72 @@ if st.button("スキルシートを生成 (Excel形式)"):
             else:
                 cell = ws.cell(row=cur, column=c_idx + 2)
             
-            style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
+            style(cell, value=headers[c_idx], font=bold_font, fill=project_title_fill, border=thin_border)
         
         cur += 2
 
+        # --- 19行目以降: 案件ループ (テーブル形式) ---
+        for i, p in enumerate(st.session_state.projects):
+            start_row = cur # この案件の開始行を記憶
+
+            # --- 1行目 (メイン情報) ---
+            start_date_str = p.get("start_date").strftime("%Y/%m") if p.get("start_date") else ""
+            end_date_str = p.get("end_date").strftime("%Y/%m") if p.get("end_date") else ""
+            delta_txt = ""
+            if p.get("start_date") and p.get("end_date"):
+                days = (p["end_date"] - p["start_date"]).days
+                delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
+
+            main_data = [
+                i + 1, # A
+                f"{start_date_str} ～ {end_date_str} {delta_txt}", # B
+                p.get("project_name", ""), # C
+                p.get("industry", ""), # D
+                p.get("os", ""), # E
+                p.get("lang_tool", ""), # F
+                p.get("db_dc", ""), # G
+                p.get("work_process_str", ""), # H
+                p.get("role", ""), # I
+                p.get("position", ""), # J
+                p.get("scale", ""), # K
+            ]
+
+            # 1行目書き込み
+            for c_idx, val in enumerate(main_data):
+                cell = ws.cell(row=cur, column=c_idx + 1)
+                # 1行目は全列に罫線と折り返し、上寄せ
+                style(cell, border=thin_border, align=wrap_text_alignment)
+            
+            cur += 1 # 次の行へ
+
+            # --- 2行目以降 (作業内容) ---
+            content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
+            if not content_lines:
+                content_lines = ["-"] # 空でも1行は確保
+
+            for line in content_lines:
+                # C列 (案件名の真下) に作業内容を書き込む
+                cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
+                style(cell, border=thin_border, align=wrap_text_alignment)
+                
+                # 作業内容セルを横に結合 (C列からK列まで)
+                ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=TABLE_COLS)
+
+                # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
+                for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
+                    style(ws.cell(row=cur, column=c_idx), border=thin_border)
+                
+                cur += 1 # 次の行へ
+
+            # --- この案件の縦セル結合 ---
+            end_row = cur - 1 # この案件の最終行
+            if end_row > start_row: # 作業内容などで2行以上になった場合
+                # C列 (案件名/作業内容) 以外を縦に結合
+                for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
+                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
+                    # 結合したセルのスタイルを再適用 (上寄せ)
+                    cell = ws.cell(row=start_row, column=c_idx)
+                    style(cell, align=wrap_text_alignment)
 
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 1.3  # 項番
