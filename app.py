@@ -669,24 +669,20 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if align: cell.alignment = align
 
         # --- 2行目: タイトル ---
-        cell = ws.cell(row=cur, column=1, value="スキルシート")
+        cell = ws.cell(row=cur, column=1, value="業務経歴書")
         style(cell, font=title_font)
-        # ws.merge_cells(...) # 結合しない
+        ws.merge_cells('B2:K3')
         cur += 2 # 3行目は空白、4行目から
 
         # --- 4行目: 1. 個人情報 ---
-        cell = ws.cell(row=cur, column=1, value="1. 個人情報")
-        style(cell, font=section_title_font)
-        cur += 1
-        
         rows = [
-            ("氏名", st.session_state.pi_name, "フリガナ", st.session_state.pi_furigana),
-            ("生年月日", st.session_state.pi_birth_date.strftime("%Y年%m月%d日"), "性別", st.session_state.pi_gender),
-            ("現住所", st.session_state.pi_address, "最寄駅", st.session_state.pi_nearest_station),
-            ("最終学歴", st.session_state.pi_education, "稼働可能日", st.session_state.pi_available_date.strftime("%Y年%m月%d日")),
+            ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y年%m月%d日")),
+            ("氏名", st.session_state.pi_name, "性別", st.session_state.pi_gender),
+            ("現住所", st.session_state.pi_address, "稼働可能日", st.session_state.pi_available_date.strftime("%Y年%m月%d日")),
+            ("最寄駅", st.session_state.pi_nearest_station),
+            ("最終学歴", st.session_state.pi_education, ),
         ]
         for a,b,c,d in rows:
-            # 背景色(fill)と罫線(border)は設定しない
             style(ws.cell(row=cur, column=1, value=a), font=bold_font)
             style(ws.cell(row=cur, column=2, value=b))
             style(ws.cell(row=cur, column=3, value=c), font=bold_font)
@@ -694,6 +690,39 @@ if st.button("スキルシートを生成 (Excel形式)"):
             cur += 1
         cur += 1 # 空白行
 
+        # フリガナ
+        ws.merge_cells('B4:C4')
+        ws.merge_cells('D4:F4')
+
+        # 生年月日
+        ws.merge_cells('G4:H4')
+        ws.merge_cells('I4:J4')
+        
+        # 氏名
+        ws.merge_cells('B5:C5')
+        ws.merge_cells('D5:F5')
+
+        # 性別
+        ws.merge_cells('G5:I5')
+        ws.merge_cells('J5:K5')
+        
+        # 現住所
+        ws.merge_cells('B6:C6')
+        ws.merge_cells('D6:F6')
+
+        # 稼働可能日
+        ws.merge_cells('G6:I6')
+        ws.merge_cells('J6:K6')
+        
+        # 最寄駅
+        ws.merge_cells('B7:C7')
+        ws.merge_cells('D7:F7')
+
+        # 最終学歴
+        ws.merge_cells('B8:C4')
+        ws.merge_cells('D8:K8')
+        
+        
         # --- 10行目: 2. 資格 ---
         cell = ws.cell(row=cur, column=1, value="2. 資格")
         style(cell, font=section_title_font)
