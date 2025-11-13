@@ -791,7 +791,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             # 1行目書き込み
             for c_idx, val in enumerate(main_data):
-                cell = ws.cell(row=cur, column=c_idx + 1, value=h)
+                cell = ws.cell(row=cur, column=c_idx + 1)
                 # 1行目は全列に罫線と折り返し、上寄せ
                 style(cell, border=thin_border, align=wrap_text_alignment)
             
