@@ -628,14 +628,6 @@ st.button("概要を抽出", on_click=generate_overview_callback)
 if st.session_state.generated_overview:
     st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
 
-はい、承知いたしました！ 添付いただいたサンプルファイル（0_スキルシート（Sample）.xlsx - 経歴書.csv）のレイアウトは、現在のコードとは異なり、個人情報欄の背景色がなかったり、業務経歴が横並びのテーブル形式になっていますね。
-
-ご要望の「添付ファイルと完全に同じ状態」（1行目を開け、業務経歴を表形式にする）になるよう、if st.button("スキルシートを生成 (Excel形式)"): 以降のコードを修正しました。
-
-元の app.py の該当部分（if st.button("スキルシートを生成 (Excel形式)"): からファイルの最後まで）を、以下のコードで丸ごと置き換えてください。
-
-Python
-
 # ---- Excel出力（添付ファイル形式にレイアウト変更） ----
 if st.button("スキルシートを生成 (Excel形式)"):
     output = io.BytesIO()
