@@ -755,9 +755,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 13行目: 作業工程・役割 ---
         ws.cell(row=cur, column=2, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ")
-        ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他")
-        ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー")
         cur += 1
+        
+        ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他")
+        cur += 1
+        
+        ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー")
+        cur += 2 # 空白行を1つ挟む
         
         # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=2, value="業務経歴")
@@ -766,15 +770,19 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 18行目: 業務経歴テーブルヘッダ ---
         headers = [
-            "項番", "作業期間", "案件名", "業種",
-            "OS", "言語/ツール", "DB/DC",
-            "作業工程", "役割", "ポジション", "規模"
-        ] # A列からK列
+            "項番", "作業期間", "案件名", "作業内容", "機種", "言語/ツール", "作業工程", "規模",
+            "業種", "OS", "DB/DC", "役割", "ポジション"
+        ] # B列からK列
 
         for c_idx, h in enumerate(headers):
-            cell = ws.cell(row=cur, column=c_idx + 1)
-            style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
-        cur += 1
+            if c_idx >= 9
+                cell = ws.cell(row=cur + 1, column=c_idx + 2)
+                style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
+            else
+                cell = ws.cell(row=cur, column=c_idx + 2)
+                style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
+        
+        cur += 2
 
         # --- 19行目以降: 案件ループ (テーブル形式) ---
         for i, p in enumerate(st.session_state.projects):
