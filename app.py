@@ -682,12 +682,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
             ("最寄駅", st.session_state.pi_nearest_station),
             ("最終学歴", st.session_state.pi_education, ),
         ]
-        for a,b,c,d,e in rows:
+        for a,b,c,d in rows:
             style(ws.cell(row=cur, column=1, value=a), font=bold_font)
             style(ws.cell(row=cur, column=2, value=b))
-            style(ws.cell(row=cur, column=3, value=c), font=bold_font)
-            style(ws.cell(row=cur, column=4, value=d))
-            style(ws.cell(row=cur, column=5, value=e), font=bold_font)
+
+            if len(row) == 4:
+                style(ws.cell(row=cur, column=3, value=c), font=bold_font)
+                style(ws.cell(row=cur, column=4, value=d))
             cur += 1
         cur += 1 # 空白行
 
