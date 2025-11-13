@@ -719,7 +719,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # 稼働可能日
         ws.merge_cells(start_row=6, start_column=7, end_row=6, end_column=9)
-        ws.merge_cells(start_row=6, start_column=10, end_row=65, end_column=TABLE_COLS)
+        ws.merge_cells(start_row=6, start_column=10, end_row=6, end_column=TABLE_COLS)
         
         # 最寄駅
         ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
