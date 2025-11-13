@@ -688,12 +688,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
             style(ws.cell(row=cur, column=4, value=row[1]))
 
             if len(row) == 4 :
+                style(ws.cell(row=cur, column=7, value=row[2]), font=bold_font)
+                
                 if count == 0:
-                    style(ws.cell(row=cur, column=6, value=row[2]), font=bold_font)
+                    style(ws.cell(row=cur, column=9, value=row[3]))
                     count = 1
                 else:
-                    style(ws.cell(row=cur, column=7, value=row[2]), font=bold_font)
-                style(ws.cell(row=cur, column=10, value=row[3]))
+                    style(ws.cell(row=cur, column=10, value=row[3]))
             cur += 1
         cur += 1 # 空白行
 
