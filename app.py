@@ -791,7 +791,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
                 # 他の列 (A, B, D-K) にも罫線を引く
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    style(ws.cell(row=cur, column=c_idx, value=""), border=thin_border)
+                    style(ws.cell(row=cur, column=c_idx), border=thin_border)
                 
                 cur += 1 # 次の行へ
 
