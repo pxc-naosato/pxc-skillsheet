@@ -693,36 +693,36 @@ if st.button("スキルシートを生成 (Excel形式)"):
         cur += 1 # 空白行
 
         # フリガナ
-        ws.merge_cells('B4:C4')
-        ws.merge_cells('D4:F4')
+        ws.merge_cells(start_row=4, start_column=2, end_row=4, end_column=3)
+        ws.merge_cells(start_row=4, start_column=4, end_row=4, end_column=6)
 
         # 生年月日
-        ws.merge_cells('G4:H4')
-        ws.merge_cells('I4:J4')
+        ws.merge_cells(start_row=4, start_column=7, end_row=4, end_column=8)
+        ws.merge_cells(start_row=4, start_column=9, end_row=4, end_column=10)
         
         # 氏名
-        ws.merge_cells('B5:C5')
-        ws.merge_cells('D5:F5')
+        ws.merge_cells(start_row=5, start_column=2, end_row=5, end_column=3)
+        ws.merge_cells(start_row=5, start_column=4, end_row=5, end_column=6)
 
         # 性別
-        ws.merge_cells('G5:I5')
-        ws.merge_cells('J5:K5')
+        ws.merge_cells(start_row=5, start_column=7, end_row=5, end_column=9)
+        ws.merge_cells(start_row=5, start_column=10, end_row=5, end_column=11)
         
         # 現住所
-        ws.merge_cells('B6:C6')
-        ws.merge_cells('D6:F6')
+        ws.merge_cells(start_row=6, start_column=2, end_row=6, end_column=3)
+        ws.merge_cells(start_row=6, start_column=4, end_row=6, end_column=6)
 
         # 稼働可能日
-        ws.merge_cells('G6:I6')
-        ws.merge_cells('J6:K6')
+        ws.merge_cells(start_row=6, start_column=7, end_row=6, end_column=9)
+        ws.merge_cells(start_row=6, start_column=10, end_row=65, end_column=11)
         
         # 最寄駅
-        ws.merge_cells('B7:C7')
-        ws.merge_cells('D7:F7')
+        ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
+        ws.merge_cells(start_row=7, start_column=4, end_row=7, end_column=6)
 
         # 最終学歴
-        ws.merge_cells('B8:C4')
-        ws.merge_cells('D8:K8')
+        ws.merge_cells(start_row=8, start_column=2, end_row=8, end_column=3)
+        ws.merge_cells(start_row=8, start_column=4, end_row=8, end_column=6)
         
         
         # --- 10行目: 2. 資格 ---
