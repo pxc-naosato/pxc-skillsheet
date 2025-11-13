@@ -774,15 +774,15 @@ if st.button("スキルシートを生成 (Excel形式)"):
             "業種", "OS", "DB/DC", "役割", "ポジション"
         ] # B列からK列
 
-        for c_idx, h in enumerate(headers):
-            if c_idx >= 9:
-                if c_idx == 9:
-                    cell = ws.cell(row=cur + 1, column=c_idx - 6, value=headers[c_idx])
-                else:
-                    cell = ws.cell(row=cur + 1, column=c_idx - 5, value=headers[c_idx])
-            else:
-                cell = ws.cell(row=cur, column=c_idx + 2, value=headers[c_idx])
+        targets = [
+            (0,0), (0,1), (0,2), (0,3), (0,5), (0,6), (0,7), (0,9),
+            (1,2), (1,5), (1,6), (1,8), (1,9)
+        ]
+
+        for c_idx, h in enumerate(headers), row, col in targets:
             
+
+            cell = ws.cell(row=cur + row + 1, column=col + 1, value=headers[col])
             style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
         
         cur += 2
