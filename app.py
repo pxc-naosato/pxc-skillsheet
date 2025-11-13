@@ -686,7 +686,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             style(ws.cell(row=cur, column=1, value=row[0]), font=bold_font)
             style(ws.cell(row=cur, column=2, value=row[1]))
 
-            if len(a) == 4 :
+            if len(row) == 4 :
                 style(ws.cell(row=cur, column=3, value=row[2]), font=bold_font)
                 style(ws.cell(row=cur, column=4, value=row[3]))
             cur += 1
