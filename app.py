@@ -628,7 +628,15 @@ st.button("概要を抽出", on_click=generate_overview_callback)
 if st.session_state.generated_overview:
     st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
 
-# ---- Excel出力（既存の出力レイアウトはそのまま） ----
+はい、承知いたしました！ 添付いただいたサンプルファイル（0_スキルシート（Sample）.xlsx - 経歴書.csv）のレイアウトは、現在のコードとは異なり、個人情報欄の背景色がなかったり、業務経歴が横並びのテーブル形式になっていますね。
+
+ご要望の「添付ファイルと完全に同じ状態」（1行目を開け、業務経歴を表形式にする）になるよう、if st.button("スキルシートを生成 (Excel形式)"): 以降のコードを修正しました。
+
+元の app.py の該当部分（if st.button("スキルシートを生成 (Excel形式)"): からファイルの最後まで）を、以下のコードで丸ごと置き換えてください。
+
+Python
+
+# ---- Excel出力（添付ファイル形式にレイアウト変更） ----
 if st.button("スキルシートを生成 (Excel形式)"):
     output = io.BytesIO()
     with pd.ExcelWriter(output, engine="openpyxl") as writer:
@@ -639,59 +647,64 @@ if st.button("スキルシートを生成 (Excel形式)"):
         wb.active = ws
 
         # --- スタイル定義 ---
-        title_font = Font(size=18, bold=True, color="000080") # 紺・太字・大
-        section_title_font = Font(bold=True, size=12, color="FFFFFF") # 白・太字・中
-        bold_font = Font(bold=True) # 黒・太字
-        section_title_fill = PatternFill(start_color="4682B4", end_color="4682B4", fill_type="solid") # 濃い水色
-        header_fill = PatternFill(start_color="ADD8E6", end_color="ADD8E6", fill_type="solid") # 薄い水色 (個人情報・テーブルヘッダ用)
-        # project_title_fill はサンプル形式では使わない
-        
+        # (添付ファイル形式に合わせて、背景色などを調整)
+        title_font = Font(size=18, bold=True, color="000080")
+        section_title_font = Font(bold=True, size=12) # 背景色なし
+        bold_font = Font(bold=True)
+        # 業務経歴テーブルヘッダ用の背景色
+        project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
+        # 罫線
         thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-        wrap_text_align_top = Alignment(wrapText=True, vertical='top') # 折り返し・上寄せ
+        # 折り返し + 上寄せ
+        wrap_text_alignment = Alignment(wrapText=True, vertical='top')
 
-        # --- ユーティリティ ---
-        cur = 1
-        TABLE_COLS = 11 # K列まで
+        # テーブルの列数（K列まで）
+        TABLE_COLS = 11
+        # 作業内容を書き込む列 (C列)
+        COL_PROJECT_NAME = 3
+
+        cur = 1 # 現在の行番号
+
+        # --- 1行目: 空白 ---
+        # ユーザーの指示「A行は何も入れず開けておいてください」を「1行目」と解釈
+        cur += 1 # 2行目からスタート
+
+        # --- ヘルパー関数 ---
         def style(cell, font=None, fill=None, border=None, align=None):
             if font: cell.font = font
             if fill: cell.fill = fill
             if border: cell.border = border
             if align: cell.alignment = align
 
-        # --- 1. タイトル ---
+        # --- 2行目: タイトル ---
         cell = ws.cell(row=cur, column=1, value="スキルシート")
         style(cell, font=title_font)
-        ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=TABLE_COLS) # K列まで結合
-        cur += 2
+        # ws.merge_cells(...) # 結合しない
+        cur += 2 # 3行目は空白、4行目から
 
-        # --- 2. 個人情報 ---
+        # --- 4行目: 1. 個人情報 ---
         cell = ws.cell(row=cur, column=1, value="1. 個人情報")
-        style(cell, font=section_title_font, fill=section_title_fill)
-        # ws.merge_cells(...) # A列のみ (結合しない)
+        style(cell, font=section_title_font)
         cur += 1
         
-        rows_pi = [
+        rows = [
             ("氏名", st.session_state.pi_name, "フリガナ", st.session_state.pi_furigana),
             ("生年月日", st.session_state.pi_birth_date.strftime("%Y年%m月%d日"), "性別", st.session_state.pi_gender),
             ("現住所", st.session_state.pi_address, "最寄駅", st.session_state.pi_nearest_station),
             ("最終学歴", st.session_state.pi_education, "稼働可能日", st.session_state.pi_available_date.strftime("%Y年%m月%d日")),
         ]
-        for a,b,c,d in rows_pi:
-            style(ws.cell(row=cur, column=1, value=a), font=bold_font, fill=header_fill, border=thin_border) # A列 (見出し)
-            style(ws.cell(row=cur, column=2, value=b), border=thin_border) # B列 (値)
-            style(ws.cell(row=cur, column=3, value=c), font=bold_font, fill=header_fill, border=thin_border) # C列 (見出し)
-            style(ws.cell(row=cur, column=4, value=d), border=thin_border) # D列 (値)
-            
-            # E列～K列にも罫線だけ引いておく (サンプル形式に合わせるため)
-            for col_idx in range(5, TABLE_COLS + 1):
-                style(ws.cell(row=cur, column=col_idx), border=thin_border)
-
+        for a,b,c,d in rows:
+            # 背景色(fill)と罫線(border)は設定しない
+            style(ws.cell(row=cur, column=1, value=a), font=bold_font)
+            style(ws.cell(row=cur, column=2, value=b))
+            style(ws.cell(row=cur, column=3, value=c), font=bold_font)
+            style(ws.cell(row=cur, column=4, value=d))
             cur += 1
-        cur += 1 # 1行空ける
+        cur += 1 # 空白行
 
-        # --- 3. 資格 ---
+        # --- 10行目: 2. 資格 ---
         cell = ws.cell(row=cur, column=1, value="2. 資格")
-        style(cell, font=section_title_font, fill=section_title_fill)
+        style(cell, font=section_title_font)
         cur += 1
         
         qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
@@ -699,97 +712,86 @@ if st.button("スキルシートを生成 (Excel形式)"):
         
         for q in qlist:
             cell = ws.cell(row=cur, column=1, value=f"- {q}")
-            style(cell, border=thin_border)
-            # A列のセルをK列まで結合（サンプル形式）
+            # 資格欄はテーブル幅(K列)まで結合
             ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=TABLE_COLS)
             cur += 1
-        cur += 1 # 1行空ける
+        cur += 1 # 空白行
 
-        # --- 4. 開発経験サマリ ---
+        # --- 14行目: 3. 開発経験サマリ ---
         cell = ws.cell(row=cur, column=1, value="3. 開発経験サマリ")
-        style(cell, font=section_title_font, fill=section_title_fill)
+        style(cell, font=section_title_font)
         cur += 1
-
-        cell = ws.cell(row=cur, column=1, value=st.session_state.pi_summary)
-        style(cell, align=wrap_text_align_top, border=thin_border)
-        # A列のセルをK列まで結合
+        
+        # サマリ本文もテーブル幅(K列)まで結合
         ws.merge_cells(start_row=cur, start_column=1, end_row=cur, end_column=TABLE_COLS)
-        ws.row_dimensions[cur].height = max(60, 15 * (len(st.session_state.pi_summary.split("\n")) + 2)) # 高さを内容に合わせる
-        cur += 2 # 1行空ける
+        style(ws.cell(row=cur, column=1, value=st.session_state.pi_summary), align=wrap_text_alignment)
+        cur += 2 # 空白行を1つ挟む
 
-        # --- 5. 業務経歴 ---
+        # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=1, value="4. 業務経歴")
-        style(cell, font=section_title_font, fill=section_title_fill)
+        style(cell, font=section_title_font)
         cur += 1
 
-        # --- 業務経歴テーブルヘッダ ---
+        # --- 18行目: 業務経歴テーブルヘッダ ---
         headers = [
             "項番", "作業期間", "案件名", "業種",
             "OS", "言語/ツール", "DB/DC",
             "作業工程", "役割", "ポジション", "規模"
-        ]
-        
+        ] # A列からK列
+
         for c_idx, h in enumerate(headers):
             cell = ws.cell(row=cur, column=c_idx + 1, value=h)
-            style(cell, font=bold_font, fill=header_fill, border=thin_border, align=wrap_text_align_top)
+            style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
         cur += 1
 
-        # --- 案件ループ (テーブル形式) ---
-        COL_PROJECT_NAME = 3 # C列 (案件名/作業内容)
-        
-        if not st.session_state.projects:
-            # 案件が0件の場合も、テーブル枠だけ描画
-            for c_idx in range(1, TABLE_COLS + 1):
-                style(ws.cell(row=cur, column=c_idx, value="-"), border=thin_border)
-            cur += 1
-
+        # --- 19行目以降: 案件ループ (テーブル形式) ---
         for i, p in enumerate(st.session_state.projects):
             start_row = cur # この案件の開始行を記憶
 
             # --- 1行目 (メイン情報) ---
             start_date_str = p.get("start_date").strftime("%Y/%m") if p.get("start_date") else ""
             end_date_str = p.get("end_date").strftime("%Y/%m") if p.get("end_date") else ""
-            period_str = f"{start_date_str}～{end_date_str}"
+            delta_txt = ""
             if p.get("start_date") and p.get("end_date"):
                 days = (p["end_date"] - p["start_date"]).days
-                if days >= 0:
-                    period_str += f"\n（約{round(days/30.4375,1)}ヶ月）" # 改行して期間を入れる
+                delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
 
             main_data = [
-                (i + 1), # A列
-                period_str, # B列
-                p.get("project_name", ""), # C列 (案件名)
-                p.get("industry", ""), # D列
-                p.get("os", ""), # E列
-                p.get("lang_tool", ""), # F列
-                p.get("db_dc", ""), # G列
-                p.get("work_process_str", ""), # H列
-                p.get("role", ""), # I列
-                p.get("position", ""), # J列
-                p.get("scale", ""), # K列
+                i + 1, # A
+                f"{start_date_str} ～ {end_date_str} {delta_txt}", # B
+                p.get("project_name", ""), # C
+                p.get("industry", ""), # D
+                p.get("os", ""), # E
+                p.get("lang_tool", ""), # F
+                p.get("db_dc", ""), # G
+                p.get("work_process_str", ""), # H
+                p.get("role", ""), # I
+                p.get("position", ""), # J
+                p.get("scale", ""), # K
             ]
 
+            # 1行目書き込み
             for c_idx, val in enumerate(main_data):
                 cell = ws.cell(row=cur, column=c_idx + 1, value=val)
-                style(cell, border=thin_border, align=wrap_text_align_top)
-
+                # 1行目は全列に罫線と折り返し、上寄せ
+                style(cell, border=thin_border, align=wrap_text_alignment)
+            
             cur += 1 # 次の行へ
 
             # --- 2行目以降 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
             if not content_lines:
-                # 作業内容が空でも、縦結合のために1行分の罫線を引く
-                content_lines = [""] 
-            
+                content_lines = ["-"] # 空でも1行は確保
+
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
                 cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
-                style(cell, border=thin_border, align=wrap_text_align_top)
+                style(cell, border=thin_border, align=wrap_text_alignment)
                 
                 # 作業内容セルを横に結合 (C列からK列まで)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=TABLE_COLS)
 
-                # 他の列 (A, B, D-K) にも罫線を引く
+                # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=cur, column=c_idx), border=thin_border)
                 
@@ -797,17 +799,14 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             # --- この案件の縦セル結合 ---
             end_row = cur - 1 # この案件の最終行
-            if end_row >= start_row:
+            if end_row > start_row: # 作業内容などで2行以上になった場合
                 # C列 (案件名/作業内容) 以外を縦に結合
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    # 1行目(start_row)から最終行(end_row)まで結合
-                    if end_row > start_row: # 2行以上の場合のみ結合
-                        ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
-                    
+                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
                     # 結合したセルのスタイルを再適用 (上寄せ)
                     cell = ws.cell(row=start_row, column=c_idx)
-                    style(cell, align=wrap_text_align_top, border=thin_border)
-                    
+                    style(cell, align=wrap_text_alignment)
+
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 5  # 項番
         ws.column_dimensions["B"].width = 20 # 期間
