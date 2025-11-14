@@ -877,7 +877,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             for j in 8: 
                 if (lang_count + db_count - content_count) < 4:
                     lang_count += 1
-                else
+                else:
                     break
             
             
