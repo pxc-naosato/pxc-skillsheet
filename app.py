@@ -822,7 +822,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 style(cell, border=thin_border, align=wrap_text_alignment)
                 
                 # 作業内容セルを横に結合 (C列からK列まで)
-                #ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=TABLE_COLS)
+                ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
 
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
@@ -835,7 +835,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if end_row > start_row: # 作業内容などで2行以上になった場合
                 # C列 (案件名/作業内容) 以外を縦に結合
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
+                    #ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
                     # 結合したセルのスタイルを再適用 (上寄せ)
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
