@@ -859,11 +859,11 @@ if st.button("スキルシートを生成 (Excel形式)"):
             db_count = 0
             
             for lang in range(len(lang_tool)):
-                st.write(lang)
                 ws.cell(row=start_row + lang, column=8, value=lang_tool[lang])
                 lang_count += 1
 
             if lang_tool != db_dc:
+                st.write(lang_tool)
                 for db in range(len(db_dc)):
                     ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db])
                     db_count += 1
