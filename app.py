@@ -848,8 +848,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
 
             for j, model in enumerate(os):
-                ws.cell(row=start_row, column=6, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ")
-                #ws.cell(row=start_row, column=6, value=model[j])
+                ws.cell(row=start_row, column=7, value=model[j])
             
             # --- 8行目 (言語/ツール・DB/DC) ---
 
