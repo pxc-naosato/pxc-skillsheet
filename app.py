@@ -670,7 +670,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 2行目: タイトル ---
         cell = ws.cell(row=cur, column=2, value="業務経歴書")
-        style(cell, font=title_font)
+        style(cell, font=title_font, border=thin_border)
         ws.merge_cells('B2:K3')
         cur += 2 # 3行目は空白、4行目から
 
