@@ -806,11 +806,17 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
 
             # 1列目書き込み
-            cell = ws.cell(row=start_row + i, column=2, value=i + 1)
+            cell = ws.cell(row=start_row, column=2, value=i + 1)
                 
             # 1列目は全列に罫線と折り返し、上寄せ
             style(cell, border=thin_border, align=wrap_text_alignment)
 
+            
+            style(ws.cell(row=start_row, column=3, value=start_date_str), border=thin_border)
+            style(ws.cell(row=start_row + 1, column=3, value=～), border=thin_border)
+            style(ws.cell(row=start_row + 2, column=3, value=end_date_str), border=thin_border)
+            style(ws.cell(row=start_row + 3, column=3, value=delta_txt), border=thin_border)
+            
             # --- 2行目以降 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
             if not content_lines:
@@ -827,7 +833,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=cur, column=c_idx), border=thin_border)
-
+                
                 cur += 1 # 次の行へ
 
             # --- この案件の縦セル結合 ---
