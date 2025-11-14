@@ -781,7 +781,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         for i, (row, col) in enumerate(targets):
             if i < len(headers):
-                cell = ws.cell(row=cur + row, column=col + 2, value=headers[i])
+                cell = ws.cell(row=cur + row, column=col + 2, value=headers[i], align=wrap_text_alignment)
                 style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
 
         # フリガナ
@@ -816,7 +816,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if not content_lines:
                 content_lines = ["-"] # 空でも1行は確保
 
-            st.write(content_lines)
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
                 cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
@@ -835,8 +834,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
             end_row = cur - 1 # この案件の最終行
             if end_row > start_row: # 作業内容などで2行以上になった場合
                 # C列 (案件名/作業内容) 以外を縦に結合
-                for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
-                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx + 1)
+                for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
+                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
                     # 結合したセルのスタイルを再適用 (上寄せ)
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
