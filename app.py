@@ -848,7 +848,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
             
             for j in range(len(os)):
-                ws.cell(row=start_row + model, column=7, value=os[j])
+                ws.cell(row=start_row + j, column=7, value=os[j])
             
             # --- 8行目 (言語/ツール・DB/DC) ---
             lang_tool = [s.strip() for s in p.get("lang_tool", "").split("/") if s.strip()]
@@ -858,12 +858,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             db_count = 0
             
             for j in range(len(lang_tool)):
-                ws.cell(row=start_row + model, column=7, value=os[j])
+                ws.cell(row=start_row + j, column=7, value=os[j])
                 lang_count += 1
 
             if lang_tool != db_dc:
                 for j in range(len(db_dc)):
-                    ws.cell(row=start_row + model, column=7, value=os[j])
+                    ws.cell(row=start_row + j + (lang_count + 1), column=7, value=os[j])
                     db_count += 1
 
             cur += lang_count + db_count
