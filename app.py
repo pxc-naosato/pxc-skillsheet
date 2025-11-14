@@ -865,7 +865,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db])
                     db_count += 1
 
-            st.write(cur, lang_count, db_count,lang_count + db_count, cur + lang_count + db_count)
+            st.write(cur, lang_count, db_count, content_count, cur + lang_count + db_count - content_count)
             cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
@@ -876,7 +876,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position",""))
 
             # 空でも4行は確保
-            if lang_count + db_count - content_count < 4:
+            if (lang_count + db_count - content_count) < 4:
                 padding_needed = 4 - (lang_count + db_count - content_count)
                 content_lines.extend([""] * padding_needed)
             
