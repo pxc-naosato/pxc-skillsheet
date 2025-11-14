@@ -653,7 +653,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # テーブルの列数（K列まで）
         TABLE_COLS = 11
         # 作業内容を書き込む列 (C列)
-        COL_PROJECT_NAME = 3
+        COL_PROJECT_NAME = 5
 
         cur = 1 # 現在の行番号
 
@@ -830,6 +830,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if not content_lines:
                 content_lines = ["-"] # 空でも1行は確保
 
+            st.write(content_lines)
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
                 cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
