@@ -827,7 +827,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
              # 空でも4行は確保
             if len(content_lines) < 4:
-                st.write("4より少ない")
                 padding_needed = 4 - len(content_lines)
                 content_lines.extend([""] * padding_needed)
                 
@@ -872,7 +871,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db])
                     db_count += 1
 
-            st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+            #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
 
             # 空でも4行は確保
             for j in range(8): 
