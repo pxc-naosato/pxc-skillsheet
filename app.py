@@ -890,7 +890,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             
             # --- 10行目 (作業工程・役割) ---
             #ws.cell(row=start_row, column=10, value=p.get("work_process_list",""))
-            ws.cell(row=start_row+ 1, column=10, value=p.get("position",""))
+            ws.cell(row=start_row+ 1, column=10, value=p.get("role",""))
 
 
             
