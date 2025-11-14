@@ -845,7 +845,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 cur += 1 # 次の行へ
 
             # --- 7行目 (機種・OS) ---
-            os = p.get("os", "").replace(" / ", "\n")
+            os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
             st.write(os)
             st.write(os[0])
             st.write(os[1])
