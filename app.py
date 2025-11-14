@@ -845,7 +845,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 cur += 1 # 次の行へ
 
             # --- 7行目 (機種・OS) ---
-            industry = re.sub(r"[/\、　]+", "\n", p.get("industry","")).strip
+            industry = p.get("industry","").split("\n")
             ws.cell(row=start_row, column=TABLE_COLS, value=industry[0])
             ws.cell(row=start_row, column=TABLE_COLS, value=industry[1])
 
