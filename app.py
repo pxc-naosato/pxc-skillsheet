@@ -841,9 +841,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 # 作業内容セルを横に結合 (C列からK列まで)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME + 3, end_row=cur, end_column=COL_PROJECT_NAME + 4)
-                
+
+                #--------------------------------------------------------------後で罫線引く範囲を変えろ-------------------------------------------------------------------------
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
-                for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
+                for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=cur, column=c_idx + 1), border=thin_border)
                 
                 cur += 1 # 次の行へ
@@ -889,7 +890,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
             
             # --- 10行目 (作業工程・役割) ---
             #ws.cell(row=start_row, column=10, value=p.get("work_process_list",""))
+            ws.cell(row=start_row+ 1, column=10, value=p.get("position",""))
 
+
+            
             # --- 11行目 (規模・ポジション) ---
             ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale",""))
             ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position",""))                        
