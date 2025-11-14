@@ -845,7 +845,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 cur += 1 # 次の行へ
 
             # --- 7行目 (機種・OS) ---
-            ws.cell(row=start_row, column=6, value=p.get("industry",""))
+            #ws.cell(row=start_row, column=6, value=p.get("industry",""))
             
             # --- 8行目 (言語/ツール・DB/DC) ---
 
