@@ -845,10 +845,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 cur += 1 # 次の行へ
 
             # --- 7行目 (機種・OS) ---
-            industry = p.get("industry","").split("\n")
-            st.write(p.get("industry",""))
-            ws.cell(row=start_row, column=TABLE_COLS, value=industry[0])
-            ws.cell(row=start_row, column=TABLE_COLS, value=industry[1])
+            industry = p.get("industry","")
+            ws.cell(row=start_row, column=TABLE_COLS, value=industry)
+            ws.cell(row=start_row, column=TABLE_COLS, value=industry)
 
             # --- 8行目 (言語/ツール・DB/DC) ---
 
