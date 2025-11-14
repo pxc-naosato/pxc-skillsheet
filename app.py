@@ -868,7 +868,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     db_count += 1
 
             st.write(cur, lang_count, cur - lang_count)
-            cur += cur - (lang_count + db_count)
+            #cur += cur - (lang_count + db_count)
             
             # --- 10行目 (作業工程・役割) ---
 
