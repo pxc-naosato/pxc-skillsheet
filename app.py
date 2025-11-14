@@ -793,7 +793,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         
         cur += 2
 
-        # --- 19行目以降: 案件ループ (テーブル形式) ---
+        # --- 21行目以降: 案件ループ (テーブル形式) ---
         for i, p in enumerate(st.session_state.projects):
             start_row = cur # この案件の開始行を記憶
 
@@ -821,7 +821,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             # 1行目書き込み
             for c_idx, val in enumerate(main_data):
-                cell = ws.cell(row=cur, column=c_idx + 1)
+                cell = ws.cell(row=cur, column=c_idx + 2, value=c_idx)
                 # 1行目は全列に罫線と折り返し、上寄せ
                 style(cell, border=thin_border, align=wrap_text_alignment)
             
@@ -858,7 +858,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 1.3  # 項番
-        ws.column_dimensions["B"].width = 2 # 期間
+        ws.column_dimensions["B"].width = 3 # 期間
         ws.column_dimensions["C"].width = 11.5 # 案件名/作業内容
         ws.column_dimensions["D"].width = 15 # 業種
         ws.column_dimensions["E"].width = 11.5 # OS
