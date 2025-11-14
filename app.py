@@ -797,26 +797,26 @@ if st.button("スキルシートを生成 (Excel形式)"):
         for i, p in enumerate(st.session_state.projects):
             start_row = cur # この案件の開始行を記憶
 
-            # --- 1行目 (メイン情報) ---
-            start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
-            end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
-            delta_txt = ""
-            if p.get("start_date") and p.get("end_date"):
-                days = (p["end_date"] - p["start_date"]).days
-                delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
-
             # 1列目書き込み
             cell = ws.cell(row=start_row, column=2, value=i + 1)
                 
             # 1列目は全列に罫線と折り返し、上寄せ
             style(cell, border=thin_border, align=wrap_text_alignment)
 
+            # --- 2行目 (作業期間) ---
+            start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
+            end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
+            delta_txt = ""
+            if p.get("start_date") and p.get("end_date"):
+                days = (p["end_date"] - p["start_date"]).days
+                delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
             
             style(ws.cell(row=start_row, column=3, value=start_date_str), border=thin_border)
             style(ws.cell(row=start_row + 1, column=3, value="～"), border=thin_border)
             style(ws.cell(row=start_row + 2, column=3, value=end_date_str), border=thin_border)
             style(ws.cell(row=start_row + 3, column=3, value=delta_txt), border=thin_border)
 
+            # --- 3行目 (案件名・業種) ---
             ws.cell(row=start_row, column=4, value=p.get("project_name",""))
             ws.cell(row=start_row + 1, column=4, value=p.get("industry",""))
             
@@ -836,13 +836,27 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 
                 # 作業内容セルを横に結合 (C列からK列まで)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
-
+                ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME + 3, end_row=cur, end_column=COL_PROJECT_NAME + 4)
+                
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=cur, column=c_idx), border=thin_border)
                 
                 cur += 1 # 次の行へ
 
+            # --- 7行目 (機種・OS) ---
+
+
+            # --- 8行目 (言語/ツール・DB/DC) ---
+
+
+            # --- 10行目 (作業工程・役割) ---
+
+
+            # --- 11行目 (規模・ポジション) ---
+            ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale",""))
+            ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position",""))
+            
             # --- この案件の縦セル結合 ---
             end_row = cur - 1 # この案件の最終行
             if end_row > start_row: # 作業内容などで2行以上になった場合
