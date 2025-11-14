@@ -809,7 +809,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             delta_txt = ""
             if p.get("start_date") and p.get("end_date"):
                 days = (p["end_date"] - p["start_date"]).days
-                delta_txt = f"約{round(days/30.4375,1)}ヶ月" if days >= 0 else "（0ヶ月）"
+                delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
             
             style(ws.cell(row=start_row, column=3, value=start_date_str), border=thin_border)
             style(ws.cell(row=start_row + 1, column=3, value="～"), border=thin_border)
@@ -871,7 +871,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db])
                     db_count += 1
 
-            st.write(cur, lang_count, db_count, content_count, lang_count + db_count - content_count)
+            st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
 
             # 空でも4行は確保
             for j in range(8): 
@@ -879,7 +879,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     lang_count += 1
                 else:
                     break
-            
+            st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
             
             cur += lang_count + db_count - content_count
             
