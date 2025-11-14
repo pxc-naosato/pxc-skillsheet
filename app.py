@@ -828,7 +828,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=cur, column=c_idx), border=thin_border)
 
-            cur += 1 # 次の行へ
+                    cur += 1 # 次の行へ
 
             # --- この案件の縦セル結合 ---
             end_row = cur - 1 # この案件の最終行
