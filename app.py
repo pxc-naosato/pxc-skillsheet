@@ -823,8 +823,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
             # --- 4行目 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
             if not content_lines:
-                content_lines = [""] # 空でも1行は確保
+                content_lines = [""]
 
+            # 空でも4行は確保
             if len(content_lines) < 4:
                 padding_needed = 4 - len(content_lines)
                 content_lines.extend([""] * padding_needed)
@@ -859,12 +860,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             
             for lang in range(len(lang_tool)):
                 st.write(lang)
-                ws.cell(row=start_row + lang, column=8, value=os[lang])
+                ws.cell(row=start_row + lang, column=8, value=lang_tool[lang])
                 lang_count += 1
 
             if lang_tool != db_dc:
                 for db in range(len(db_dc)):
-                    ws.cell(row=start_row + db + (lang_count + 1), column=8, value=os[db])
+                    ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db])
                     db_count += 1
 
             cur += lang_count + db_count
