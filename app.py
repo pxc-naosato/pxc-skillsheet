@@ -829,6 +829,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if len(content_lines) < 4:
                 padding_needed = 4 - len(content_lines)
                 content_lines.extend([""] * padding_needed)
+
+            content_count = 0
             
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
@@ -844,6 +846,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     style(ws.cell(row=cur, column=c_idx), border=thin_border)
                 
                 cur += 1 # 次の行へ
+                content_count += 1
 
             # --- 7行目 (機種・OS) ---
             os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
@@ -868,7 +871,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     db_count += 1
 
             st.write(cur, lang_count, db_count,lang_count + db_count, cur + lang_count + db_count)
-            cur += lang_count + db_count - content_lines
+            cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
 
