@@ -874,7 +874,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             st.write(cur, lang_count, db_count, content_count, lang_count + db_count - content_count)
 
             # 空でも4行は確保
-            for j in 8: 
+            for j in range(8): 
                 if (lang_count + db_count - content_count) < 4:
                     lang_count += 1
                 else:
