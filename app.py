@@ -845,10 +845,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 cur += 1 # 次の行へ
 
             # --- 7行目 (機種・OS) ---
-            industry = p.get("industry", "").replace(" / ", "\n")
-            st.write(industry)
-            st.write(industry[0])
-            st.write(industry[1])
+            os = p.get("os", "").replace(" / ", "\n")
+            st.write(os)
+            st.write(os[0])
+            st.write(os[1])
             
             #ws.cell(row=start_row, column=6, value=p.get("industry",""))
             
