@@ -676,9 +676,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 4行目: 1. 個人情報 ---
         rows = [
-            ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y年%m月%d日")),
+            ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d/")),
             ("氏名", st.session_state.pi_name, "性別", st.session_state.pi_gender),
-            ("現住所", st.session_state.pi_address, "稼働可能日", st.session_state.pi_available_date.strftime("%Y年%m月%d日")),
+            ("現住所", st.session_state.pi_address, "稼働可能日", st.session_state.pi_available_date.strftime("%Y/%m/%d")),
             ("最寄駅", st.session_state.pi_nearest_station),
             ("最終学歴", st.session_state.pi_education, ),
         ]
@@ -732,7 +732,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         
         # --- 9行目: 2. 資格 ---        
         qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
-        if not qlist: qlist = ["- なし"]
+        if not qlist: qlist = [""]
         
         for q in qlist:
             style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
