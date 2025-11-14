@@ -848,7 +848,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
             st.write(os)
             
-            for model in len(os):
+            for model in range(len(os)):
                 st.write(os[0])
                 st.write(os[1])
             
