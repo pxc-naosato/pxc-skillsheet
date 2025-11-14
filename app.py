@@ -889,7 +889,21 @@ if st.button("スキルシートを生成 (Excel形式)"):
             cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
-            #ws.cell(row=start_row, column=10, value=p.get("work_process_list",""))
+            REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
+            number_list = []
+            
+            for label in p.get("work_process_list", []):
+                # 逆引きマップに存在するか確認
+                if label in REVERSE_WORK_PROCESS_MAP:
+                    # 存在すれば番号 (e.g. "1") を追加
+                    number_list.append(REVERSE_WORK_PROCESS_MAP[label])
+
+            try:
+                number_list.sort(key=int)
+            except ValueError:
+                number_list.sort() # 万が一数値以外が混じっていたら通常ソート
+                
+            ws.cell(row=start_row, column=10, value=",".join(number_list))
             ws.cell(row=start_row+ 1, column=10, value=p.get("role",""))
 
 
