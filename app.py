@@ -803,7 +803,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             delta_txt = ""
             if p.get("start_date") and p.get("end_date"):
                 days = (p["end_date"] - p["start_date"]).days
-                delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
+                delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
 
             # 1列目書き込み
             cell = ws.cell(row=start_row, column=2, value=i + 1)
@@ -816,8 +816,11 @@ if st.button("スキルシートを生成 (Excel形式)"):
             style(ws.cell(row=start_row + 1, column=3, value="～"), border=thin_border)
             style(ws.cell(row=start_row + 2, column=3, value=end_date_str), border=thin_border)
             style(ws.cell(row=start_row + 3, column=3, value=delta_txt), border=thin_border)
+
+            ws.cell(row=start_row, column=4, value=p.get("project_name",""))
+            ws.cell(row=start_row + 1, column=4, value=p.get("industry",""))
             
-            # --- 2行目以降 (作業内容) ---
+            # --- 4行目 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
             if not content_lines:
                 content_lines = [""] # 空でも1行は確保
