@@ -824,6 +824,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
             if not content_lines:
                 content_lines = [""]
+
+             # 空でも4行は確保
+            if len(content_lines) < 4:
+                st.write("4より少ない")
+                padding_needed = 4 - len(content_lines)
+                content_lines.extend([""] * padding_needed)
                 
             content_count = 0
             
@@ -866,6 +872,15 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     db_count += 1
 
             st.write(cur, lang_count, db_count, content_count, lang_count + db_count - content_count)
+
+            # 空でも4行は確保
+            for j in 8: 
+                if (lang_count + db_count - content_count) < 4:
+                    lang_count += 1
+                else
+                    break
+            
+            
             cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
@@ -873,13 +888,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             # --- 11行目 (規模・ポジション) ---
             ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale",""))
-            ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position",""))
-
-            # 空でも4行は確保
-            if (lang_count + db_count - content_count) < 4:
-                st.write("4より少ない")
-                padding_needed = 4 - (lang_count + db_count - content_count)
-                content_lines.extend([""] * padding_needed)
+            ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position",""))                        
             
             # --- この案件の縦セル結合 ---
             end_row = cur - 1 # この案件の最終行
