@@ -888,8 +888,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
-            ws.cell(row=start_row, column=10, value=p.get("work_process_list",""))
-            st.write(p.get("work_process_list",""))
+            #ws.cell(row=start_row, column=10, value=p.get("work_process_list",""))
 
             # --- 11行目 (規模・ポジション) ---
             ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale",""))
