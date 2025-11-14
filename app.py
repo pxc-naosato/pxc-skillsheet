@@ -783,6 +783,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if i < len(headers):
                 cell = ws.cell(row=cur + row, column=col + 2, value=headers[i])
                 style(cell, font=bold_font, fill=project_title_fill, border=thin_border)
+
+        # フリガナ
+        ws.merge_cells(start_row=cur, start_column=2, end_row=cur + 1, end_column=2)
+        ws.merge_cells(start_row=cur, start_column=5, end_row=cur + 1, end_column=6)
+        ws.merge_cells(start_row=cur, start_column=7, end_row=cur, end_column=8)
+        ws.merge_cells(start_row=cur + 1, start_column=7, end_row=cur + 1, end_column=8)
         
         cur += 2
 
