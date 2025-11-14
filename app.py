@@ -676,7 +676,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 4行目: 1. 個人情報 ---
         rows = [
-            ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d/")),
+            ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d")),
             ("氏名", st.session_state.pi_name, "性別", st.session_state.pi_gender),
             ("現住所", st.session_state.pi_address, "稼働可能日", st.session_state.pi_available_date.strftime("%Y/%m/%d")),
             ("最寄駅", st.session_state.pi_nearest_station),
