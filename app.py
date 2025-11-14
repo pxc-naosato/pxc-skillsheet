@@ -813,7 +813,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             
             style(ws.cell(row=start_row, column=3, value=start_date_str), border=thin_border)
-            style(ws.cell(row=start_row + 1, column=3, value=～), border=thin_border)
+            style(ws.cell(row=start_row + 1, column=3, value="～"), border=thin_border)
             style(ws.cell(row=start_row + 2, column=3, value=end_date_str), border=thin_border)
             style(ws.cell(row=start_row + 3, column=3, value=delta_txt), border=thin_border)
             
