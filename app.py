@@ -798,8 +798,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
             start_row = cur # この案件の開始行を記憶
 
             # --- 1行目 (メイン情報) ---
-            start_date_str = p.get("start_date").strftime("%Y/%m") if p.get("start_date") else ""
-            end_date_str = p.get("end_date").strftime("%Y/%m") if p.get("end_date") else ""
+            start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
+            end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
             delta_txt = ""
             if p.get("start_date") and p.get("end_date"):
                 days = (p["end_date"] - p["start_date"]).days
@@ -819,13 +819,11 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 p.get("scale", ""), # K
             ]
 
-            # 1行目書き込み
-            for c_idx, val in enumerate(main_data):
-                cell = ws.cell(row=cur, column=c_idx + 2, value=c_idx)
-                # 1行目は全列に罫線と折り返し、上寄せ
-                style(cell, border=thin_border, align=wrap_text_alignment)
-            
-            cur += 1 # 次の行へ
+            # 1列目書き込み
+            cell = ws.cell(row=start_row + i, column=2, value=i + 1)
+                
+            # 1列目は全列に罫線と折り返し、上寄せ
+            style(cell, border=thin_border, align=wrap_text_alignment)
 
             # --- 2行目以降 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
