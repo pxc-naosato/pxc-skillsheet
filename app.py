@@ -820,8 +820,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             # --- 2行目以降 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
             if not content_lines:
-                content_lines = ["-"] # 空でも1行は確保
+                content_lines = [""] # 空でも1行は確保
 
+            if len(content_lines) < 3:
+                padding_needed = 3 - len(content_lines)
+                content_lines.extend([""] * padding_needed)
+            
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
                 cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
