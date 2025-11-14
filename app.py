@@ -786,9 +786,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # フリガナ
         ws.merge_cells(start_row=cur, start_column=2, end_row=cur + 1, end_column=2)
+        ws.merge_cells(start_row=cur, start_column=3, end_row=cur + 1, end_column=3)
         ws.merge_cells(start_row=cur, start_column=5, end_row=cur + 1, end_column=6)
-        ws.merge_cells(start_row=cur, start_column=7, end_row=cur, end_column=8)
-        ws.merge_cells(start_row=cur + 1, start_column=7, end_row=cur + 1, end_column=8)
+        ws.merge_cells(start_row=cur, start_column=8, end_row=cur, end_column=9)
+        ws.merge_cells(start_row=cur + 1, start_column=8, end_row=cur + 1, end_column=9)
         
         cur += 2
 
