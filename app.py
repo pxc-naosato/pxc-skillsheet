@@ -844,7 +844,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    style(ws.cell(row=cur, column=c_idx), border=thin_border)
+                    style(ws.cell(row=cur, column=c_idx + 1), border=thin_border)
                 
                 cur += 1 # 次の行へ
                 content_count += 1
@@ -883,12 +883,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 else:
                     break
                     
-            st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+            #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
             
             cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
-
+            ws.cell(row=start_row, column=10, value=p.get("work_process_list",""))
+            st.write(p.get("work_process_list",""))
 
             # --- 11行目 (規模・ポジション) ---
             ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale",""))
