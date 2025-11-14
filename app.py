@@ -841,7 +841,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if end_row > start_row: # 作業内容などで2行以上になった場合
                 # C列 (案件名/作業内容) 以外を縦に結合
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
+                    ws.merge_cells(start_row=start_row, start_column=2, end_row=end_row, end_column=2)
                     # 結合したセルのスタイルを再適用 (上寄せ)
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
