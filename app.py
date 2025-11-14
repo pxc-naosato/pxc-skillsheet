@@ -849,7 +849,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             os_len = len(os)
             
             for model in range(os_len):
-                ws.cell(row=start_row, column=7, value=os[model])
+                ws.cell(row=start_row + model, column=7, value=os[model])
             
             # --- 8行目 (言語/ツール・DB/DC) ---
 
