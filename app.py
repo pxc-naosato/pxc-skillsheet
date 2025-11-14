@@ -684,17 +684,17 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ]
         count = 0
         for row in rows:
-            style(ws.cell(row=cur, column=2, value=row[0]), font=bold_font)
-            style(ws.cell(row=cur, column=4, value=row[1]))
+            style(ws.cell(row=cur, column=2, value=row[0]), font=bold_font, border=thin_border)
+            style(ws.cell(row=cur, column=4, value=row[1]), border=thin_border)
 
             if len(row) == 4 :
                 style(ws.cell(row=cur, column=7, value=row[2]), font=bold_font)
                 
                 if count == 0:
-                    style(ws.cell(row=cur, column=9, value=row[3]))
+                    style(ws.cell(row=cur, column=9, value=row[3]), border=thin_border)
                     count = 1
                 else:
-                    style(ws.cell(row=cur, column=10, value=row[3]))
+                    style(ws.cell(row=cur, column=10, value=row[3]), border=thin_border)
             cur += 1
 
         # フリガナ
@@ -735,7 +735,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         if not qlist: qlist = ["- なし"]
         
         for q in qlist:
-            style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font)
+            style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
             cell = ws.cell(row=cur, column=4, value=f"{q}")
             # 資格欄はテーブル幅(K列)まで結合
             ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
@@ -745,12 +745,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- 11行目: 開発経験サマリ ---
         cell = ws.cell(row=cur, column=2, value="開発経験サマリ")
-        style(cell, font=section_title_font)
+        style(cell, font=section_title_font, border=thin_border)
         cur += 1
         
         # サマリ本文もテーブル幅(K列)まで結合
         ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
-        style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), align=wrap_text_alignment)
+        style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), border=thin_border, align=wrap_text_alignment)
         cur += 2 # 空白行を1つ挟む
 
         # --- 13行目: 作業工程・役割 ---
@@ -765,7 +765,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         
         # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=2, value="業務経歴")
-        style(cell, font=section_title_font)
+        style(cell, font=section_title_font, border=thin_border)
         cur += 1
 
         # --- 18行目: 業務経歴テーブルヘッダ ---
@@ -805,20 +805,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 days = (p["end_date"] - p["start_date"]).days
                 delta_txt = f"（約{round(days/30.4375,1)}ヶ月）" if days >= 0 else "（0ヶ月）"
 
-            main_data = [
-                i + 1, # A
-                f"{start_date_str} ～ {end_date_str} {delta_txt}", # B
-                p.get("project_name", ""), # C
-                p.get("industry", ""), # D
-                p.get("os", ""), # E
-                p.get("lang_tool", ""), # F
-                p.get("db_dc", ""), # G
-                p.get("work_process_str", ""), # H
-                p.get("role", ""), # I
-                p.get("position", ""), # J
-                p.get("scale", ""), # K
-            ]
-
             # 1列目書き込み
             cell = ws.cell(row=start_row + i, column=2, value=i + 1)
                 
@@ -837,7 +823,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 style(cell, border=thin_border, align=wrap_text_alignment)
                 
                 # 作業内容セルを横に結合 (C列からK列まで)
-                ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=TABLE_COLS)
+                #ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=TABLE_COLS)
 
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
@@ -849,8 +835,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
             end_row = cur - 1 # この案件の最終行
             if end_row > start_row: # 作業内容などで2行以上になった場合
                 # C列 (案件名/作業内容) 以外を縦に結合
-                for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx)
+                for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
+                    ws.merge_cells(start_row=start_row, start_column=c_idx, end_row=end_row, end_column=c_idx + 1)
                     # 結合したセルのスタイルを再適用 (上寄せ)
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
