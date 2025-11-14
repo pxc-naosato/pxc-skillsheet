@@ -822,8 +822,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
             if not content_lines:
                 content_lines = [""] # 空でも1行は確保
 
-            if len(content_lines) < 3:
-                padding_needed = 3 - len(content_lines)
+            if len(content_lines) < 4:
+                padding_needed = 4 - len(content_lines)
                 content_lines.extend([""] * padding_needed)
             
             for line in content_lines:
