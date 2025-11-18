@@ -929,13 +929,17 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
 
             for j in range(8):
-                style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')))
-                style(ws.cell(row=end_row, column=3 + j), border=Border(bottom=Side(style='thick')))
+                if j = 0:
+                    style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')))
+                    style(ws.cell(row=end_row, column=3 + j), border=Border(bottom=Side(style='thick')))
+                else:
+                    style(ws.cell(row=start_row, column=3 + j), border=Border(left=Side(style=dashdot_border), right=Side(style=dashdot_border), top=Side(style='thick')))
+                    style(ws.cell(row=end_row, column=3 + j), border=Border(left=Side(style=dashdot_border), right=Side(style=dashdot_border), bottom=Side(style='thick')))
                 
             #style(ws.cell(row=start_row, column=2), border=Border(left=Side(style='thick'), top=Side(style='thick')))
             #style(ws.cell(row=start_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), top=Side(style='thick')))
-            #style(ws.cell(row=end_row, column=2), border=Border(left=Side(style='thick'), bottom=Side(style='thick')))
-            #style(ws.cell(row=end_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), bottom=Side(style='thick')))
+            style(ws.cell(row=end_row, column=2), border=Border(left=Side(style='thick'), bottom=Side(style='thick')))
+            style(ws.cell(row=end_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), bottom=Side(style='thick')))
 
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 1.3  # 項番
