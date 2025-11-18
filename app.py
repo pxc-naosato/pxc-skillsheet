@@ -934,10 +934,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick')))
                 style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
 
-            style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick'), top=Side(style='thick')))
-            style(ws.cell(row=start_row + j, column=2), border=Border(right=Side(style='thick'), top=Side(style='thick')))
-            style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick'), bottom=Side(style='thick')))
-            style(ws.cell(row=start_row + j, column=2), border=Border(right=Side(style='thick'), bottom=Side(style='thick')))
+            style(ws.cell(row=start_row, column=2), border=Border(left=Side(style='thick'), top=Side(style='thick')))
+            style(ws.cell(row=start_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), top=Side(style='thick')))
+            style(ws.cell(row=end_row + 1, column=2), border=Border(left=Side(style='thick'), bottom=Side(style='thick')))
+            style(ws.cell(row=end_row + 1, column=TABLE_COLS), border=Border(right=Side(style='thick'), bottom=Side(style='thick')))
         
 
             #style(ws.cell(row=start_row, column=c_idx + 1),font=work_history_font, border=dashdot_border)
