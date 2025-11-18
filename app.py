@@ -840,7 +840,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
                 cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
-                style(cell,font=dashdot_border, border=thin_border, align=wrap_text_alignment)
+                style(cell, border=dashdot_border, align=wrap_text_alignment)
                 
                 # 作業内容セルを横に結合 (C列からK列まで)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
@@ -920,6 +920,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     style(cell, align=wrap_text_alignment)
 
             for j in range(start_row - end_row):
+                st.write(start_row - end_row, start_row + j)
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=start_row + j, column=c_idx + 1),font=dashdot_border, border=dashdot_border)
