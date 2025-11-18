@@ -930,7 +930,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick')))
                 style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
 
-            #for j in range(2, TABLE_COLS):
+            for j in range(2, TABLE_COLS):
                 style(ws.cell(row=start_row, column=2 + j), border=Border(top=Side(style='thick')))
                 style(ws.cell(row=end_row, column=2 + j), border=Border(bottom=Side(style='thick')))
 
