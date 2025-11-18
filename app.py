@@ -647,7 +647,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
         # 罫線
         thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-        dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=Side(style='dashDot'), bottom=Side(style='dashDot'))
+        dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=None, bottom=None)
         # 折り返し + 上寄せ
         wrap_text_alignment = Alignment(wrapText=True, vertical='top')
 
