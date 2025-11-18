@@ -920,7 +920,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
 
-            style(ws.cell(row=start_row, column=c_idx + 1),font=work_history_font, border=dashdot_border)
             
             for j in range((end_row + 1) - start_row):
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
@@ -928,13 +927,14 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
 
             for j in range((end_row + 1) - start_row):
-                style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick')))
-                style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
+                #style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick')))
+                #style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
 
             for j in range(2, TABLE_COLS):
-                style(ws.cell(row=start_row, column=2 + j), border=Border(top=Side(style='thick')))
-                style(ws.cell(row=end_row, column=2 + j), border=Border(bottom=Side(style='thick')))
+                #style(ws.cell(row=start_row, column=2 + j), border=Border(top=Side(style='thick')))
+                #style(ws.cell(row=end_row, column=2 + j), border=Border(bottom=Side(style='thick')))
 
+            #style(ws.cell(row=start_row, column=c_idx + 1),font=work_history_font, border=dashdot_border)
 
 
         # --- 幅調整 (サンプル形式) ---
