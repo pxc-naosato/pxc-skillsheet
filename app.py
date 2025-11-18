@@ -921,7 +921,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
             for j in range((end_row + 1) - start_row):
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
-                for c_idx in [c for c in range(2, TABLE_COLS) if c != COL_PROJECT_NAME]:
+                for c_idx in [c for c in range(4, TABLE_COLS) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
 
         # --- 幅調整 (サンプル形式) ---
