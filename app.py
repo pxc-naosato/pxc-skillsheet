@@ -647,6 +647,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
         # 罫線
         thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+        dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=Side(style='dashDot'), bottom=Side(style='dashDot'))
         # 折り返し + 上寄せ
         wrap_text_alignment = Alignment(wrapText=True, vertical='top')
 
@@ -724,6 +725,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # 最寄駅
         ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
         ws.merge_cells(start_row=7, start_column=4, end_row=7, end_column=6)
+        ws.merge_cells(start_row=7, start_column=7, end_row=7, end_column=TABLE_COLS)
 
         # 最終学歴
         ws.merge_cells(start_row=8, start_column=2, end_row=8, end_column=3)
@@ -844,7 +846,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 #--------------------------------------------------------------後で罫線引く範囲を変えろ-------------------------------------------------------------------------
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
-                    style(ws.cell(row=cur, column=c_idx + 1), border=thin_border)
+                    style(ws.cell(row=cur, column=c_idx + 1), border=dashdot_border)
                 
                 cur += 1 # 次の行へ
                 content_count += 1
