@@ -919,8 +919,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
 
-            st.write(start_row - end_row, start_row + j)
-            for j in range(start_row - end_row):
+            for j in range(end_row - start_row):
                 st.write(start_row - end_row, start_row + j)
                 # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                 for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
