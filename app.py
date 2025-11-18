@@ -642,7 +642,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # (添付ファイル形式に合わせて、背景色などを調整)
         title_font = Font(size=18, bold=True, color="000080")
         section_title_font = Font(bold=True, size=12) # 背景色なし
-        work_history_font = Font(bold=True, size=9) # 背景色なし
+        work_history_font = Font(bold=False, size=9) # 背景色なし
         bold_font = Font(bold=True, size=10)
         # 業務経歴テーブルヘッダ用の背景色
         project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
@@ -757,13 +757,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
         cur += 2 # 空白行を1つ挟む
 
         # --- 13行目: 作業工程・役割 ---
-        ws.cell(row=cur, column=2, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ")
+        style(ws.cell(row=cur, column=2, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ"), font=work_history_font)
         cur += 1
-        
-        ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他")
+
+        style(ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他"), font=work_history_font)
         cur += 1
-        
-        ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー")
+
+        style(ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー"), font=work_history_font)
         cur += 2 # 空白行を1つ挟む
         
         # --- 17行目: 4. 業務経歴 ---
