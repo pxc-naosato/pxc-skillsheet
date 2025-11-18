@@ -743,6 +743,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         for q in qlist:
             style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
             cell = ws.cell(row=cur, column=4, value=f"{q}")
+            style(cell, border=thin_border)
             # 資格欄はテーブル幅(K列)まで結合
             ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
             ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
@@ -752,6 +753,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # --- 11行目: 開発経験サマリ ---
         cell = ws.cell(row=cur, column=2, value="開発経験サマリ")
         style(cell, font=section_title_font, border=thin_border)
+        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
         cur += 1
         
         # サマリ本文もテーブル幅(K列)まで結合
