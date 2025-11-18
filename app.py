@@ -933,8 +933,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')))
                     style(ws.cell(row=end_row, column=3 + j), border=Border(bottom=Side(style='thick')))
                 else:
-                    style(ws.cell(row=start_row, column=3 + j), border=Border(left=Side(style=dashdot_border), right=Side(style=dashdot_border), top=Side(style='thick')))
-                    style(ws.cell(row=end_row, column=3 + j), border=Border(left=Side(style=dashdot_border), right=Side(style=dashdot_border), bottom=Side(style='thick')))
+                    style(ws.cell(row=start_row, column=3 + j), border=Border(left=dashdot_border, right=dashdot_border, top=Side(style='thick')))
+                    style(ws.cell(row=end_row, column=3 + j), border=Border(left=dashdot_border, right=dashdot_border, bottom=Side(style='thick')))
                 
             #style(ws.cell(row=start_row, column=2), border=Border(left=Side(style='thick'), top=Side(style='thick')))
             #style(ws.cell(row=start_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), top=Side(style='thick')))
