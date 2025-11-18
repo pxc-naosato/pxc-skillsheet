@@ -643,7 +643,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         title_font = Font(size=18, bold=True, color="000080")
         section_title_font = Font(bold=True, size=12) # 背景色なし
         work_history_font = Font(bold=True, size=9) # 背景色なし
-        bold_font = Font(bold=True)
+        bold_font = Font(bold=True, size=10)
         # 業務経歴テーブルヘッダ用の背景色
         project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
         # 罫線
@@ -814,14 +814,14 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 days = (p["end_date"] - p["start_date"]).days
                 delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
             
-            style(ws.cell(row=start_row, column=3, value=start_date_str),font=work_history_font, border=thin_border)
-            style(ws.cell(row=start_row + 1, column=3, value="～"),font=work_history_font, border=thin_border)
-            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=work_history_font, border=thin_border)
-            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=work_history_font, border=thin_border)
+            style(ws.cell(row=start_row, column=3, value=start_date_str),font=bold_font, border=thin_border)
+            style(ws.cell(row=start_row + 1, column=3, value="～"),font=bold_font, border=thin_border)
+            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=bold_font, border=thin_border)
+            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=bold_font, border=thin_border)
 
             # --- 3行目 (案件名・業種) ---
-            ws.cell(row=start_row, column=4, value=p.get("project_name",""))
-            ws.cell(row=start_row + 1, column=4, value=p.get("industry",""))
+            style(ws.cell(row=start_row, column=4, value=p.get("project_name","")), font=work_history_font)
+            style(ws.cell(row=start_row + 1, column=4, value=p.get("industry","")), font=work_history_font)
             
             # --- 4行目 (作業内容) ---
             content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
@@ -856,7 +856,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
             
             for model in range(len(os)):
-                ws.cell(row=start_row + model, column=7, value=os[model])
+                style(ws.cell(row=start_row + model, column=7, value=os[model]), font=work_history_font)
             
             # --- 8行目 (言語/ツール・DB/DC) ---
             lang_tool = [s.strip() for s in p.get("lang_tool", "").split("/") if s.strip()]
@@ -866,12 +866,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
             db_count = 0
             
             for lang in range(len(lang_tool)):
-                ws.cell(row=start_row + lang, column=8, value=lang_tool[lang])
+                style(ws.cell(row=start_row + lang, column=8, value=lang_tool[lang]), font=work_history_font)
                 lang_count += 1
 
             if lang_tool != db_dc:
                 for db in range(len(db_dc)):
-                    ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db])
+                    style(ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db]), font=work_history_font)
                     db_count += 1
 
             #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
@@ -904,15 +904,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 number_list.sort(key=int)
             except ValueError:
                 number_list.sort() # 万が一数値以外が混じっていたら通常ソート
-                
-            ws.cell(row=start_row, column=10, value=",".join(number_list))
-            ws.cell(row=start_row+ 1, column=10, value=p.get("role",""))
 
-
+            style(ws.cell(row=start_row, column=10, value=",".join(number_list)), font=work_history_font)
+            style(ws.cell(row=start_row+ 1, column=10, value=p.get("role","")), font=work_history_font)
             
             # --- 11行目 (規模・ポジション) ---
-            ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale",""))
-            ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position",""))                        
+            style(ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale","")), font=work_history_font)
+            style(ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position","")), font=work_history_font)                        
             
             # --- この案件の縦セル結合 ---
             end_row = cur - 1 # この案件の最終行
