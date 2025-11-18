@@ -642,6 +642,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # (添付ファイル形式に合わせて、背景色などを調整)
         title_font = Font(size=18, bold=True, color="000080")
         section_title_font = Font(bold=True, size=12) # 背景色なし
+        work_history_font = Font(bold=True, size=9) # 背景色なし
         bold_font = Font(bold=True)
         # 業務経歴テーブルヘッダ用の背景色
         project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
@@ -803,7 +804,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             cell = ws.cell(row=start_row, column=2, value=i + 1)
                 
             # 1列目は全列に罫線と折り返し、上寄せ
-            style(cell, border=thin_border, align=wrap_text_alignment)
+            style(cell, font=work_history_font, border=thin_border, align=wrap_text_alignment)
 
             # --- 2行目 (作業期間) ---
             start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
@@ -813,10 +814,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 days = (p["end_date"] - p["start_date"]).days
                 delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
             
-            style(ws.cell(row=start_row, column=3, value=start_date_str), border=thin_border)
-            style(ws.cell(row=start_row + 1, column=3, value="～"), border=thin_border)
-            style(ws.cell(row=start_row + 2, column=3, value=end_date_str), border=thin_border)
-            style(ws.cell(row=start_row + 3, column=3, value=delta_txt), border=thin_border)
+            style(ws.cell(row=start_row, column=3, value=start_date_str),font=work_history_font, border=thin_border)
+            style(ws.cell(row=start_row + 1, column=3, value="～"),font=work_history_font, border=thin_border)
+            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=work_history_font, border=thin_border)
+            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=work_history_font, border=thin_border)
 
             # --- 3行目 (案件名・業種) ---
             ws.cell(row=start_row, column=4, value=p.get("project_name",""))
@@ -837,7 +838,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
             for line in content_lines:
                 # C列 (案件名の真下) に作業内容を書き込む
                 cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
-                style(cell, border=thin_border, align=wrap_text_alignment)
+                style(cell,font=work_history_font, border=thin_border, align=wrap_text_alignment)
                 
                 # 作業内容セルを横に結合 (C列からK列まで)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
