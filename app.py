@@ -925,11 +925,11 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 for c_idx in [c for c in range(3, TABLE_COLS) if c != COL_PROJECT_NAME]:
                     style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
 
-            for j in range((end_row + 1) - start_row)):
+            for j in range((end_row + 1) - start_row):
                 style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick')))
                 style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick'))
 
-            for j in range((end_row + 1) - start_row)):
+            for j in range((end_row + 1) - start_row):
                 style(ws.cell(row=start_row, column=2), border=Border(top=Side(style='thick')))
                 style(ws.cell(row=end_row, column=TABLE_COLS), border=Border(bottom=Side(style='thick')))
 
