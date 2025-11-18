@@ -643,7 +643,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
         title_font = Font(size=18, bold=True, color="000080")
         section_title_font = Font(bold=True, size=12) # 背景色なし
         work_history_font = Font(bold=False, size=9) # 背景色なし
+        numbering_font = Font(bold=False, size=8)
         bold_font = Font(bold=True, size=10)
+        data_font = Font(bold=False, size=10)
         # 業務経歴テーブルヘッダ用の背景色
         project_title_fill = PatternFill(start_color="D3D3D3", end_color="D3D3D3", fill_type="solid")
         # 罫線
@@ -757,13 +759,13 @@ if st.button("スキルシートを生成 (Excel形式)"):
         cur += 2 # 空白行を1つ挟む
 
         # --- 13行目: 作業工程・役割 ---
-        style(ws.cell(row=cur, column=2, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ"), font=work_history_font)
+        style(ws.cell(row=cur, column=2, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ"), font=numbering_font)
         cur += 1
 
-        style(ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他"), font=work_history_font)
+        style(ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他"), font=numbering_font)
         cur += 1
 
-        style(ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー"), font=work_history_font)
+        style(ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー"), font=numbering_font)
         cur += 2 # 空白行を1つ挟む
         
         # --- 17行目: 4. 業務経歴 ---
@@ -814,10 +816,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 days = (p["end_date"] - p["start_date"]).days
                 delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
             
-            style(ws.cell(row=start_row, column=3, value=start_date_str),font=bold_font, border=thin_border)
-            style(ws.cell(row=start_row + 1, column=3, value="～"),font=bold_font, border=thin_border)
-            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=bold_font, border=thin_border)
-            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=bold_font, border=thin_border)
+            style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=thin_border)
+            style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, border=thin_border)
+            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, border=thin_border)
+            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, border=thin_border)
 
             # --- 3行目 (案件名・業種) ---
             style(ws.cell(row=start_row, column=4, value=p.get("project_name","")), font=work_history_font)
@@ -843,11 +845,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 # 作業内容セルを横に結合 (C列からK列まで)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
                 ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME + 3, end_row=cur, end_column=COL_PROJECT_NAME + 4)
-
-                #--------------------------------------------------------------後で罫線引く範囲を変えろ-------------------------------------------------------------------------
-                # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
-                for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
-                    style(ws.cell(row=cur, column=c_idx + 1), border=dashdot_border)
                 
                 cur += 1 # 次の行へ
                 content_count += 1
@@ -922,6 +919,11 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     cell = ws.cell(row=start_row, column=c_idx)
                     style(cell, align=wrap_text_alignment)
 
+            for j in range(start_row - end_row)
+                # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
+                for c_idx in [c for c in range(1, TABLE_COLS) if c != COL_PROJECT_NAME]:
+                    style(ws.cell(row=cur, column=c_idx + 1), border=dashdot_border)
+
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 1.3  # 項番
         ws.column_dimensions["B"].width = 3 # 期間
@@ -932,7 +934,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.column_dimensions["G"].width = 11.5 # DB
         ws.column_dimensions["H"].width = 4.25 # 工程
         ws.column_dimensions["I"].width = 10.25 # 役割
-        ws.column_dimensions["J"].width = 8.6 # ポジション
+        ws.column_dimensions["J"].width = 8.8 # ポジション
         ws.column_dimensions["K"].width = 11 # 規模
 
         ws.row_dimensions[1].height = 43
