@@ -651,6 +651,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # 罫線
         thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
         dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=None, bottom=None)
+        data_border = Border(left=Side(style='thin'), right=Side(style='dashDot'), top=None, bottom=None)
         # 折り返し + 上寄せ
         wrap_text_alignment = Alignment(wrapText=True, vertical='top')
 
@@ -816,10 +817,10 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 days = (p["end_date"] - p["start_date"]).days
                 delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
             
-            style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=thin_border)
-            style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, border=thin_border)
-            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, border=thin_border)
-            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, border=thin_border)
+            style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=data_border)
+            style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, border=data_border)
+            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, border=data_border)
+            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, border=data_border)
 
             # --- 3行目 (案件名・業種) ---
             style(ws.cell(row=start_row, column=4, value=p.get("project_name","")), font=work_history_font)
