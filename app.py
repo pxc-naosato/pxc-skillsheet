@@ -882,14 +882,14 @@ if st.button("スキルシートを生成 (Excel形式)"):
             #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
 
             # 空でも4行は確保
-            for j in range(8): 
-                if (lang_count + db_count - content_count) < 4:
-                    if (lang_count + db_count - content_count) < 0:
-                        lang_count += (lang_count + db_count - content_count) * -1
-                    else:
-                        lang_count -= lang_count + db_count - content_count
+            #for j in range(8): 
+            if (lang_count + db_count - content_count) < 4:
+                if (lang_count + db_count - content_count) < 0:
+                    lang_count += (lang_count + db_count - content_count) * -1
                 else:
-                    break
+                    lang_count -= lang_count + db_count - content_count
+            else:
+                break
                     
             #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
             
@@ -897,29 +897,17 @@ if st.button("スキルシートを生成 (Excel形式)"):
             
             # --- 10行目 (作業工程・役割) ---
             REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
-            number_list = []
             st.write(p.get("work_process_list", []))
-
+            label_count = 0
+            
             for j, label in enumerate(p.get("work_process_list", [])):
                 # 逆引きマップに存在するか確認
                 if label in REVERSE_WORK_PROCESS_MAP:
                     style(ws.cell(row=start_row + j, column=10, value=label), font=work_history_font)
+                    label_count += 1
             
-            #for label in p.get("work_process_list", []):
-                # 逆引きマップに存在するか確認
-            #    if label in REVERSE_WORK_PROCESS_MAP:
-                    # 存在すれば番号 (e.g. "1") を追加
-            #        number_list.append(REVERSE_WORK_PROCESS_MAP[label])
-
-            st.write(number_list)
-
-            try:
-                number_list.sort(key=int)
-            except ValueError:
-                number_list.sort() # 万が一数値以外が混じっていたら通常ソート
-
-            #style(ws.cell(row=start_row, column=10, value=",".join(number_list)), font=work_history_font)
-            style(ws.cell(row=start_row+ 1, column=10, value=p.get("role","")), font=work_history_font)
+            style(ws.cell(row=start_row + label_count, column=10, value=p.get("role","")), font=work_history_font)
+            label_count += 1
             
             # --- 11行目 (規模・ポジション) ---
             style(ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale","")), font=work_history_font)
