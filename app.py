@@ -603,7 +603,8 @@ for i, p in enumerate(st.session_state.projects):
         p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
         p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
         p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
-        p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
+        p["role"] = st.selectbox(f"役割 (案件 {i+1})", ["プロジェクトマネージャー", "プロジェクトリーダー", "サブリーダー",　"システムエンジニア", プログラマー], index=["PM","PL","SPL","SE", "PG"].index(p.get("role","")))
+        #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
         p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
         p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
     p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""))
@@ -969,7 +970,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # --- 幅調整 (サンプル形式) ---
         ws.column_dimensions["A"].width = 1.3  # 項番
         ws.column_dimensions["B"].width = 3 # 期間
-        ws.column_dimensions["C"].width = 11.5 # 案件名/作業内容
+        ws.column_dimensions["C"].width = 13 # 案件名/作業内容
         ws.column_dimensions["D"].width = 15 # 業種
         ws.column_dimensions["E"].width = 11.5 # OS
         ws.column_dimensions["F"].width = 20 # 言語
