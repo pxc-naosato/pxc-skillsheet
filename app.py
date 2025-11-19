@@ -595,16 +595,18 @@ if st.button("新しい案件を追加"):
 roles = ["PM", "PL", "SPL", "SE", "PG"]
 roles_with_name = ["PM プロジェクトマネージャー", "PL プロジェクトリーダー",
                    "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"]
-if p.get("role", "") in roles:
-    idx = roles.index(p.get("role", ""))
-elif p.get("role", "") in roles_with_name:
-    idx = roles_with_name.index(p.get("role", ""))
-else:
-    idx = None
 
 for i, p in enumerate(st.session_state.projects):
     st.subheader(f"案件 {i+1}")
     cols = st.columns(2)
+
+    if p.get("role", "") in roles:
+        idx = roles.index(p.get("role", ""))
+    elif p.get("role", "") in roles_with_name:
+        idx = roles_with_name.index(p.get("role", ""))
+    else:
+        idx = None
+    
     with cols[0]:
         p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
         p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
