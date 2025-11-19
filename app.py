@@ -957,7 +957,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.column_dimensions["G"].width = 11.5 # DB
         ws.column_dimensions["H"].width = 4.25 # 工程
         ws.column_dimensions["I"].width = 10.25 # 役割
-        ws.column_dimensions["J"].width = 8.8 # ポジション
+        ws.column_dimensions["J"].width = 21 # ポジション
         ws.column_dimensions["K"].width = 11 # 規模
 
         ws.row_dimensions[1].height = 43
