@@ -905,7 +905,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 if label in REVERSE_WORK_PROCESS_MAP:
                     # 存在すれば番号 (e.g. "1") を追加
                     number_list.append(REVERSE_WORK_PROCESS_MAP[label])
-                    style(ws.cell(row=start_row, column=10, value=label), font=work_history_font)
+
+            st.write(number_list)
 
             try:
                 number_list.sort(key=int)
