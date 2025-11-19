@@ -899,12 +899,17 @@ if st.button("スキルシートを生成 (Excel形式)"):
             REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
             number_list = []
             st.write(p.get("work_process_list", []))
-            
-            for label in p.get("work_process_list", []):
+
+            for j, label in enumerate(p.get("work_process_list", [])):
                 # 逆引きマップに存在するか確認
                 if label in REVERSE_WORK_PROCESS_MAP:
+                    style(ws.cell(row=start_row + j, column=10, value=label), font=work_history_font)
+            
+            #for label in p.get("work_process_list", []):
+                # 逆引きマップに存在するか確認
+            #    if label in REVERSE_WORK_PROCESS_MAP:
                     # 存在すれば番号 (e.g. "1") を追加
-                    number_list.append(REVERSE_WORK_PROCESS_MAP[label])
+            #        number_list.append(REVERSE_WORK_PROCESS_MAP[label])
 
             st.write(number_list)
 
