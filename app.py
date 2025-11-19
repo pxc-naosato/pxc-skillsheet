@@ -600,7 +600,7 @@ for i, p in enumerate(st.session_state.projects):
     st.subheader(f"案件 {i+1}")
     cols = st.columns(2)
 
-    #st.write(p.get("role", ""))
+    st.write(p.get("role", ""))
     if p.get("role", "") in roles:
         idx = roles.index(p.get("role", ""))
     elif p.get("role", "") in roles_with_name:
