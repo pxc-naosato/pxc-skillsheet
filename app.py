@@ -419,9 +419,12 @@ def parse_projects(df: pd.DataFrame) -> list:
                     cur["dbs"].append(t)
 
         proc_val = cell(r, C_PROC)
-        target_initials = ("項番", "作業期間", "案件名", "作業内容", "機種", "言語/ツール", "作業工程", "規模",
-                            "業種", "OS", "DB/DC", "役割", "ポジション")
+        target_initials = ("調査分析、要件定義", "基本（外部）設計", "詳細（内部）設計",
+                            "コーディング・単体テスト", "IT・ST", "システム運用・保守",
+                            "サーバー構築・運用管理", "DB構築・運用管理", "ネットワーク運用保守",
+                            "ヘルプ・サポート", "その他")
         if proc_val and proc_val.startswith(target_initials):
+            st.write(r, proc_val)
             cur["procs"].append(proc_val)
 
         role_val = cell(r, C_ROLE)
@@ -431,7 +434,6 @@ def parse_projects(df: pd.DataFrame) -> list:
 
         pos_val = cell(r, C_POS)
         if pos_val and (not is_firstline) and not cur["position"]:
-            st.write(r, pos_val)
             cur["position"] = pos_val
 
         scale_val = cell(r, C_SCALE)
