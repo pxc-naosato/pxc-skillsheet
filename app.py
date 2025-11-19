@@ -423,7 +423,8 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["procs"].append(proc_val)
 
         role_val = cell(r, C_ROLE)
-        if role_val and role_val.startswith("P", "S"):
+        target_initials = ("S", "P")
+        if role_val and role_val.startswith(target_initials):
             if (not is_firstline) and not cur["role"]:
                 cur["role"] = role_val
                 st.write(r,role_val)
