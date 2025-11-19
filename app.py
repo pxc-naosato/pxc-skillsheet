@@ -812,7 +812,29 @@ if st.button("スキルシートを生成 (Excel形式)"):
             delta_txt = ""
             if p.get("start_date") and p.get("end_date"):
                 days = (p["end_date"] - p["start_date"]).days
-                delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
+                #delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
+                
+                if days >= 0:
+                    # 全体の月数を計算
+                    total_months = days / 30.4375
+                    
+                    # 年と月に分解
+                    years = int(total_months // 12)      # 年（整数）
+                    months = round(total_months % 12, 1) # 余りの月（小数第1位まで）
+
+                    # 四捨五入で月が「12.0ヶ月」になった場合は、1年に繰り上げる
+                    if months == 12:
+                        years += 1
+                        months = 0
+
+                    if years > 0:
+                        # 1年以上の場合（例: 約2年3.5ヶ月）
+                        delta_txt = f"（約{years}年{months}ヶ月）"
+                    else:
+                        # 1年未満の場合（例: 約6.5ヶ月）
+                        delta_txt = f"（約{months}ヶ月）"
+                else:
+                    delta_txt = "（0ヶ月）"
             
             style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=data_border)
             style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, border=data_border)
