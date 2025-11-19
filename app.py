@@ -295,9 +295,8 @@ def parse_projects(df: pd.DataFrame) -> list:
         proc_labels = []
         for s in cur["procs"]:
             s_raw = s.strip()
-            
+            st.write(s_raw,looks_like_proc_codes(s_raw)
             if looks_like_proc_codes(s_raw):
-                st.write(s_raw)
                 s_normalized = s_raw.translate(str.maketrans({
                     # 全角数字 -> 半角数字
                     '０': '0', '１': '1', '２': '2', '３': '3', '４': '4',
