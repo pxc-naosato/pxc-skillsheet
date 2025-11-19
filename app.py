@@ -297,7 +297,6 @@ def parse_projects(df: pd.DataFrame) -> list:
             s_raw = s.strip()
             
             if looks_like_proc_codes(s_raw):
-                st.write("こっちじゃないよ")
                 s_normalized = s_raw.translate(str.maketrans({
                     # 全角数字 -> 半角数字
                     '０': '0', '１': '1', '２': '2', '３': '3', '４': '4',
@@ -343,7 +342,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                 #        proc_labels.append(WORK_PROCESS_MAP[k])
         else:
             for key, label_name in WORK_PROCESS_MAP.items():
-                st.write(label_name, ":", s_raw, label_name == s_raw)
+                st.write(label_name, ":", s_raw, " ", s, label_name == s_raw)
                 if label_name == s_raw:
                     proc_labels.append(label_name)
     
