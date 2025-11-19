@@ -422,10 +422,10 @@ def parse_projects(df: pd.DataFrame) -> list:
         if proc_val and is_firstline:
             cur["procs"].append(proc_val)
 
-        st.write(range(subheader_r + 1, df.shape[0]))
         role_val = cell(r, C_ROLE)
         if role_val and (not is_firstline):
             cur["role"] = role_val
+            st.write(r,role_val)
 
         pos_val = cell(r, C_POS)
         if pos_val and (not is_firstline) and not cur["position"]:
