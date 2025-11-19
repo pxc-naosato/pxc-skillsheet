@@ -603,8 +603,10 @@ for i, p in enumerate(st.session_state.projects):
         p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
         p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
         p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
-        p["role"] = st.selectbox(f"役割 (案件 {i+1})", ["プロジェクトマネージャー", "プロジェクトリーダー", "サブリーダー", "システムエンジニア", "プログラマー"],
-                    index=["PM","PL","SPL","SE", "PG"].index(p.get("role","")) if p.get("role","") in ["PM","PL","SPL","SE", "PG"] else None)
+        p["role"] = st.selectbox(f"役割 (案件 {i+1})", ["PM プロジェクトマネージャー", "PL プロジェクトリーダー", "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"], index=["PM","PL","SPL","SE", "PG"].index(p.get("role","")) 
+                    if p.get("role","") in ["PM","PL","SPL","SE","PG"] 
+                    else if p.get("role","") in ["PM プロジェクトマネージャー", "PL プロジェクトリーダー", "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"] 
+                    else None)
         #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
         p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
         p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
