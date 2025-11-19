@@ -768,6 +768,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
         style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), border=thin_border, align=wrap_text_alignment)
         cur += 2 # 空白行を1つ挟む
+
+        ws.merge_cells(start_row=cur - 1, start_column=2, end_row=cur - 1, end_column=TABLE_COLS)
+        style(ws.cell(row=cur - 1, column=2), border=thin_border)
         
         # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=2, value="業務経歴")
