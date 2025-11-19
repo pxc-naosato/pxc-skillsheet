@@ -663,7 +663,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
         cur = 1 # 現在の行番号
 
         # --- 1行目: 空白 ---
-        # ユーザーの指示「A行は何も入れず開けておいてください」を「1行目」と解釈
         cur += 1 # 2行目からスタート
 
         # --- ヘルパー関数 ---
@@ -709,6 +708,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # 生年月日
         ws.merge_cells(start_row=4, start_column=7, end_row=4, end_column=8)
         ws.merge_cells(start_row=4, start_column=9, end_row=4, end_column=10)
+        style(ws.cell(row=4, column=11), border=thin_border)
         
         # 氏名
         ws.merge_cells(start_row=5, start_column=2, end_row=5, end_column=3)
@@ -730,6 +730,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
         ws.merge_cells(start_row=7, start_column=4, end_row=7, end_column=6)
         ws.merge_cells(start_row=7, start_column=7, end_row=7, end_column=TABLE_COLS)
+        style(ws.cell(row=7, column=7), border=thin_border)
 
         # 最終学歴
         ws.merge_cells(start_row=8, start_column=2, end_row=8, end_column=3)
@@ -748,6 +749,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
             ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
             ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
             cur += 1
+
+        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
+        style(ws.cell(row=cur, column=2), border=thin_border)
         cur += 1 # 空白行
 
         # --- 11行目: 開発経験サマリ ---
@@ -774,6 +778,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=2, value="業務経歴")
         style(cell, font=section_title_font, border=thin_border)
+        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
         cur += 1
 
         # --- 18行目: 業務経歴テーブルヘッダ ---
