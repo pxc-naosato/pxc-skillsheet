@@ -911,7 +911,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 if label in REVERSE_WORK_PROCESS_MAP:
                     style(ws.cell(row=start_row + j, column=10, value=label), font=work_history_font)
                     label_count += 1
-            
+
+            st.write(p.get("role",""))
             style(ws.cell(row=start_row + label_count, column=10, value=p.get("role","")), font=work_history_font)
             label_count += 1
 
@@ -924,7 +925,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     lang_count -= lang_count + db_count - content_count
                 
 
-            st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+            #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
 
             if (lang_count + db_count - content_count) < (label_count - content_count):
                 cur += label_count - content_count
