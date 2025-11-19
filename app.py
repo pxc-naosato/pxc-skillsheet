@@ -908,7 +908,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
                 st.write(j, lang_count)
                 
 
-            #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+            st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
             
             cur += lang_count + db_count - content_count
 
