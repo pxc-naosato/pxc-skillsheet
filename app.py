@@ -297,6 +297,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             s_raw = s.strip()
             
             if looks_like_proc_codes(s_raw):
+                st.write("こっちじゃないよ")
                 s_normalized = s_raw.translate(str.maketrans({
                     # 全角数字 -> 半角数字
                     '０': '0', '１': '1', '２': '2', '３': '3', '４': '4',
