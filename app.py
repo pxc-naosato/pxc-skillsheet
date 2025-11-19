@@ -591,6 +591,17 @@ st.session_state.pi_summary = st.text_area("自由記述", value=st.session_stat
 st.header("業務経歴")
 if st.button("新しい案件を追加"):
     st.session_state.projects.append({})
+
+roles = ["PM", "PL", "SPL", "SE", "PG"]
+roles_with_name = ["PM プロジェクトマネージャー", "PL プロジェクトリーダー",
+                   "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"]
+if p.get("role", "") in roles:
+    idx = roles.index(p.get("role", ""))
+elif p.get("role", "") in roles_with_name:
+    idx = roles_with_name.index(p.get("role", ""))
+else:
+    idx = None
+
 for i, p in enumerate(st.session_state.projects):
     st.subheader(f"案件 {i+1}")
     cols = st.columns(2)
@@ -603,10 +614,7 @@ for i, p in enumerate(st.session_state.projects):
         p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
         p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
         p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
-        p["role"] = st.selectbox(f"役割 (案件 {i+1})", ["PM プロジェクトマネージャー", "PL プロジェクトリーダー", "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"], index=["PM","PL","SPL","SE", "PG"].index(p.get("role","")) 
-                    if p.get("role","") in ["PM","PL","SPL","SE","PG"] 
-                    elif p.get("role","") in ["PM プロジェクトマネージャー", "PL プロジェクトリーダー", "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"] 
-                    else None)
+        p["role"] = st.selectbox(f"役割 (案件 {i+1})", roles_with_name, index=idx)
         #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
         p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
         p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
