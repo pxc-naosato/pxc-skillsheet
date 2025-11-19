@@ -421,7 +421,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         proc_val = cell(r, C_PROC)
         target_initials = ("項番", "作業期間", "案件名", "作業内容", "機種", "言語/ツール", "作業工程", "規模",
                             "業種", "OS", "DB/DC", "役割", "ポジション")
-        if proc_val and role_val.startswith(target_initials):
+        if proc_val and proc_val.startswith(target_initials):
             cur["procs"].append(proc_val)
 
         role_val = cell(r, C_ROLE)
