@@ -343,7 +343,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         else:
             for key, label_name in WORK_PROCESS_MAP.items():
                 st.write(key)
-                if key == str(s):
+                if label_name == str(s):
                     proc_labels.append(label_name)
     
 
