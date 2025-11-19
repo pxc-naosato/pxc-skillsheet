@@ -429,7 +429,8 @@ def parse_projects(df: pd.DataFrame) -> list:
                             "サーバー構築・運用管理", "DB構築・運用管理", "ネットワーク運用保守",
                             "ヘルプ・サポート", "その他"
                             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
-        if proc_val and proc_val.startswith(target_initials):
+        if proc_val and is_firstline:
+        #if proc_val and proc_val.startswith(target_initials):
             #st.write(r, proc_val)
             cur["procs"].append(proc_val)
 
