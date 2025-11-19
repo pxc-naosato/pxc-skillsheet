@@ -295,7 +295,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         proc_labels = []
         for s in cur["procs"]:
             s_raw = s.strip()
-            st.write(s_raw,looks_like_proc_codes(s_raw))
+            st.write(s,looks_like_proc_codes(s_raw))
             if looks_like_proc_codes(s_raw):
                 s_normalized = s_raw.translate(str.maketrans({
                     # 全角数字 -> 半角数字
@@ -611,7 +611,6 @@ for i, p in enumerate(st.session_state.projects):
     st.subheader(f"案件 {i+1}")
     cols = st.columns(2)
 
-    st.write(p.get("role", ""))
     if p.get("role", "") in roles:
         idx = roles.index(p.get("role", ""))
     elif p.get("role", "") in roles_with_name:
