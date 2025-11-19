@@ -882,15 +882,15 @@ if st.button("スキルシートを生成 (Excel形式)"):
             #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
 
             # 空でも4行は確保
-            #for j in range(8): 
-            if (lang_count + db_count - content_count) < 4:
-                if (lang_count + db_count - content_count) < 0:
-                    lang_count += (lang_count + db_count - content_count) * -1
+            for j in range(8):
+                if (lang_count + db_count - content_count) < 4:
+                    if (lang_count + db_count - content_count) < 0:
+                        lang_count += (lang_count + db_count - content_count) * -1
+                    else:
+                        lang_count -= lang_count + db_count - content_count
                 else:
-                    lang_count -= lang_count + db_count - content_count
-            else:
-                break
-                    
+                    break
+
             #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
             
             cur += lang_count + db_count - content_count
