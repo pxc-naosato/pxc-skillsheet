@@ -880,24 +880,9 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     db_count += 1
 
             #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
-
-            # 空でも4行は確保
-            for j in range(8):
-                if (lang_count + db_count - content_count) < 4:
-                    if (lang_count + db_count - content_count) < 0:
-                        lang_count += (lang_count + db_count - content_count) * -1
-                    else:
-                        lang_count -= lang_count + db_count - content_count
-                else:
-                    break
-
-            #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
-            
-            cur += lang_count + db_count - content_count
             
             # --- 10行目 (作業工程・役割) ---
             REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
-            st.write(p.get("work_process_list", []))
             label_count = 0
             
             for j, label in enumerate(p.get("work_process_list", [])):
@@ -908,6 +893,25 @@ if st.button("スキルシートを生成 (Excel形式)"):
             
             style(ws.cell(row=start_row + label_count, column=10, value=p.get("role","")), font=work_history_font)
             label_count += 1
+
+            # 空でも4行は確保
+            for j in range(8):
+                # 行数が4以下だったら
+                if (lang_count + db_count - content_count) < 4:
+                    # 値が「-」だったら
+                    if (lang_count + db_count - content_count) < 0:
+                        lang_count += (lang_count + db_count - content_count) * -1
+                    else:
+                        lang_count -= lang_count + db_count - content_count
+                else:
+                    break
+                st.write(j, lang_count)
+                
+
+            #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+            
+            cur += lang_count + db_count - content_count
+
             
             # --- 11行目 (規模・ポジション) ---
             style(ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale","")), font=work_history_font)
