@@ -431,6 +431,7 @@ def parse_projects(df: pd.DataFrame) -> list:
 
         pos_val = cell(r, C_POS)
         if pos_val and (not is_firstline) and not cur["position"]:
+            st.write(r, pos_val)
             cur["position"] = pos_val
 
         scale_val = cell(r, C_SCALE)
