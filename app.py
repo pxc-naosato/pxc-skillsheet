@@ -640,18 +640,21 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
         # --- スタイル定義 ---
         # (添付ファイル形式に合わせて、背景色などを調整)
-        title_font = Font(size=18, bold=True, color="000080")
+        title_font = Font(size=24, bold=True)
         section_title_font = Font(bold=True, size=12) # 背景色なし
         work_history_font = Font(bold=False, size=9) # 背景色なし
         numbering_font = Font(bold=False, size=8)
         bold_font = Font(bold=True, size=10)
         data_font = Font(bold=False, size=10)
+        
         # 業務経歴テーブルヘッダ用の背景色
         project_title_fill = PatternFill(fgColor="D3D3D3", fill_type="solid")
+        
         # 罫線
         thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
         dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=None, bottom=None)
         data_border = Border(left=Side(style='thin'), right=Side(style='dashDot'), top=None, bottom=None)
+        
         # 折り返し + 上寄せ
         wrap_text_alignment = Alignment(wrapText=True, vertical='top')
         center_text_alignment = Alignment(horizontal = 'center', vertical = 'center')
@@ -830,12 +833,12 @@ if st.button("スキルシートを生成 (Excel形式)"):
 
                     if years > 0:
                         # 1年以上の場合（例: 約2年3.5ヶ月）
-                        delta_txt = f"(約{years}年{months}ヶ月)"
+                        delta_txt = f"約{years}年{months}ヶ月"
                     else:
                         # 1年未満の場合（例: 約6.5ヶ月）
-                        delta_txt = f"(約{months}ヶ月)"
+                        delta_txt = f"約{months}ヶ月"
                 else:
-                    delta_txt = "(0ヶ月)"
+                    delta_txt = "0ヶ月"
             
             style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=data_border)
             style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, align=center_text_alignment, border=data_border)
