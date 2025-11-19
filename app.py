@@ -767,7 +767,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         
         # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=2, value="業務経歴")
-        style(cell, font=section_title_font, border=thin_border)
+        style(cell, font=section_title_font, fill=project_title_fill, border=thin_border)
         ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
         cur += 1
 
