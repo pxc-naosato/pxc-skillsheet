@@ -764,16 +764,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
         style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), border=thin_border, align=wrap_text_alignment)
         cur += 2 # 空白行を1つ挟む
-
-        # --- 13行目: 作業工程・役割 ---
-        style(ws.cell(row=cur, column=2, value="業務内容：１．調査分析、要件定義  ２：基本（外部）設計　３．詳細（内部）設計　４．ｺｰﾃﾞｨﾝｸﾞ・単体ﾃｽﾄ　5．ＩＴ・ＳＴ"), font=numbering_font)
-        cur += 1
-
-        style(ws.cell(row=cur, column=2, value="6.システム運用・保守　7．サーバー構築・運用管理　8．DB構築・運用管理　9．ネットワーク運用保守　10．ヘルプ・サポート 11．その他"), font=numbering_font)
-        cur += 1
-
-        style(ws.cell(row=cur, column=2, value="参加形態：（PM)プロジェクトマネージャー　（PL)プロジェクトリーダー　（SPL）サブリーダー　（SE）システムエンジニア （PG）プログラマー"), font=numbering_font)
-        cur += 2 # 空白行を1つ挟む
         
         # --- 17行目: 4. 業務経歴 ---
         cell = ws.cell(row=cur, column=2, value="業務経歴")
@@ -957,7 +947,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.column_dimensions["G"].width = 11.5 # DB
         ws.column_dimensions["H"].width = 4.25 # 工程
         ws.column_dimensions["I"].width = 10.25 # 役割
-        ws.column_dimensions["J"].width = 21 # ポジション
+        ws.column_dimensions["J"].width = 22 # ポジション
         ws.column_dimensions["K"].width = 11 # 規模
 
         ws.row_dimensions[1].height = 43
