@@ -684,6 +684,8 @@ if st.button("スキルシートを生成 (Excel形式)"):
         ws.merge_cells('B2:K3')
         cur += 2 # 3行目は空白、4行目から
 
+        st.write(st.session_state.projects.get("role",""))
+        
         # --- 4行目: 1. 個人情報 ---
         rows = [
             ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d")),
@@ -932,8 +934,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
             else:
                 cur += lang_count + db_count - content_count
                 
-
-            
             # --- 11行目 (規模・ポジション) ---
             style(ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale","")), font=work_history_font)
             style(ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position","")), font=work_history_font)                        
