@@ -342,8 +342,8 @@ def parse_projects(df: pd.DataFrame) -> list:
                 #        proc_labels.append(WORK_PROCESS_MAP[k])
         else:
             for key, label_name in WORK_PROCESS_MAP.items():
+                st.write(label_name)
                 if s.startswith(key):
-                    st.write(label_name)
                     proc_labels.append(label_name)
     
 
@@ -430,7 +430,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                             "サーバー構築・運用管理", "DB構築・運用管理", "ネットワーク運用保守",
                             "ヘルプ・サポート", "その他")
         if proc_val and proc_val.startswith(target_initials):
-            st.write(r, proc_val)
+            #st.write(r, proc_val)
             cur["procs"].append(proc_val)
 
         role_val = cell(r, C_ROLE)
