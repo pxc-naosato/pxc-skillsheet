@@ -295,7 +295,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         proc_labels = []
         for s in cur["procs"]:
             s_raw = s.strip()
-            
+            st.write(s_raw)
             if looks_like_proc_codes(s_raw):
                 s_normalized = s_raw.translate(str.maketrans({
                     # 全角数字 -> 半角数字
@@ -425,7 +425,6 @@ def parse_projects(df: pd.DataFrame) -> list:
         role_val = cell(r, C_ROLE)
         target_initials = ("S", "P")
         if role_val and role_val.startswith(target_initials):
-            st.write(r,role_val)
             cur["role"] = role_val
 
         pos_val = cell(r, C_POS)
