@@ -424,7 +424,7 @@ def parse_projects(df: pd.DataFrame) -> list:
 
         role_val = cell(r, C_ROLE)
         if role_val and role_val.startswith("P", "S"):
-            if role_val and (not is_firstline) and not cur["role"]:
+            if (not is_firstline) and not cur["role"]:
                 cur["role"] = role_val
                 st.write(r,role_val)
 
