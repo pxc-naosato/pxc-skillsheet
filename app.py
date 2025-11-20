@@ -153,7 +153,7 @@ def _collect_rightward_values(df: pd.DataFrame, r: int, c: int, max_cols: int = 
             if empties_seen >= 3 and vals:
                 break
 
-    st.write(dc,"：", max_cols , s)
+    st.write(dc,"：", max_cols , safe_str(df.iloc[r, cc]))
     return vals
 
 def read_personal(df: pd.DataFrame):
