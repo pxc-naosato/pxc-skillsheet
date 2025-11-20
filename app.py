@@ -418,7 +418,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                 st.write("言語:",lang_val,"：", t)
                 if t:
                     cur["langs"].append(t)
-        else
+        else:
             judge = True
         
         db_val = cell(r, C_DB)
