@@ -989,7 +989,7 @@ def ai_impr():
 
                 for j in range(8):
                     if j == 0:
-                        style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')))
+                        style(ws.cell(row=start_row, column=3 + j), align=center_text_alignment, border=Border(top=Side(style='thick')))
                         style(ws.cell(row=end_row, column=3 + j), border=Border(bottom=Side(style='thick')))
                     else:
                         style(ws.cell(row=start_row, column=3 + j), border=Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=Side(style='thick')))
