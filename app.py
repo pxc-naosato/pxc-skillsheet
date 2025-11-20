@@ -424,7 +424,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         db_val = cell(r, C_DB)
         if db_val:
             for t in re.split(r"[、,/\n]+", db_val):
-            t = t.strip().lstrip("-・").strip()
+                t = t.strip().lstrip("-・").strip()
                 st.write("db:",db_val,"：", t)
                 if t:
                     cur["dbs"].append(t)
