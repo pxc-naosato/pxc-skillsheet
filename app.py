@@ -598,7 +598,7 @@ def basic_info():
         st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date)
         st.session_state.pi_gender = st.selectbox("性別", ["未選択","男性","女性","その他"], index=["未選択","男性","女性","その他"].index(st.session_state.pi_gender))
         st.session_state.pi_available_date = st.date_input("稼働可能日", st.session_state.pi_available_date)
-        st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
+        st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education, placeholder="例：某大学　情報学部")
 
     st.subheader("情報処理資格")
     st.session_state.pi_qualifications_input = st.text_area("自由記述", value=st.session_state.pi_qualifications_input,
@@ -632,17 +632,17 @@ def business_history():
         with cols[0]:
             p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
             p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
-            p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""))
-            p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""))
+            p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""), placeholder="大手通信業者システム")
+            p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""), placeholder="例：運用・保守")
         with cols[1]:
-            p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
-            p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
-            p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
+            p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""), placeholder="例：RHEL8")
+            p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""), placeholder="例：RDS")
+            p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""), placeholder="例：AWS、Python")
             p["role"] = st.selectbox(f"役割 (案件 {i+1})", roles_with_name, index=idx)
             #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
-            p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
-            p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
-        p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""))
+            p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""), placeholder="例：メンバー")
+            p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""), placeholder="例：3人")
+        p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""), placeholder="例：・障害対応")
         selected = st.multiselect(
             f"作業工程 (案件 {i+1})",
             options=list(WORK_PROCESS_MAP.keys()),
