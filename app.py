@@ -411,23 +411,23 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["oss"].append(os_val)
 
         lang_val = cell(r, C_LANG)
-        if lang_val and judge == False:
+        if lang_val :
+            st.write("言語:",lang_val,"：", t)
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
                 st.write("言語:",lang_val,"：", t)
                 if t:
                     cur["langs"].append(t)
-        else:
-            judge = True
+        
 
-        if judge == True:
-            db_val = cell(r, C_DB)
-            if db_val:
-                for t in re.split(r"[、,/\n]+", db_val):
-                    t = t.strip().lstrip("-・").strip()
-                    st.write("db:",db_val,"：", t)
-                    if t:
-                        cur["dbs"].append(t)
+        
+        db_val = cell(r, C_DB)
+        if db_val:
+            for t in re.split(r"[、,/\n]+", db_val):
+            t = t.strip().lstrip("-・").strip()
+                st.write("db:",db_val,"：", t)
+                if t:
+                    cur["dbs"].append(t)
 
         proc_val = cell(r, C_PROC)
         target_initials = ("調査分析、要件定義", "基本（外部）設計", "詳細（内部）設計",
