@@ -214,7 +214,7 @@ def read_personal(df: pd.DataFrame):
         if not vals:
             # 行内に見つからない場合は、下方向（次の5行）で右側の値を探索
             for rr in range(r+1, min(r+6, df.shape[0])):
-                vals.extend(_collect_rightward_values(df, rr, c, max_cols=12))
+                vals.extend(_collect_rightward_values(df, rr, c, max_cols=2))
         result["qualification"] = "\n".join([safe_str(v) for v in vals if safe_str(v)])
     return result
 
