@@ -428,7 +428,8 @@ def parse_projects(df: pd.DataFrame) -> list:
                             "コーディング・単体テスト", "IT・ST", "システム運用・保守",
                             "サーバー構築・運用管理", "DB構築・運用管理", "ネットワーク運用保守",
                             "ヘルプ・サポート", "その他",
-                            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
+                            "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11",
+                            "１", "２", "３", "４", "５", "６", "７", "８", "９", "１０", "１１")
         #if proc_val and is_firstline:
         if proc_val and proc_val.startswith(target_initials):
             #st.write(r, proc_val)
