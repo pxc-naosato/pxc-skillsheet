@@ -606,7 +606,7 @@ def basic_info():
 def deve_expe():
     st.subheader("開発経験サマリ")
     st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, 
-                                  placeholder="例：\n経験年数\n使用してきた技術(言語、フレームワーク、クラウドなど)\n役割(要件定義、基本設計、実装、運用など)\n実績・得意分野", height=160)
+                                  placeholder="例：\n経験年数\n使用してきた技術(言語、フレームワーク、クラウドなど)\n役割(要件定義、基本設計、実装、運用など)\n実績・得意分野", height=175)
 
 def business_history():
     st.header("業務経歴")
