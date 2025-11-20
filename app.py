@@ -146,14 +146,13 @@ def _collect_rightward_values(df: pd.DataFrame, r: int, c: int, max_cols: int = 
         s = safe_str(df.iloc[r, cc])
         if s:
             vals.append(s)
+            st.write(dc, vals)
             empties_seen = 0
         else:
             empties_seen += 1
             # 空セルが2～3個連続したら打ち切り（適度に早期終了）
             if empties_seen >= 3 and vals:
                 break
-
-    st.write(dc,"：", max_cols , safe_str(df.iloc[r, cc]))
     return vals
 
 def read_personal(df: pd.DataFrame):
