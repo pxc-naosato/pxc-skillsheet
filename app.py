@@ -360,8 +360,6 @@ def parse_projects(df: pd.DataFrame) -> list:
             "position": cur["position"] or "",
             "scale": cur["scale"] or "",
         })
-
-    judge = False
     
     for r in range(subheader_r + 1, df.shape[0]):
         idv = cell(r, C_ID)
@@ -382,6 +380,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                 "role": "",
                 "position": "",
                 "scale": "",
+                "judge": False,
             }
 
         if not cur:
@@ -411,21 +410,20 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["oss"].append(os_val)
 
         lang_val = cell(r, C_LANG)
-        if lang_val is not "" and judge == False:
+        if lang_val is not "" and cur["judge"] == False:
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
                 if t:
                     cur["langs"].append(t)
         else:
-            judge = True
+            cur["judge"] = True
         
         db_val = cell(r, C_DB)
-        if db_val and judge == True:
+        if db_val and cur["judge"] == True:
             for t in re.split(r"[、,/\n]+", db_val):
                 t = t.strip().lstrip("-・").strip()
                 if t:
                     cur["dbs"].append(t)
-                    judge = False
 
         proc_val = cell(r, C_PROC)
         target_initials = ("調査分析、要件定義", "基本（外部）設計", "詳細（内部）設計",
