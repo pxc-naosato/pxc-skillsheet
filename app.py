@@ -409,18 +409,18 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["oss"].append(os_val)
 
         lang_val = cell(r, C_LANG)
-        st.write("言語:",lang_val)
         if lang_val:
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
+                st.write("言語:",lang_val,"：", t)
                 if t:
                     cur["langs"].append(t)
 
         db_val = cell(r, C_DB)
-        st.write("db:",db_val)
         if db_val:
             for t in re.split(r"[、,/\n]+", db_val):
                 t = t.strip().lstrip("-・").strip()
+                st.write("db:",db_val,"：", t)
                 if t:
                     cur["dbs"].append(t)
 
@@ -638,8 +638,8 @@ def business_history():
             p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""), placeholder="例：運用・保守")
         with cols[1]:
             p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""), placeholder="例：RHEL8")
-            p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""), placeholder="例：RDS")
             p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""), placeholder="例：AWS、Python")
+            p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""), placeholder="例：RDS")
             p["role"] = st.selectbox(f"役割 (案件 {i+1})", roles_with_name, index=idx)
             #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
             p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""), placeholder="例：メンバー")
