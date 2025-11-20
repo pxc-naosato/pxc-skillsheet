@@ -526,7 +526,7 @@ def enhance_with_ai_callback():
             if p.get("work_content"):
                 prompt2 = dedent("""
                     あなたは経験豊富なキャリアアドバイザーです。以下の「作業内容」を、
-                    実績が伝わる箇条書きに整えてください。出力は本文のみ。
+                    実績が簡潔に伝わるように箇条書きに整えてください。出力は本文のみ。
                 """) + "\n" + p["work_content"]
                 st.session_state.projects[i]["work_content"] = model.generate_content(prompt2).text
         st.success("AIで文章を整形しました。")
