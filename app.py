@@ -936,7 +936,7 @@ def ai_impr():
                         style(ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db]), font=work_history_font)
                         db_count += 1
 
-                #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+                st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
             
                 # --- 10行目 (作業工程・役割) ---
                 REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
