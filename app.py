@@ -412,7 +412,6 @@ def parse_projects(df: pd.DataFrame) -> list:
 
         lang_val = cell(r, C_LANG)
         if lang_val is not "" and judge == False:
-            st.write("言語:",lang_val,"：")
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
                 st.write("言語:",lang_val,"：", t)
@@ -422,7 +421,6 @@ def parse_projects(df: pd.DataFrame) -> list:
             judge = True
         
         db_val = cell(r, C_DB)
-        st.write("db:",db_val,"：",judge)
         if db_val and judge == True:
             for t in re.split(r"[、,/\n]+", db_val):
                 t = t.strip().lstrip("-・").strip()
