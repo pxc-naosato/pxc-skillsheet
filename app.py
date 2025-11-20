@@ -575,6 +575,10 @@ st.set_page_config(page_title="スキルシート自動入力＆Gemini要約ア�
 st.title("スキルシート自動入力＆Gemini要約アプリ")
 st.caption("経歴書Excelファイルをアップロードしてください")
 
+with st.sidebar:
+    st.header("📂 サイドメニュー")
+    page = st.radio("ページ選択", ["ホーム", "基本情報", "開発経験サマリ", "業務履歴", "AIによる改善"])
+    
 uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
     type=["xlsx", "csv"],
@@ -582,437 +586,455 @@ uploaded_file = st.file_uploader(
     on_change=load_from_excel_callback
 )
 
-st.header("個人情報")
-cols = st.columns(2)
-with cols[0]:
-    st.session_state.pi_furigana = st.text_input("フリガナ", st.session_state.pi_furigana)
-    st.session_state.pi_name = st.text_input("氏名", st.session_state.pi_name)
-    st.session_state.pi_address = st.text_input("現住所", st.session_state.pi_address)
-    st.session_state.pi_nearest_station = st.text_input("最寄駅", st.session_state.pi_nearest_station)
-with cols[1]:
-    st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date)
-    st.session_state.pi_gender = st.selectbox("性別", ["未選択","男性","女性","その他"], index=["未選択","男性","女性","その他"].index(st.session_state.pi_gender))
-    st.session_state.pi_available_date = st.date_input("稼働可能日", st.session_state.pi_available_date)
-    st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
+def basic_info():
+    st.header("個人情報")
+    cols = st.columns(2)
+    with cols[0]:
+        st.session_state.pi_furigana = st.text_input("フリガナ", st.session_state.pi_furigana)
+        st.session_state.pi_name = st.text_input("氏名", st.session_state.pi_name)
+        st.session_state.pi_address = st.text_input("現住所", st.session_state.pi_address)
+        st.session_state.pi_nearest_station = st.text_input("最寄駅", st.session_state.pi_nearest_station)
+    with cols[1]:
+        st.session_state.pi_birth_date = st.date_input("生年月日", st.session_state.pi_birth_date)
+        st.session_state.pi_gender = st.selectbox("性別", ["未選択","男性","女性","その他"], index=["未選択","男性","女性","その他"].index(st.session_state.pi_gender))
+        st.session_state.pi_available_date = st.date_input("稼働可能日", st.session_state.pi_available_date)
+        st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
 
-st.subheader("情報処理資格")
-st.session_state.pi_qualifications_input = st.text_area("（1行1資格）", value=st.session_state.pi_qualifications_input, height=100)
+    st.subheader("情報処理資格")
+    st.session_state.pi_qualifications_input = st.text_area("自由記述", value=st.session_state.pi_qualifications_input, height=100)
 
-st.subheader("開発経験サマリ")
-st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, height=120)
+def deve_expe():
+    st.subheader("開発経験サマリ")
+    st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary, height=120)
 
-st.header("業務経歴")
-if st.button("新しい案件を追加"):
-    st.session_state.projects.append({})
+def business_history():
+    st.header("業務経歴")
+    if st.button("新しい案件を追加"):
+        st.session_state.projects.append({})
 
-roles = ["PM", "PL", "SPL", "SE", "PG"]
-roles_with_name = ["PM プロジェクトマネージャー", "PL プロジェクトリーダー",
+    roles = ["PM", "PL", "SPL", "SE", "PG"]
+    roles_with_name = ["PM プロジェクトマネージャー", "PL プロジェクトリーダー",
                    "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"]
 
-for i, p in enumerate(st.session_state.projects):
-    st.subheader(f"案件 {i+1}")
-    cols = st.columns(2)
+    for i, p in enumerate(st.session_state.projects):
+        st.subheader(f"案件 {i+1}")
+        cols = st.columns(2)
 
-    if p.get("role", "") in roles:
-        idx = roles.index(p.get("role", ""))
-    elif p.get("role", "") in roles_with_name:
-        idx = roles_with_name.index(p.get("role", ""))
-    else:
-        idx = None
+        if p.get("role", "") in roles:
+            idx = roles.index(p.get("role", ""))
+        elif p.get("role", "") in roles_with_name:
+            idx = roles_with_name.index(p.get("role", ""))
+        else:
+            idx = None
     
-    with cols[0]:
-        p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
-        p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
-        p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""))
-        p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""))
-    with cols[1]:
-        p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
-        p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
-        p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
-        p["role"] = st.selectbox(f"役割 (案件 {i+1})", roles_with_name, index=idx)
-        #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
-        p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
-        p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
-    p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""))
-    selected = st.multiselect(
-        f"作業工程 (案件 {i+1})",
-        options=list(WORK_PROCESS_MAP.keys()),
-        format_func=lambda k: WORK_PROCESS_MAP[k],
-        default=[k for k, v in WORK_PROCESS_MAP.items() if v in p.get("work_process_list", [])]
-    )
-    p["work_process_list"] = [WORK_PROCESS_MAP[k] for k in selected]
-    p["work_process_str"] = ", ".join(p["work_process_list"])
-    if st.button(f"この案件を削除 (案件 {i+1})"):
-        st.session_state.projects.pop(i)
-        st.rerun()
-    st.markdown("---")
+        with cols[0]:
+            p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
+            p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
+            p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""))
+            p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""))
+        with cols[1]:
+            p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""))
+            p["db_dc"] = st.text_input(f"DB/DC (案件 {i+1})", p.get("db_dc",""))
+            p["lang_tool"] = st.text_input(f"言語/ツール (案件 {i+1})", p.get("lang_tool",""))
+            p["role"] = st.selectbox(f"役割 (案件 {i+1})", roles_with_name, index=idx)
+            #p["role"] = st.text_input(f"役割 (案件 {i+1})", p.get("role",""))
+            p["position"] = st.text_input(f"ポジション (案件 {i+1})", p.get("position",""))
+            p["scale"] = st.text_input(f"規模 (案件 {i+1})", p.get("scale",""))
+        p["work_content"] = st.text_area(f"作業内容 (案件 {i+1})", p.get("work_content",""))
+        selected = st.multiselect(
+            f"作業工程 (案件 {i+1})",
+            options=list(WORK_PROCESS_MAP.keys()),
+            format_func=lambda k: WORK_PROCESS_MAP[k],
+            default=[k for k, v in WORK_PROCESS_MAP.items() if v in p.get("work_process_list", [])]
+        )
+        p["work_process_list"] = [WORK_PROCESS_MAP[k] for k in selected]
+        p["work_process_str"] = ", ".join(p["work_process_list"])
+        if st.button(f"この案件を削除 (案件 {i+1})"):
+            st.session_state.projects.pop(i)
+            st.rerun()
+        st.markdown("---")
 
-st.header("生成AIによるスキルシート改善")
-st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
+def ai_impr():
+    st.header("生成AIによるスキルシート改善")
+    st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
 
-st.header("スキルシート概要の抽出")
-st.button("概要を抽出", on_click=generate_overview_callback)
-if st.session_state.generated_overview:
-    st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
+    st.header("スキルシート概要の抽出")
+    st.button("概要を抽出", on_click=generate_overview_callback)
+    if st.session_state.generated_overview:
+        st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
 
-# ---- Excel出力（添付ファイル形式にレイアウト変更） ----
-if st.button("スキルシートを生成 (Excel形式)"):
-    output = io.BytesIO()
-    with pd.ExcelWriter(output, engine="openpyxl") as writer:
-        wb = writer.book
-        if "Sheet" in wb.sheetnames:
-             wb.remove(wb["Sheet"])
-        ws = wb.create_sheet("スキルシート")
-        wb.active = ws
+    # ---- Excel出力（添付ファイル形式にレイアウト変更） ----
+    if st.button("スキルシートを生成 (Excel形式)"):
+        output = io.BytesIO()
+        with pd.ExcelWriter(output, engine="openpyxl") as writer:
+            wb = writer.book
+            if "Sheet" in wb.sheetnames:
+                 wb.remove(wb["Sheet"])
+            ws = wb.create_sheet("スキルシート")
+            wb.active = ws
 
-        # --- スタイル定義 ---
-        # (添付ファイル形式に合わせて、背景色などを調整)
-        title_font = Font(size=24, bold=True)
-        section_title_font = Font(bold=True, size=12) # 背景色なし
-        work_history_font = Font(bold=False, size=9) # 背景色なし
-        numbering_font = Font(bold=False, size=8)
-        bold_font = Font(bold=True, size=10)
-        data_font = Font(bold=False, size=10)
+            # --- スタイル定義 ---
+            # (添付ファイル形式に合わせて、背景色などを調整)
+            title_font = Font(size=24, bold=True)
+            section_title_font = Font(bold=True, size=12) # 背景色なし
+            work_history_font = Font(bold=False, size=9) # 背景色なし
+            numbering_font = Font(bold=False, size=8)
+            bold_font = Font(bold=True, size=10)
+            data_font = Font(bold=False, size=10)
         
-        # 業務経歴テーブルヘッダ用の背景色
-        project_title_fill = PatternFill(fgColor="D3D3D3", fill_type="solid")
+            # 業務経歴テーブルヘッダ用の背景色
+            project_title_fill = PatternFill(fgColor="D3D3D3", fill_type="solid")
         
-        # 罫線
-        thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
-        dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=None, bottom=None)
-        data_border = Border(left=Side(style='thin'), right=Side(style='dashDot'), top=None, bottom=None)
+            # 罫線
+            thin_border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+            dashdot_border = Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=None, bottom=None)
+            data_border = Border(left=Side(style='thin'), right=Side(style='dashDot'), top=None, bottom=None)
         
-        # 折り返し + 上寄せ
-        wrap_text_alignment = Alignment(wrapText=True, vertical='top')
-        center_text_alignment = Alignment(horizontal = 'center', vertical = 'center')
+            # 折り返し + 上寄せ
+            wrap_text_alignment = Alignment(wrapText=True, vertical='top')
+            center_text_alignment = Alignment(horizontal = 'center', vertical = 'center')
 
-        # テーブルの列数（K列まで）
-        TABLE_COLS = 11
-        # 作業内容を書き込む列 (C列)
-        COL_PROJECT_NAME = 5
+            # テーブルの列数（K列まで）
+            TABLE_COLS = 11
+            # 作業内容を書き込む列 (C列)
+            COL_PROJECT_NAME = 5
 
-        cur = 1 # 現在の行番号
+            cur = 1 # 現在の行番号
 
-        # --- 1行目: 空白 ---
-        cur += 1 # 2行目からスタート
+            # --- 1行目: 空白 ---
+            cur += 1 # 2行目からスタート
 
-        # --- ヘルパー関数 ---
-        def style(cell, font=None, fill=None, border=None, align=None):
-            if font: cell.font = font
-            if fill: cell.fill = fill
-            if border: cell.border = border
-            if align: cell.alignment = align
+            # --- ヘルパー関数 ---
+            def style(cell, font=None, fill=None, border=None, align=None):
+                if font: cell.font = font
+                if fill: cell.fill = fill
+                if border: cell.border = border
+                if align: cell.alignment = align
 
-        # --- 2行目: タイトル ---
-        cell = ws.cell(row=cur, column=2, value="業務経歴書")
-        style(cell, font=title_font, align=center_text_alignment, border=thin_border)
-        ws.merge_cells('B2:K3')
-        cur += 2 # 3行目は空白、4行目から
+            # --- 2行目: タイトル ---
+            cell = ws.cell(row=cur, column=2, value="業務経歴書")
+            style(cell, font=title_font, align=center_text_alignment, border=thin_border)
+            ws.merge_cells('B2:K3')
+            cur += 2 # 3行目は空白、4行目から
         
-        # --- 4行目: 1. 個人情報 ---
-        rows = [
-            ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d")),
-            ("氏名", st.session_state.pi_name, "性別", st.session_state.pi_gender),
-            ("現住所", st.session_state.pi_address, "稼働可能日", st.session_state.pi_available_date.strftime("%Y/%m/%d")),
-            ("最寄駅", st.session_state.pi_nearest_station),
-            ("最終学歴", st.session_state.pi_education, ),
-        ]
-        count = 0
-        for row in rows:
-            style(ws.cell(row=cur, column=2, value=row[0]), font=bold_font, border=thin_border)
-            style(ws.cell(row=cur, column=4, value=row[1]), border=thin_border)
+            # --- 4行目: 1. 個人情報 ---
+            rows = [
+                ("フリガナ", st.session_state.pi_furigana, "生年月日", st.session_state.pi_birth_date.strftime("%Y/%m/%d")),
+                ("氏名", st.session_state.pi_name, "性別", st.session_state.pi_gender),
+                ("現住所", st.session_state.pi_address, "稼働可能日", st.session_state.pi_available_date.strftime("%Y/%m/%d")),
+                ("最寄駅", st.session_state.pi_nearest_station),
+                ("最終学歴", st.session_state.pi_education, ),
+            ]
+            count = 0
+            for row in rows:
+                style(ws.cell(row=cur, column=2, value=row[0]), font=bold_font, border=thin_border)
+                style(ws.cell(row=cur, column=4, value=row[1]), border=thin_border)
 
-            if len(row) == 4 :
-                style(ws.cell(row=cur, column=7, value=row[2]), font=bold_font, border=thin_border)
+                if len(row) == 4 :
+                    style(ws.cell(row=cur, column=7, value=row[2]), font=bold_font, border=thin_border)
                 
-                if count == 0:
-                    style(ws.cell(row=cur, column=9, value=row[3]), border=thin_border)
-                    count = 1
-                else:
-                    style(ws.cell(row=cur, column=10, value=row[3]), border=thin_border)
-            cur += 1
-
-        # フリガナ
-        ws.merge_cells(start_row=4, start_column=2, end_row=4, end_column=3)
-        ws.merge_cells(start_row=4, start_column=4, end_row=4, end_column=6)
-
-        # 生年月日
-        ws.merge_cells(start_row=4, start_column=7, end_row=4, end_column=8)
-        ws.merge_cells(start_row=4, start_column=9, end_row=4, end_column=10)
-        style(ws.cell(row=4, column=11), border=thin_border)
-        
-        # 氏名
-        ws.merge_cells(start_row=5, start_column=2, end_row=5, end_column=3)
-        ws.merge_cells(start_row=5, start_column=4, end_row=5, end_column=6)
-
-        # 性別
-        ws.merge_cells(start_row=5, start_column=7, end_row=5, end_column=9)
-        ws.merge_cells(start_row=5, start_column=10, end_row=5, end_column=TABLE_COLS)
-        
-        # 現住所
-        ws.merge_cells(start_row=6, start_column=2, end_row=6, end_column=3)
-        ws.merge_cells(start_row=6, start_column=4, end_row=6, end_column=6)
-
-        # 稼働可能日
-        ws.merge_cells(start_row=6, start_column=7, end_row=6, end_column=9)
-        ws.merge_cells(start_row=6, start_column=10, end_row=6, end_column=TABLE_COLS)
-        
-        # 最寄駅
-        ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
-        ws.merge_cells(start_row=7, start_column=4, end_row=7, end_column=6)
-        ws.merge_cells(start_row=7, start_column=7, end_row=7, end_column=TABLE_COLS)
-        style(ws.cell(row=7, column=7), border=thin_border)
-
-        # 最終学歴
-        ws.merge_cells(start_row=8, start_column=2, end_row=8, end_column=3)
-        ws.merge_cells(start_row=8, start_column=4, end_row=8, end_column=TABLE_COLS)
-        
-        
-        # --- 9行目: 2. 資格 ---        
-        qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
-        if not qlist: qlist = [""]
-            
-        for q in qlist:
-            style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
-            cell = ws.cell(row=cur, column=4, value=f"{q}")
-            style(cell, border=thin_border)
-            
-            # 資格欄はテーブル幅(K列)まで結合
-            ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
-            ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
-            cur += 1
-
-        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
-        style(ws.cell(row=cur, column=2), border=thin_border)
-        cur += 1 # 空白行
-
-        # --- 11行目: 開発経験サマリ ---
-        cell = ws.cell(row=cur, column=2, value="開発経験サマリ")
-        style(cell, font=section_title_font, border=thin_border)
-        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
-        cur += 1
-        
-        # サマリ本文もテーブル幅(K列)まで結合
-        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
-        style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), border=thin_border, align=wrap_text_alignment)
-        cur += 2 # 空白行を1つ挟む
-
-        ws.merge_cells(start_row=cur - 1, start_column=2, end_row=cur - 1, end_column=TABLE_COLS)
-        style(ws.cell(row=cur - 1, column=2), border=thin_border)
-        
-        # --- 17行目: 4. 業務経歴 ---
-        cell = ws.cell(row=cur, column=2, value="業務経歴")
-        style(cell, font=section_title_font, fill=project_title_fill, border=thin_border)
-        ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
-        cur += 1
-
-        # --- 18行目: 業務経歴テーブルヘッダ ---
-        headers = [
-            "項番", "作業期間", "案件名", "作業内容", "機種", "言語/ツール", "作業工程", "規模",
-            "業種", "OS", "DB/DC", "役割", "ポジション"
-        ] # B列からK列
-
-        targets = [
-            (0,0), (0,1), (0,2), (0,3), (0,5), (0,6), (0,8), (0,9),
-            (1,2), (1,5), (1,6), (1,8), (1,9)
-        ]
-
-        for i, (row, col) in enumerate(targets):
-            if i < len(headers):
-                cell = ws.cell(row=cur + row, column=col + 2, value=headers[i])
-                style(cell, font=bold_font, fill=project_title_fill, border=thin_border, align=wrap_text_alignment)
-
-        # フリガナ
-        ws.merge_cells(start_row=cur, start_column=2, end_row=cur + 1, end_column=2)
-        ws.merge_cells(start_row=cur, start_column=3, end_row=cur + 1, end_column=3)
-        ws.merge_cells(start_row=cur, start_column=5, end_row=cur + 1, end_column=6)
-        ws.merge_cells(start_row=cur, start_column=8, end_row=cur, end_column=9)
-        ws.merge_cells(start_row=cur + 1, start_column=8, end_row=cur + 1, end_column=9)
-        
-        cur += 2
-
-        # --- 21行目以降: 案件ループ (テーブル形式) ---
-        for i, p in enumerate(st.session_state.projects):
-            start_row = cur # この案件の開始行を記憶
-
-            # 1列目書き込み
-            cell = ws.cell(row=start_row, column=2, value=i + 1)
-                
-            # 1列目は全列に罫線と折り返し、上寄せ
-            style(cell, font=work_history_font, border=thin_border, align=wrap_text_alignment)
-
-            # --- 2行目 (作業期間) ---
-            start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
-            end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
-            delta_txt = ""
-            if p.get("start_date") and p.get("end_date"):
-                days = (p["end_date"] - p["start_date"]).days
-                #delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
-                
-                if days >= 0:
-                    # 全体の月数を計算
-                    total_months = days / 30.4375
-                    
-                    # 年と月に分解
-                    years = int(total_months // 12)      # 年（整数）
-                    months = round(total_months % 12, 1) # 余りの月（小数第1位まで）
-
-                    # 四捨五入で月が「12.0ヶ月」になった場合は、1年に繰り上げる
-                    if months == 12:
-                        years += 1
-                        months = 0
-
-                    if years > 0:
-                        # 1年以上の場合（例: 約2年3.5ヶ月）
-                        delta_txt = f"約{years}年{months}ヶ月"
+                    if count == 0:
+                        style(ws.cell(row=cur, column=9, value=row[3]), border=thin_border)
+                        count = 1
                     else:
-                        # 1年未満の場合（例: 約6.5ヶ月）
-                        delta_txt = f"約{months}ヶ月"
-                else:
-                    delta_txt = "0ヶ月"
+                        style(ws.cell(row=cur, column=10, value=row[3]), border=thin_border)
+                cur += 1
+
+            # フリガナ
+            ws.merge_cells(start_row=4, start_column=2, end_row=4, end_column=3)
+            ws.merge_cells(start_row=4, start_column=4, end_row=4, end_column=6)
+
+            # 生年月日
+            ws.merge_cells(start_row=4, start_column=7, end_row=4, end_column=8)
+            ws.merge_cells(start_row=4, start_column=9, end_row=4, end_column=10)
+            style(ws.cell(row=4, column=11), border=thin_border)
+        
+            # 氏名
+            ws.merge_cells(start_row=5, start_column=2, end_row=5, end_column=3)
+            ws.merge_cells(start_row=5, start_column=4, end_row=5, end_column=6)
+
+            # 性別
+            ws.merge_cells(start_row=5, start_column=7, end_row=5, end_column=9)
+            ws.merge_cells(start_row=5, start_column=10, end_row=5, end_column=TABLE_COLS)
+        
+            # 現住所
+            ws.merge_cells(start_row=6, start_column=2, end_row=6, end_column=3)
+            ws.merge_cells(start_row=6, start_column=4, end_row=6, end_column=6)
+
+            # 稼働可能日
+            ws.merge_cells(start_row=6, start_column=7, end_row=6, end_column=9)
+            ws.merge_cells(start_row=6, start_column=10, end_row=6, end_column=TABLE_COLS)
+        
+            # 最寄駅
+            ws.merge_cells(start_row=7, start_column=2, end_row=7, end_column=3)
+            ws.merge_cells(start_row=7, start_column=4, end_row=7, end_column=6)
+            ws.merge_cells(start_row=7, start_column=7, end_row=7, end_column=TABLE_COLS)
+            style(ws.cell(row=7, column=7), border=thin_border)
+
+            # 最終学歴
+            ws.merge_cells(start_row=8, start_column=2, end_row=8, end_column=3)
+            ws.merge_cells(start_row=8, start_column=4, end_row=8, end_column=TABLE_COLS)
+        
+        
+            # --- 9行目: 2. 資格 ---        
+            qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
+            if not qlist: qlist = [""]
             
-            style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=data_border)
-            style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, align=center_text_alignment, border=data_border)
-            style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, border=data_border)
-            style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, border=data_border)
-
-            # --- 3行目 (案件名・業種) ---
-            style(ws.cell(row=start_row, column=4, value=p.get("project_name","")), font=work_history_font)
-            style(ws.cell(row=start_row + 1, column=4, value=p.get("industry","")), font=work_history_font)
+            for q in qlist:
+                style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
+                cell = ws.cell(row=cur, column=4, value=f"{q}")
+                style(cell, border=thin_border)
             
-            # --- 4行目 (作業内容) ---
-            content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
-            if not content_lines:
-                content_lines = [""]
+                # 資格欄はテーブル幅(K列)まで結合
+                ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
+                ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
+                cur += 1
 
-             # 空でも4行は確保
-            if len(content_lines) < 4:
-                padding_needed = 4 - len(content_lines)
-                content_lines.extend([""] * padding_needed)
-                
-            content_count = 0
-            
-            for line in content_lines:
-                # C列 (案件名の真下) に作業内容を書き込む
-                cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
-                style(cell, border=dashdot_border, align=wrap_text_alignment)
-                
-                # 作業内容セルを横に結合 (C列からK列まで)
-                ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
-                ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME + 3, end_row=cur, end_column=COL_PROJECT_NAME + 4)
-                
-                cur += 1 # 次の行へ
-                content_count += 1
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
+            style(ws.cell(row=cur, column=2), border=thin_border)
+            cur += 1 # 空白行
 
-            # --- 7行目 (機種・OS) ---
-            os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
-            
-            for model in range(len(os)):
-                style(ws.cell(row=start_row + model, column=7, value=os[model]), font=work_history_font)
-            
-            # --- 8行目 (言語/ツール・DB/DC) ---
-            lang_tool = [s.strip() for s in p.get("lang_tool", "").split("/") if s.strip()]
-            db_dc = [s.strip() for s in p.get("db_dc", "").split("/") if s.strip()]
-            
-            lang_count = 0
-            db_count = 0
-            
-            for lang in range(len(lang_tool)):
-                style(ws.cell(row=start_row + lang, column=8, value=lang_tool[lang]), font=work_history_font)
-                lang_count += 1
+            # --- 11行目: 開発経験サマリ ---
+            cell = ws.cell(row=cur, column=2, value="開発経験サマリ")
+            style(cell, font=section_title_font, border=thin_border)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
+            cur += 1
+        
+            # サマリ本文もテーブル幅(K列)まで結合
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
+            style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), border=thin_border, align=wrap_text_alignment)
+            cur += 2 # 空白行を1つ挟む
 
-            if lang_tool != db_dc:
-                for db in range(len(db_dc)):
-                    style(ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db]), font=work_history_font)
-                    db_count += 1
-
-            #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
-            
-            # --- 10行目 (作業工程・役割) ---
-            REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
-            label_count = 0
-            
-            for j, label in enumerate(p.get("work_process_list", [])):
-                # 逆引きマップに存在するか確認
-                if label in REVERSE_WORK_PROCESS_MAP:
-                    style(ws.cell(row=start_row + j, column=10, value=label), font=work_history_font)
-                    label_count += 1
-
-            style(ws.cell(row=start_row + label_count, column=10, value=p.get("role","")), font=work_history_font)
-            label_count += 1
-
-            # 空でも4行は確保
-            if (lang_count + db_count - content_count) < 4:
-                # 値が「-」だったら
-                if (lang_count + db_count - content_count) < 0:
-                    lang_count += (lang_count + db_count - content_count) * -1
-                else:
-                    lang_count -= lang_count + db_count - content_count
-                
-
-            #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
-
-            if (lang_count + db_count - content_count) < (label_count - content_count):
-                cur += label_count - content_count
-            else:
-                cur += lang_count + db_count - content_count
-                
-            # --- 11行目 (規模・ポジション) ---
-            style(ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale","")), font=work_history_font)
-            style(ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position","")), font=work_history_font)                        
-            
-            # --- この案件の縦セル結合 ---
-            end_row = cur - 1 # この案件の最終行
-            if end_row > start_row: # 作業内容などで2行以上になった場合
-                # C列 (案件名/作業内容) 以外を縦に結合
-                for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
-                    ws.merge_cells(start_row=start_row, start_column=2, end_row=end_row, end_column=2)
-                    # 結合したセルのスタイルを再適用 (上寄せ)
-                    cell = ws.cell(row=start_row, column=c_idx)
-                    style(cell, align=wrap_text_alignment)
-            
-            for j in range((end_row + 1) - start_row):
-                # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
-                for c_idx in [c for c in range(3, TABLE_COLS) if c != COL_PROJECT_NAME]:
-                    style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
-
-                style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick'), right=Side(style='thin')))
-                style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
-
-            for j in range(8):
-                if j == 0:
-                    style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')))
-                    style(ws.cell(row=end_row, column=3 + j), border=Border(bottom=Side(style='thick')))
-                else:
-                    style(ws.cell(row=start_row, column=3 + j), border=Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=Side(style='thick')))
-                    style(ws.cell(row=end_row, column=3 + j), border=Border(left=Side(style='dashDot'), right=Side(style='dashDot'), bottom=Side(style='thick')))
-                
-            style(ws.cell(row=start_row, column=2), border=Border(left=Side(style='thick'), right=Side(style='thin'), top=Side(style='thick')))
-            style(ws.cell(row=start_row, column=TABLE_COLS), border=Border(left=Side(style='dashDot'),right=Side(style='thick'), top=Side(style='thick')))
-            style(ws.cell(row=end_row, column=2), border=Border(left=Side(style='thick'), bottom=Side(style='thick')))
-            style(ws.cell(row=end_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), bottom=Side(style='thick')))
-
-        # --- 幅調整 (サンプル形式) ---
-        ws.column_dimensions["A"].width = 1.3  # 項番
-        ws.column_dimensions["B"].width = 3 # 期間
-        ws.column_dimensions["C"].width = 13 # 案件名/作業内容
-        ws.column_dimensions["D"].width = 15 # 業種
-        ws.column_dimensions["E"].width = 11.5 # OS
-        ws.column_dimensions["F"].width = 20 # 言語
-        ws.column_dimensions["G"].width = 11.5 # DB
-        ws.column_dimensions["H"].width = 4.25 # 工程
-        ws.column_dimensions["I"].width = 10.25 # 役割
-        ws.column_dimensions["J"].width = 22 # ポジション
-        ws.column_dimensions["K"].width = 11 # 規模
-
-        ws.row_dimensions[1].height = 43
-        ws.row_dimensions[2].height = 30
-        ws.row_dimensions[3].height = 30
+            ws.merge_cells(start_row=cur - 1, start_column=2, end_row=cur - 1, end_column=TABLE_COLS)
+            style(ws.cell(row=cur - 1, column=2), border=thin_border)
+        
+            # --- 17行目: 4. 業務経歴 ---
+            cell = ws.cell(row=cur, column=2, value="業務経歴")
+            style(cell, font=section_title_font, fill=project_title_fill, border=thin_border)
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
+            cur += 1
     
-    st.download_button(
-        label="スキルシートをダウンロード",
-        data=output.getvalue(),
-        file_name=f"{st.session_state.pi_name or 'スキルシート'}.xlsx",
-        mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-    )
-    st.success("Excelを生成しました。")
+            # --- 18行目: 業務経歴テーブルヘッダ ---
+            headers = [
+                "項番", "作業期間", "案件名", "作業内容", "機種", "言語/ツール", "作業工程", "規模",
+                "業種", "OS", "DB/DC", "役割", "ポジション"
+            ] # B列からK列
+
+            targets = [
+                (0,0), (0,1), (0,2), (0,3), (0,5), (0,6), (0,8), (0,9),
+                (1,2), (1,5), (1,6), (1,8), (1,9)
+            ]
+
+            for i, (row, col) in enumerate(targets):
+                if i < len(headers):
+                    cell = ws.cell(row=cur + row, column=col + 2, value=headers[i])
+                    style(cell, font=bold_font, fill=project_title_fill, border=thin_border, align=wrap_text_alignment)
+
+            # フリガナ
+            ws.merge_cells(start_row=cur, start_column=2, end_row=cur + 1, end_column=2)
+            ws.merge_cells(start_row=cur, start_column=3, end_row=cur + 1, end_column=3)
+            ws.merge_cells(start_row=cur, start_column=5, end_row=cur + 1, end_column=6)
+            ws.merge_cells(start_row=cur, start_column=8, end_row=cur, end_column=9)
+            ws.merge_cells(start_row=cur + 1, start_column=8, end_row=cur + 1, end_column=9)
+            
+            cur += 2
+
+            # --- 21行目以降: 案件ループ (テーブル形式) ---
+            for i, p in enumerate(st.session_state.projects):
+                start_row = cur # この案件の開始行を記憶
+
+                # 1列目書き込み
+                cell = ws.cell(row=start_row, column=2, value=i + 1)
+                
+                # 1列目は全列に罫線と折り返し、上寄せ
+                style(cell, font=work_history_font, border=thin_border, align=wrap_text_alignment)
+
+                # --- 2行目 (作業期間) ---
+                start_date_str = p.get("start_date").strftime("%Y/%m/%d") if p.get("start_date") else ""
+                end_date_str = p.get("end_date").strftime("%Y/%m/%d") if p.get("end_date") else ""
+                delta_txt = ""
+                if p.get("start_date") and p.get("end_date"):
+                    days = (p["end_date"] - p["start_date"]).days
+                    #delta_txt = f"(約{round(days/30.4375,1)}ヶ月)" if days >= 0 else "（0ヶ月）"
+                
+                    if days >= 0:
+                        # 全体の月数を計算
+                        total_months = days / 30.4375
+                    
+                        # 年と月に分解
+                        years = int(total_months // 12)      # 年（整数）
+                        months = round(total_months % 12, 1) # 余りの月（小数第1位まで）
+
+                        # 四捨五入で月が「12.0ヶ月」になった場合は、1年に繰り上げる
+                        if months == 12:
+                            years += 1
+                            months = 0
+
+                        if years > 0:
+                            # 1年以上の場合（例: 約2年3.5ヶ月）
+                            delta_txt = f"約{years}年{months}ヶ月"
+                        else:
+                            # 1年未満の場合（例: 約6.5ヶ月）
+                            delta_txt = f"約{months}ヶ月"
+                    else:
+                        delta_txt = "0ヶ月"
+                
+                style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=data_border)
+                style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, align=center_text_alignment, border=data_border)
+                style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, border=data_border)
+                style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, border=data_border)
+
+                # --- 3行目 (案件名・業種) ---
+                style(ws.cell(row=start_row, column=4, value=p.get("project_name","")), font=work_history_font)
+                style(ws.cell(row=start_row + 1, column=4, value=p.get("industry","")), font=work_history_font)
+            
+                # --- 4行目 (作業内容) ---
+                content_lines = [line.strip() for line in str(p.get("work_content", "")).split("\n") if line.strip()]
+                if not content_lines:
+                    content_lines = [""]
+
+                 # 空でも4行は確保
+                if len(content_lines) < 4:
+                    padding_needed = 4 - len(content_lines)
+                    content_lines.extend([""] * padding_needed)
+                    
+                content_count = 0
+                
+                for line in content_lines:
+                    # C列 (案件名の真下) に作業内容を書き込む
+                    cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
+                    style(cell, border=dashdot_border, align=wrap_text_alignment)
+                    
+                    # 作業内容セルを横に結合 (C列からK列まで)
+                    ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
+                    ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME + 3, end_row=cur, end_column=COL_PROJECT_NAME + 4)
+                
+                    cur += 1 # 次の行へ
+                    content_count += 1
+
+                # --- 7行目 (機種・OS) ---
+                os = [s.strip() for s in p.get("os", "").split("/") if s.strip()]
+            
+                for model in range(len(os)):
+                    style(ws.cell(row=start_row + model, column=7, value=os[model]), font=work_history_font)
+            
+                # --- 8行目 (言語/ツール・DB/DC) ---
+                lang_tool = [s.strip() for s in p.get("lang_tool", "").split("/") if s.strip()]
+                db_dc = [s.strip() for s in p.get("db_dc", "").split("/") if s.strip()]
+            
+                lang_count = 0
+                db_count = 0
+            
+                for lang in range(len(lang_tool)):
+                    style(ws.cell(row=start_row + lang, column=8, value=lang_tool[lang]), font=work_history_font)
+                    lang_count += 1
+
+                if lang_tool != db_dc:
+                    for db in range(len(db_dc)):
+                        style(ws.cell(row=start_row + db + (lang_count + 1), column=8, value=db_dc[db]), font=work_history_font)
+                        db_count += 1
+
+                #st.write("変更前:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+            
+                # --- 10行目 (作業工程・役割) ---
+                REVERSE_WORK_PROCESS_MAP = {v: k for k, v in WORK_PROCESS_MAP.items()}
+                label_count = 0
+            
+                for j, label in enumerate(p.get("work_process_list", [])):
+                    # 逆引きマップに存在するか確認
+                    if label in REVERSE_WORK_PROCESS_MAP:
+                        style(ws.cell(row=start_row + j, column=10, value=label), font=work_history_font)
+                        label_count += 1
+
+                style(ws.cell(row=start_row + label_count, column=10, value=p.get("role","")), font=work_history_font)
+                label_count += 1
+
+                # 空でも4行は確保
+                if (lang_count + db_count - content_count) < 4:
+                    # 値が「-」だったら
+                    if (lang_count + db_count - content_count) < 0:
+                        lang_count += (lang_count + db_count - content_count) * -1
+                    else:
+                        lang_count -= lang_count + db_count - content_count
+                
+
+                #st.write("変更後:", cur, lang_count, db_count, content_count, lang_count + db_count - content_count, cur + lang_count + db_count - content_count)
+
+                if (lang_count + db_count - content_count) < (label_count - content_count):
+                    cur += label_count - content_count
+                else:
+                    cur += lang_count + db_count - content_count
+                
+                # --- 11行目 (規模・ポジション) ---
+                style(ws.cell(row=start_row, column=TABLE_COLS, value=p.get("scale","")), font=work_history_font)
+                style(ws.cell(row=start_row + 1, column=TABLE_COLS, value=p.get("position","")), font=work_history_font)                        
+            
+                # --- この案件の縦セル結合 ---
+                end_row = cur - 1 # この案件の最終行
+                if end_row > start_row: # 作業内容などで2行以上になった場合
+                    # C列 (案件名/作業内容) 以外を縦に結合
+                    for c_idx in [c for c in range(1, TABLE_COLS + 1) if c != COL_PROJECT_NAME]:
+                        ws.merge_cells(start_row=start_row, start_column=2, end_row=end_row, end_column=2)
+                        # 結合したセルのスタイルを再適用 (上寄せ)
+                        cell = ws.cell(row=start_row, column=c_idx)
+                        style(cell, align=wrap_text_alignment)
+            
+                for j in range((end_row + 1) - start_row):
+                    # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
+                    for c_idx in [c for c in range(3, TABLE_COLS) if c != COL_PROJECT_NAME]:
+                        style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
+
+                    style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick'), right=Side(style='thin')))
+                    style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
+
+                for j in range(8):
+                    if j == 0:
+                        style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')))
+                        style(ws.cell(row=end_row, column=3 + j), border=Border(bottom=Side(style='thick')))
+                    else:
+                        style(ws.cell(row=start_row, column=3 + j), border=Border(left=Side(style='dashDot'), right=Side(style='dashDot'), top=Side(style='thick')))
+                        style(ws.cell(row=end_row, column=3 + j), border=Border(left=Side(style='dashDot'), right=Side(style='dashDot'), bottom=Side(style='thick')))
+                
+                style(ws.cell(row=start_row, column=2), border=Border(left=Side(style='thick'), right=Side(style='thin'), top=Side(style='thick')))
+                style(ws.cell(row=start_row, column=TABLE_COLS), border=Border(left=Side(style='dashDot'),right=Side(style='thick'), top=Side(style='thick')))
+                style(ws.cell(row=end_row, column=2), border=Border(left=Side(style='thick'), bottom=Side(style='thick')))
+                style(ws.cell(row=end_row, column=TABLE_COLS), border=Border(right=Side(style='thick'), bottom=Side(style='thick')))
+
+            # --- 幅調整 (サンプル形式) ---
+            ws.column_dimensions["A"].width = 1.3  # 項番
+            ws.column_dimensions["B"].width = 3 # 期間
+            ws.column_dimensions["C"].width = 13 # 案件名/作業内容
+            ws.column_dimensions["D"].width = 15 # 業種
+            ws.column_dimensions["E"].width = 11.5 # OS
+            ws.column_dimensions["F"].width = 20 # 言語
+            ws.column_dimensions["G"].width = 11.5 # DB
+            ws.column_dimensions["H"].width = 4.25 # 工程
+            ws.column_dimensions["I"].width = 10.25 # 役割
+            ws.column_dimensions["J"].width = 22 # ポジション
+            ws.column_dimensions["K"].width = 11 # 規模
+
+            ws.row_dimensions[1].height = 43
+            ws.row_dimensions[2].height = 30
+            ws.row_dimensions[3].height = 30
+    
+        st.download_button(
+            label="スキルシートをダウンロード",
+            data=output.getvalue(),
+            file_name=f"{st.session_state.pi_name or 'スキルシート'}.xlsx",
+            mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        )
+        st.success("Excelを生成しました。")
+
+if page == "ホーム":
+    basic_info()
+    deve_expe()
+    business_history()
+    ai_impr()
+elif page == "基本情報":
+    basic_info()
+elif page == "開発経験サマリ":
+    deve_expe()
+elif page == "業務履歴":
+    business_history()
+elif page == "AIによる改善":
+    ai_impr()
