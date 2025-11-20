@@ -415,7 +415,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                 st.write("言語:",lang_val,"：", t)
                 if t:
                     cur["langs"].append(t)
-        else
+        else:
             db_val = cell(r, C_DB)
             if db_val:
                 for t in re.split(r"[、,/\n]+", db_val):
