@@ -879,10 +879,10 @@ def ai_impr():
                     else:
                         delta_txt = "0ヶ月"
                 
-                style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, border=data_border)
+                style(ws.cell(row=start_row, column=3, value=start_date_str),font=data_font, align=center_text_alignment, border=data_border)
                 style(ws.cell(row=start_row + 1, column=3, value="～"),font=data_font, align=center_text_alignment, border=data_border)
-                style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, border=data_border)
-                style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, border=data_border)
+                style(ws.cell(row=start_row + 2, column=3, value=end_date_str),font=data_font, align=center_text_alignment, border=data_border)
+                style(ws.cell(row=start_row + 3, column=3, value=delta_txt),font=data_font, align=center_text_alignment, border=data_border)
 
                 # --- 3行目 (案件名・業種) ---
                 style(ws.cell(row=start_row, column=4, value=p.get("project_name","")), font=work_history_font)
