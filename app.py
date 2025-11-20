@@ -141,12 +141,12 @@ def _collect_rightward_values(df: pd.DataFrame, r: int, c: int, max_cols: int = 
     empties_seen = 0
     for dc in range(1, max_cols + 1):
         cc = c + dc
+        st.write(c, dc, cc, vals)
         if cc >= df.shape[1]:
             break
         s = safe_str(df.iloc[r, cc])
         if s:
             vals.append(s)
-            st.write(dc, vals)
             empties_seen = 0
         else:
             empties_seen += 1
