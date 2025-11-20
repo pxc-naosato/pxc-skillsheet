@@ -295,7 +295,6 @@ def parse_projects(df: pd.DataFrame) -> list:
         proc_labels = []
         for s in cur["procs"]:
             s_raw = s.strip()
-            st.write(s,looks_like_proc_codes(s_raw))
             if looks_like_proc_codes(s_raw):
                 s_normalized = s_raw.translate(str.maketrans({
                     # 全角数字 -> 半角数字
@@ -772,7 +771,7 @@ if st.button("スキルシートを生成 (Excel形式)"):
         # --- 9行目: 2. 資格 ---        
         qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
         if not qlist: qlist = [""]
-        
+        st.write(qlist)
         #for q in qlist:
         style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
         cell = ws.cell(row=cur, column=4, value=qlist)
@@ -938,7 +937,6 @@ if st.button("スキルシートを生成 (Excel形式)"):
                     style(ws.cell(row=start_row + j, column=10, value=label), font=work_history_font)
                     label_count += 1
 
-            st.write(p.get("role",""))
             style(ws.cell(row=start_row + label_count, column=10, value=p.get("role","")), font=work_history_font)
             label_count += 1
 
