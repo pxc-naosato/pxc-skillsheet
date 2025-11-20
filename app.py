@@ -427,7 +427,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         target_initials = ("調査分析、要件定義", "基本（外部）設計", "詳細（内部）設計",
                             "コーディング・単体テスト", "IT・ST", "システム運用・保守",
                             "サーバー構築・運用管理", "DB構築・運用管理", "ネットワーク運用保守",
-                            "ヘルプ・サポート", "その他"
+                            "ヘルプ・サポート", "その他",
                             "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11")
         if proc_val and is_firstline:
         #if proc_val and proc_val.startswith(target_initials):
