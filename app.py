@@ -405,6 +405,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["contents"].append(content_val)
 
         os_val = cell(r, C_OS)
+        st.write("os:",os_val)
         if os_val:
             cur["oss"].append(os_val)
 
@@ -416,6 +417,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                     cur["langs"].append(t)
 
         db_val = cell(r, C_DB)
+        st.write("db:",os_val)
         if db_val:
             for t in re.split(r"[、,/\n]+", db_val):
                 t = t.strip().lstrip("-・").strip()
