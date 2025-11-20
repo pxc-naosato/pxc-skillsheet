@@ -409,17 +409,16 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["oss"].append(os_val)
 
         lang_val = cell(r, C_LANG)
-        judge = False
-        if lang_val and judge == False:
+        if lang_val and judge == True:
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
                 st.write("言語:",lang_val,"：", t)
                 if t:
                     cur["langs"].append(t)
         else:
-            judge = True
+            judge = False
 
-        if judge == True:
+        if judge == False:
             db_val = cell(r, C_DB)
             if db_val:
                 for t in re.split(r"[、,/\n]+", db_val):
