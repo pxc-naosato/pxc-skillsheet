@@ -361,6 +361,8 @@ def parse_projects(df: pd.DataFrame) -> list:
             "scale": cur["scale"] or "",
         })
 
+    judge = False
+    
     for r in range(subheader_r + 1, df.shape[0]):
         idv = cell(r, C_ID)
         is_new = bool(re.search(r"\d", idv))  # 数字が入っていれば新案件
@@ -416,9 +418,9 @@ def parse_projects(df: pd.DataFrame) -> list:
                 if t:
                     cur["langs"].append(t)
         else:
-            judge = False
+            judge = True
 
-        if judge == False:
+        if judge == True:
             db_val = cell(r, C_DB)
             if db_val:
                 for t in re.split(r"[、,/\n]+", db_val):
