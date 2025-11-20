@@ -601,7 +601,8 @@ def basic_info():
         st.session_state.pi_education = st.text_input("最終学歴", st.session_state.pi_education)
 
     st.subheader("情報処理資格")
-    st.session_state.pi_qualifications_input = st.text_area("自由記述", value=st.session_state.pi_qualifications_input, height=100)
+    st.session_state.pi_qualifications_input = st.text_area("自由記述", value=st.session_state.pi_qualifications_input,
+                                                            placeholder="例：基本情報、AWS CLF", height=100)
 
 def deve_expe():
     st.subheader("開発経験サマリ")
