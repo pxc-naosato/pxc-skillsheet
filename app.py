@@ -414,7 +414,6 @@ def parse_projects(df: pd.DataFrame) -> list:
         if lang_val is not "" and judge == False:
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
-                st.write("言語:",lang_val,"：", t)
                 if t:
                     cur["langs"].append(t)
         else:
