@@ -425,6 +425,7 @@ def parse_projects(df: pd.DataFrame) -> list:
                 t = t.strip().lstrip("-・").strip()
                 if t:
                     cur["dbs"].append(t)
+                    judge = False
 
         proc_val = cell(r, C_PROC)
         target_initials = ("調査分析、要件定義", "基本（外部）設計", "詳細（内部）設計",
