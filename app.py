@@ -579,6 +579,10 @@ def generate_overview_callback():
     except Exception as e:
         st.error(f"概要作成エラー: {e}")
 
+def add_new_project():
+    # 空の案件を追加
+    st.session_state.projects.append({})
+    
 # =========================
 # UI
 # =========================
@@ -622,8 +626,6 @@ def deve_expe():
 
 def business_history():
     st.header("業務経歴")
-    if st.button("新しい案件を追加"):
-        st.session_state.projects.append({})
 
     roles = ["PM", "PL", "SPL", "SE", "PG"]
     roles_with_name = ["PM プロジェクトマネージャー", "PL プロジェクトリーダー",
@@ -666,6 +668,8 @@ def business_history():
             st.session_state.projects.pop(i)
             st.rerun()
         st.markdown("---")
+        
+    st.button("＋ 新しい案件を追加", on_click=add_new_project)
 
 def ai_impr():
     st.header("生成AIによるスキルシート改善")
