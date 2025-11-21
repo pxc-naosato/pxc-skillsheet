@@ -216,7 +216,7 @@ def read_personal(df: pd.DataFrame):
         #    # 行内に見つからない場合は、下方向（次の5行）で右側の値を探索
         #    for rr in range(r+1, min(r+6, df.shape[0])):
         #        vals.extend(_collect_rightward_values(df, rr, c, max_cols=3))
-        #result["qualification"] = "\n".join([safe_str(v) for v in vals if safe_str(v)])
+        result["qualification"] = "\n".join([safe_str(v) for v in vals if safe_str(v)])
     return result
 
 def find_header_row(df_str: pd.DataFrame) -> Union[int, None]:
@@ -785,7 +785,7 @@ def ai_impr():
             # --- 9行目: 2. 資格 ---        
             qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
             if not qlist: qlist = [""]
-            
+            st.write(qlist)
             for q in qlist:
                 style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
                 cell = ws.cell(row=cur, column=4, value=f"{q}")
