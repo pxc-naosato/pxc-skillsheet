@@ -587,7 +587,7 @@ def add_new_project():
 # UI
 # =========================
 st.set_page_config(page_title="PXグループスキルシート作成アプリ", layout="centered")
-st.title("PXグループスキルシート作成アプリ")
+st.title("PXグループ"\n"スキルシート作成アプリ")
 st.caption("経歴書Excelファイルをアップロードしてください")
 
 with st.sidebar:
