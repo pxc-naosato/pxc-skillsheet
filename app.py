@@ -821,13 +821,13 @@ def ai_impr():
 
             # --- 11行目: 開発経験サマリ ---
             cell = ws.cell(row=cur, column=2, value="開発経験サマリ")
-            style(cell, font=section_title_font, border=thin_border)
+            style(cell, font=section_title_font, fill=project_title_fill, border=thin_border)
             ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
             cur += 1
         
             # サマリ本文もテーブル幅(K列)まで結合
             ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
-            style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), fill=project_title_fill, border=thin_border, align=wrap_text_alignment)
+            style(ws.cell(row=cur, column=2, value=st.session_state.pi_summary), border=thin_border, align=wrap_text_alignment)
             cur += 2 # 空白行を1つ挟む
 
             ws.merge_cells(start_row=cur - 1, start_column=2, end_row=cur - 1, end_column=TABLE_COLS)
