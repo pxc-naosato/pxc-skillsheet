@@ -785,7 +785,7 @@ def ai_impr():
             # --- 9行目: 2. 資格 ---        
             qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
             if not qlist: qlist = [""]
-            st.write(qlist)
+            st.write(qlist, st.session_state.pi_qualifications_input)
             for q in qlist:
                 style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
                 cell = ws.cell(row=cur, column=4, value=f"{q}")
