@@ -224,8 +224,9 @@ def read_personal(df: pd.DataFrame):
 
     if pos:
         r, c = pos
-        vals = _collect_rightward_values(df, r + 1, c, max_cols=3)
-        st.write(r, c, vals)
+        for rr in range(5):
+        vals = _collect_rightward_values(df, r + rr, c, max_cols=3)
+        st.write(r, c,rr, vals)
         #result["summary"] = 
     
     return result
