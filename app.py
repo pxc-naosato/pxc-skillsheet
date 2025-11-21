@@ -550,7 +550,7 @@ def generate_overview_callback():
         if API_KEY:
             model = genai.GenerativeModel("gemini-2.5-flash")
             prompt = dedent("""
-                あなたはエンジニアの職務経歴書を作成する専門家です。以下の作業内容を要約し、備考として1,2文でまとめてください。出力は本文のみ。
+                あなたはエンジニアの職務経歴書を作成する専門家です。以下の作業内容を要約し、備考として150文字程度でまとめてください。出力は本文のみ。
             """) + "\n" + all_work
             remarks = model.generate_content(prompt).text
         age = (datetime.now().date() - st.session_state.pi_birth_date).days // 365
