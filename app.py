@@ -645,7 +645,7 @@ def business_history():
         with cols[0]:
             p["start_date"] = st.date_input(f"開始日 (案件 {i+1})", p.get("start_date", date(2022,4,1)))
             p["end_date"] = st.date_input(f"終了日 (案件 {i+1})", p.get("end_date", datetime.now().date()))
-            p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""), placeholder="大手通信業者システム")
+            p["project_name"] = st.text_input(f"案件名称 (案件 {i+1})", p.get("project_name",""), placeholder="例：大手通信業者システム")
             p["industry"] = st.text_input(f"業種 (案件 {i+1})", p.get("industry",""), placeholder="例：運用・保守")
         with cols[1]:
             p["os"] = st.text_input(f"OS (案件 {i+1})", p.get("os",""), placeholder="例：RHEL8")
