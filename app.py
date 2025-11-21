@@ -559,7 +559,7 @@ def generate_overview_callback():
         lines = [
             f"氏名\t:{st.session_state.pi_name}　{age}歳　{gender_str}",
             f"最寄\t:{st.session_state.pi_nearest_station}",
-            "開始\t:{st.session_state.pi_available_date}",
+            f"開始\t:{st.session_state.pi_available_date}",
             "単価\t:",
             f"スキル\t:{', '.join(sorted(list(skills)))}",
             f"資格\t:{st.session_state.pi_qualifications_input.replace(chr(10), ', ')}",
