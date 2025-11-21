@@ -421,7 +421,6 @@ def parse_projects(df: pd.DataFrame) -> list:
         if lang_val is not "" and cur["judge"] == False:
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
-                st.write(lang_val, t)
                 if t:
                     cur["langs"].append(t)
         else:
@@ -956,7 +955,7 @@ def ai_impr():
             
                 # --- 8行目 (言語/ツール・DB/DC) ---
                 lang_tool = [s.strip() for s in p.get("lang_tool", "").split("/") if s.strip()]
-                db_dc = [s.strip() for s in p.get("db_dc", "").split("/") if s.strip()]
+                db_dc = [s.strip() for s in p.get("db_dc", "").split("/", ",", "、") if s.strip()]
             
                 lang_count = 0
                 db_count = 0
