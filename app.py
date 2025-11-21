@@ -217,6 +217,7 @@ def read_personal(df: pd.DataFrame):
         #    for rr in range(r+1, min(r+6, df.shape[0])):
         #        vals.extend(_collect_rightward_values(df, rr, c, max_cols=3))
         result["qualification"] = "\n".join([safe_str(v) for v in vals if safe_str(v)])
+        st.write("資格：", r, c, vals)
 
     # 開発経験サマリ
     pos = find_first(df_str, "開発経験サマリ")
