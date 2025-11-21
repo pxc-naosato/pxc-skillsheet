@@ -955,7 +955,7 @@ def ai_impr():
             
                 # --- 8行目 (言語/ツール・DB/DC) ---
                 lang_tool = [s.strip() for s in re.split(r"[/,、]", p.get("lang_tool", "")) if s.strip()]
-                db_dc = [[s.strip() for s in re.split(r"[/,、]", p.get("db_dc", "")) if s.strip()]
+                db_dc = [s.strip() for s in re.split(r"[/,、]", p.get("db_dc", "")) if s.strip()]
             
                 lang_count = 0
                 db_count = 0
