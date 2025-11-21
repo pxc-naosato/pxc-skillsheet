@@ -954,7 +954,7 @@ def ai_impr():
                     style(ws.cell(row=start_row + model, column=7, value=os[model]), font=work_history_font)
             
                 # --- 8行目 (言語/ツール・DB/DC) ---
-                lang_tool = [s.strip() for s in p.get("lang_tool", "").split(r"[、,/\n]+") if s.strip()]
+                lang_tool = [s.strip() for s in p.get("lang_tool", "") if s.strip()]
                 db_dc = [s.strip() for s in p.get("db_dc", "").split(r"[、,/\n]+") if s.strip()]
             
                 lang_count = 0
