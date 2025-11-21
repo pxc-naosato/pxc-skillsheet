@@ -217,11 +217,9 @@ def read_personal(df: pd.DataFrame):
         #    for rr in range(r+1, min(r+6, df.shape[0])):
         #        vals.extend(_collect_rightward_values(df, rr, c, max_cols=3))
         result["qualification"] = "\n".join([safe_str(v) for v in vals if safe_str(v)])
-        st.write("資格：", r, c, vals)
 
     # 開発経験サマリ
     pos = find_first(df_str, "開発経験サマリ")
-
     if pos:
         r, c = pos
         result["summary"] = safe_str(df.iloc[r + 1, c])
@@ -511,6 +509,7 @@ def load_from_excel_callback():
         st.session_state.pi_gender = pi["gender"]
         st.session_state.pi_available_date = pi["available"]
         st.session_state.pi_qualifications_input = pi["qualification"]
+        st.session_state.pi_summary = pi["summary"]
 
         # --- 業務経歴 ---
         st.session_state.projects = parse_projects(df)
