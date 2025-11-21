@@ -563,7 +563,7 @@ def generate_overview_callback():
             "単価：",
             #f"スキル\t：{', '.join(sorted(list(skills)))}",
             f"資格：{st.session_state.pi_qualifications_input.replace(chr(10), ', ')}",
-            f"備考：{remarks}"
+            f"備考：\n{remarks}"
         ]
         overview_text = "\n".join(lines)
 
