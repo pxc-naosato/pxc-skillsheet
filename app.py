@@ -141,7 +141,6 @@ def _collect_rightward_values(df: pd.DataFrame, r: int, c: int, max_cols: int = 
     empties_seen = 0
     for dc in range(1, max_cols + 1):
         cc = c + dc
-        st.write(r, c, dc, cc, vals)
         if cc >= df.shape[1]:
             break
         s = safe_str(df.iloc[r, cc])
@@ -163,7 +162,8 @@ def read_personal(df: pd.DataFrame):
         "station": "", "education": "",
         "birth": date(2000,1,1), "gender": "未選択",
         "available": datetime.now().date(),
-        "qualification": ""
+        "qualification": "",
+        "summary": ""
     }
     for k in LABELS_LEFT:
         pos = find_first(df_str, k)
@@ -217,6 +217,16 @@ def read_personal(df: pd.DataFrame):
         #    for rr in range(r+1, min(r+6, df.shape[0])):
         #        vals.extend(_collect_rightward_values(df, rr, c, max_cols=3))
         result["qualification"] = "\n".join([safe_str(v) for v in vals if safe_str(v)])
+
+    # 開発経験サマリ
+    pos = find_first(df_str, "開発経験サマリ")
+
+    if pos:
+        r, c = pos
+        vals = _collect_rightward_values(df, r, c, max_cols=12)
+        st.write(vals)
+        #result["summary"] = 
+    
     return result
 
 def find_header_row(df_str: pd.DataFrame) -> Union[int, None]:
@@ -435,7 +445,6 @@ def parse_projects(df: pd.DataFrame) -> list:
                             "１", "２", "３", "４", "５", "６", "７", "８", "９", "１０", "１１")
         #if proc_val and is_firstline:
         if proc_val and proc_val.startswith(target_initials):
-            #st.write(r, proc_val)
             cur["procs"].append(proc_val)
 
         role_val = cell(r, C_ROLE)
@@ -785,7 +794,6 @@ def ai_impr():
             # --- 9行目: 2. 資格 ---        
             qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
             if not qlist: qlist = [""]
-            st.write(qlist, st.session_state.pi_qualifications_input)
             #for q in qlist:
             #    style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
             #    cell = ws.cell(row=cur, column=4, value=f"{q}")
