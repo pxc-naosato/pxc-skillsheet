@@ -224,10 +224,8 @@ def read_personal(df: pd.DataFrame):
 
     if pos:
         r, c = pos
-        vals = _collect_rightward_values(df, r, c, max_cols=3)
-        st.write(r, c,safe_str(df.iloc[r + 1, c]), vals)
-        #result["summary"] = 
-    
+        result["summary"] = safe_str(df.iloc[r + 1, c])
+        st.write(safe_str(df.iloc[r + 1, c]))
     return result
 
 def find_header_row(df_str: pd.DataFrame) -> Union[int, None]:
