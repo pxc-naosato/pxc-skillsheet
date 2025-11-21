@@ -561,7 +561,7 @@ def generate_overview_callback():
             f"最寄\t:{st.session_state.pi_nearest_station}",
             f"開始\t:{st.session_state.pi_available_date}",
             "単価\t:",
-            f"スキル\t:{', '.join(sorted(list(skills)))}",
+            #f"スキル\t:{', '.join(sorted(list(skills)))}",
             f"資格\t:{st.session_state.pi_qualifications_input.replace(chr(10), ', ')}",
             f"備考\t:{remarks}"
         ]
