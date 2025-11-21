@@ -1023,7 +1023,7 @@ def ai_impr():
                     # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
                     for c_idx in [c for c in range(3, TABLE_COLS) if c != COL_PROJECT_NAME]:
                         if c_idx + 1 != 6 and c_idx + 1 != 9:
-                        style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
+                            style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
 
                     style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick'), right=Side(style='thin')))
                     style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
