@@ -1024,10 +1024,11 @@ def ai_impr():
                         ws.merge_cells(start_row=start_row + j, start_column=COL_PROJECT_NAME, end_row=start_row + j, end_column=COL_PROJECT_NAME + 1)
                         ws.merge_cells(start_row=start_row + j, start_column=COL_PROJECT_NAME + 3, end_row=start_row + j, end_column=COL_PROJECT_NAME + 4)
 
-                    //横太枠線
+                    # 縦太枠線
                     style(ws.cell(row=start_row + j, column=2), font=data_font, border=Border(left=Side(style='thick'), right=Side(style='thin')), align=center_text_alignment)
                     style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
 
+                # 横太枠線
                 for j in range(8):
                     if j == 0:
                         style(ws.cell(row=start_row, column=3 + j), border=Border(top=Side(style='thick')), align=center_text_alignment)
