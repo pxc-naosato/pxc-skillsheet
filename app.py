@@ -786,15 +786,24 @@ def ai_impr():
             qlist = [q.strip() for q in st.session_state.pi_qualifications_input.split("\n") if q.strip()]
             if not qlist: qlist = [""]
             st.write(qlist, st.session_state.pi_qualifications_input)
-            for q in qlist:
-                style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
-                cell = ws.cell(row=cur, column=4, value=f"{q}")
-                style(cell, border=thin_border)
+            #for q in qlist:
+            #    style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
+            #    cell = ws.cell(row=cur, column=4, value=f"{q}")
+            #    style(cell, border=thin_border)
             
                 # 資格欄はテーブル幅(K列)まで結合
-                ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
-                ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
-                cur += 1
+            #    ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
+            #    ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
+            #    cur += 1
+
+            style(ws.cell(row=cur, column=2, value="情報処理資格"), font=bold_font, border=thin_border)
+            cell = ws.cell(row=cur, column=4, value=st.session_state.pi_qualifications_input)
+            style(cell, border=thin_border)
+            
+            # 資格欄はテーブル幅(K列)まで結合
+            ws.merge_cells(start_row=9, start_column=2, end_row=9, end_column=3)
+            ws.merge_cells(start_row=cur, start_column=4, end_row=cur, end_column=TABLE_COLS)
+            cur += 1
 
             ws.merge_cells(start_row=cur, start_column=2, end_row=cur, end_column=TABLE_COLS)
             style(ws.cell(row=cur, column=2), border=thin_border)
