@@ -943,10 +943,6 @@ def ai_impr():
                     # C列 (案件名の真下) に作業内容を書き込む
                     cell = ws.cell(row=cur, column=COL_PROJECT_NAME, value=line)
                     style(cell, border=dashdot_border, align=wrap_text_alignment)
-                    
-                    # 作業内容セルを横に結合 (C列からK列まで)
-                    ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME, end_row=cur, end_column=COL_PROJECT_NAME + 1)
-                    ws.merge_cells(start_row=cur, start_column=COL_PROJECT_NAME + 3, end_row=cur, end_column=COL_PROJECT_NAME + 4)
                 
                     cur += 1 # 次の行へ
                     content_count += 1
@@ -1021,8 +1017,12 @@ def ai_impr():
             
                 for j in range((end_row + 1) - start_row):
                     # 他の列 (A, B, D-K) にも罫線を引く (結合される親セル以外)
-                    #for c_idx in [c for c in range(3, TABLE_COLS) if c != COL_PROJECT_NAME]:
-                        #style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
+                    for c_idx in [c for c in range(3, TABLE_COLS) if c != COL_PROJECT_NAME]:
+                        style(ws.cell(row=start_row + j, column=c_idx + 1),font=work_history_font, border=dashdot_border)
+                        
+                        # 作業内容セルを横に結合 (C列からK列まで)
+                        ws.merge_cells(start_row=start_row + j, start_column=COL_PROJECT_NAME, end_row=start_row + j, end_column=COL_PROJECT_NAME + 1)
+                        ws.merge_cells(start_row=start_row + j, start_column=COL_PROJECT_NAME + 3, end_row=start_row + j, end_column=COL_PROJECT_NAME + 4)
 
                     style(ws.cell(row=start_row + j, column=2), border=Border(left=Side(style='thick'), right=Side(style='thin')))
                     style(ws.cell(row=start_row + j, column=TABLE_COLS), border=Border(right=Side(style='thick')))
