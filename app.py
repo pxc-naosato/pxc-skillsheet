@@ -586,7 +586,7 @@ def add_new_project():
 # =========================
 # UI
 # =========================
-st.set_page_config(page_title="スキルシート自動入力＆Gemini要約アプリ", layout="centered")
+st.set_page_config(page_title="PXC社スキルシート作成アプリ", layout="centered")
 st.title("スキルシート自動入力＆Gemini要約アプリ")
 st.caption("経歴書Excelファイルをアップロードしてください")
 
