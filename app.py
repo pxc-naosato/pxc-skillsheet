@@ -550,7 +550,7 @@ def generate_overview_callback():
         if API_KEY:
             model = genai.GenerativeModel("gemini-2.5-flash")
             prompt = dedent("""
-                以下の作業内容を要約し、備考として1文でまとめてください。出力は本文のみ。
+                以下の作業内容を要約し、備考として100文字程度でまとめてください。出力は本文のみ。
             """) + "\n" + all_work
             remarks = model.generate_content(prompt).text
         age = (datetime.now().date() - st.session_state.pi_birth_date).days // 365
