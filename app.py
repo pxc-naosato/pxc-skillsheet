@@ -498,7 +498,6 @@ def load_from_excel_callback(drive: bool):
     else:
         uploaded_file = st.session_state.get("excel_uploader")
         if uploaded_file is None:
-            st.write("読み込めていませんよ")
             return
 
     try:
