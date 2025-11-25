@@ -500,8 +500,7 @@ def load_from_excel_callback():
         content = requests.get(download_url).content
 
         xl = io.BytesIO(content)
-        st.write(xl)
-        df = choose_best_sheet(xl)
+        pd.read_excel(xl)
         st.write(df)
         
         if df is None:
