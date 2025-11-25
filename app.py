@@ -492,7 +492,6 @@ def load_from_excel_callback(drive: bool):
     if drive == True:
         gdrive_url = st.session_state.get("gdrive_url")
         if gdrive_url is None:
-            st.write("読み込めていません")
             return
         elif not gdrive_url:
             return
