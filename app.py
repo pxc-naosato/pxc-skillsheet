@@ -489,6 +489,8 @@ initialize_session_state()
 # コールバック
 # =========================
 def load_from_excel_callback(drive: bool):
+    uploaded_file = st.session_state.excel_uploader
+    
     if drive == True:
         gdrive_url = st.session_state.gdrive_url
         if gdrive_url is None:
@@ -499,7 +501,6 @@ def load_from_excel_callback(drive: bool):
             download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
             content = requests.get(download_url).content
     else:
-        uploaded_file = st.session_state.excel_uploader
         if uploaded_file is None:
             return
 
