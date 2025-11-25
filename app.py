@@ -602,8 +602,7 @@ uploaded_file = st.file_uploader(
     key="gdrive_url",
     on_change=load_from_excel_callback)
 
-url = st.text_input("Excelファイル（.xlsx推奨）",
-    type=["xlsx", "csv"],
+url = st.text_input("Google Driveの共有リンクを入力",
     key="excel_uploader",
     on_change=load_from_excel_callback
 )
