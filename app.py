@@ -624,7 +624,7 @@ uploaded_file = st.file_uploader(
 
 url = st.text_input("Google Driveの共有リンクを入力",
     key="gdrive_url",
-    on_change=load_from_excel_callback)
+    on_change=load_from_excel_callback(True))
 
 def basic_info():
     st.header("個人情報")
