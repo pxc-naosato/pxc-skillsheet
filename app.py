@@ -491,6 +491,7 @@ initialize_session_state()
 def load_from_excel_callback(drive: bool):
     if drive == True:
         gdrive_url = st.session_state.get("gdrive_url")
+        st.write(gdrive_url)
         if gdrive_url is None:
             return
         elif not gdrive_url:
@@ -622,7 +623,8 @@ uploaded_file = st.file_uploader(
     on_change=load_from_excel_callback(False))
 
 
-url = st.text_input("Google Driveの共有リンクを入力",
+url = st.text_input(
+    "Google Driveの共有リンクを入力(リンクを知っている全員限定)",
     key="gdrive_url",
     on_change=load_from_excel_callback(True))
 
