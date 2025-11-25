@@ -491,6 +491,7 @@ initialize_session_state()
 def load_from_excel_callback():
     uploaded_file = st.session_state.excel_uploader
     if uploaded_file is None:
+        st.warning("ファイルがアップロードされていないです")
         return
     try:
         xl = pd.ExcelFile(uploaded_file)
