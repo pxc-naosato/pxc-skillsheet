@@ -499,7 +499,6 @@ def load_from_excel_callback():
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         content = requests.get(download_url).content
 
-    try:
         xl = io(content)
         st.write(xl)
         df = choose_best_sheet(xl)
@@ -508,6 +507,9 @@ def load_from_excel_callback():
         if df is None:
             st.error("有効なシートが見つかりませんでした。")
             return
+
+    try:
+
 
         # --- 個人情報＆資格 ---
         pi = read_personal(df)
