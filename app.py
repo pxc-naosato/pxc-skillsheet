@@ -496,13 +496,12 @@ def load_from_excel_callback():
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         content = requests.get(download_url).content
 
-        try:
-            xl = pd.ExcelFile(gdrive_url)
-            df = choose_best_sheet(xl)
+        xl = pd.ExcelFile(gdrive_url)
+        df = choose_best_sheet(xl)
         
-            if cbs is None:
-                st.error("有効なシートが見つかりませんでした。")
-                return
+        if cbs is None:
+            st.error("有効なシートが見つかりませんでした。")
+            return
     else:
         st.write("読み込めてないです")
     
