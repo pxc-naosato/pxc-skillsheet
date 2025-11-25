@@ -595,7 +595,7 @@ def generate_overview_callback():
         overview_text = "\n".join(lines)
 
         st.session_state.generated_overview = overview_text.strip()
-        st.success("概要を作成しました。")
+        st.write(overview_text.strip())
     except Exception as e:
         st.error(f"概要作成エラー: {e}")
 
