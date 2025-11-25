@@ -488,35 +488,16 @@ initialize_session_state()
 # =========================
 # コールバック
 # =========================
-def load_from_excel_callback(drive: bool):
-    if drive == True:
-        gdrive_url = st.session_state.gdrive_url
-        if gdrive_url is None:
-            st.write("読み込めていません")
-            return
-        else:
-            file_id = gdrive_url.split('/d/')[1].split('/')[0]
-            download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-            content = requests.get(download_url).content
-    else:
-        uploaded_file = st.session_state.excel_uploader
-        if uploaded_file is None:
-            return
-
+def load_from_excel_callback():
+    uploaded_file = st.session_state.excel_uploader
+    if uploaded_file is None:
+        return
     try:
-        if drive == True:
-            xl = io.BytesIO(content)
-            df = pd.read_excel(xl)
-        
-            if df is None:
-                st.error("有効なシートが見つかりませんでした。")
-                return
-        else:
-            xl = pd.ExcelFile(uploaded_file)
-            df = choose_best_sheet(xl)
-            if df is None:
-                st.error("有効なシートが見つかりませんでした。")
-                return
+        xl = pd.ExcelFile(uploaded_file)
+        df = choose_best_sheet(xl)
+        if df is None:
+            st.error("有効なシートが見つかりませんでした。")
+            return
 
         # --- 個人情報＆資格 ---
         pi = read_personal(df)
@@ -614,16 +595,16 @@ with st.sidebar:
     st.header("📂 サイドメニュー")
     page = st.radio("ページ選択", ["ホーム", "基本情報", "開発経験サマリ", "業務履歴", "AIによる改善"])
     
-#uploaded_file = st.file_uploader(
-#    "Excelファイル（.xlsx推奨）",
-#    type=["xlsx", "csv"],
-#    key="excel_uploader",
-#    on_change=load_from_excel_callback(False))
+uploaded_file = st.file_uploader(
+    "Excelファイル（.xlsx推奨）",
+    type=["xlsx", "csv"],
+    key="excel_uploader",
+    on_change=load_from_excel_callback)
 
 
-url = st.text_input("Google Driveの共有リンクを入力",
-    key="gdrive_url",
-    on_change=load_from_excel_callback(True))
+#url = st.text_input("Google Driveの共有リンクを入力",
+#    key="gdrive_url",
+#    on_change=load_from_excel_callback)
 
 def basic_info():
     st.header("個人情報")
