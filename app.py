@@ -499,6 +499,7 @@ def load_from_excel_callback():
     elif uploaded_file is None:
         st.warning("ファイルがアップロードされていないです")
         return
+        
     try:
         xl = pd.ExcelFile(uploaded_file)
         df = choose_best_sheet(xl)
