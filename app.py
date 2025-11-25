@@ -500,8 +500,6 @@ def load_from_excel_callback():
     else:
         st.write("読み込めてないです")
     try:
-        xl = pd.ExcelFile(uploaded_file)
-        df = choose_best_sheet(xl)
         ex = pd.ExcelFile(gdrive_url)
         cbs = choose_best_sheet(ex)
         
