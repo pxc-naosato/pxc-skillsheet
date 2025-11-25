@@ -497,7 +497,7 @@ def load_from_excel_callback():
         file_id = gdrive_url.split('/d/')[1].split('/')[0]
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         content = requests.get(download_url).content
-    else
+    else:
         st.write("読み込めてないです")
     try:
         xl = pd.ExcelFile(uploaded_file)
