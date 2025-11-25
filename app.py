@@ -500,7 +500,7 @@ def load_from_excel_callback():
         content = requests.get(download_url).content
 
     try:
-        xl = pd.ExcelFile(gdrive_url)
+        xl = io(content)
         st.write(xl)
         df = choose_best_sheet(xl)
         st.write(df)
