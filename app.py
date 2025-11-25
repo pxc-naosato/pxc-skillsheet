@@ -530,7 +530,7 @@ def load_from_excel_callback(drive: bool):
         st.session_state.pi_available_date = pi["available"]
         st.session_state.pi_qualifications_input = pi["qualification"]
         st.session_state.pi_summary = pi["summary"]
-        
+        st.write(st.session_state.pi_summary)
         # --- 業務経歴 ---
         st.session_state.projects = parse_projects(df)
 
