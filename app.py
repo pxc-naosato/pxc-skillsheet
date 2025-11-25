@@ -494,6 +494,8 @@ def load_from_excel_callback(drive: bool):
         if gdrive_url is None:
             st.write("読み込めていません")
             return
+        elif not gdrive_url:
+            return
     else:
         uploaded_file = st.session_state.get("excel_uploader")
         if uploaded_file is None:
