@@ -499,11 +499,13 @@ def load_from_excel_callback():
     elif uploaded_file is None:
         st.warning("ファイルがアップロードされていないです")
         return
-        
     try:
         xl = pd.ExcelFile(uploaded_file)
         df = choose_best_sheet(xl)
-        if df is None:
+        ex = pd.ExcelFile(gdrive_url)
+        cbs = choose_best_sheet(ex)
+        
+        if df is None and cbs is None:
             st.error("有効なシートが見つかりませんでした。")
             return
 
