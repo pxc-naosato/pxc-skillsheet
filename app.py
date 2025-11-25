@@ -530,7 +530,7 @@ def load_from_excel_callback(drive: bool):
         st.session_state.pi_available_date = pi["available"]
         st.session_state.pi_qualifications_input = pi["qualification"]
         st.session_state.pi_summary = pi["summary"]
-        st.write(pi["summary"])
+        
         # --- 業務経歴 ---
         st.session_state.projects = parse_projects(df)
 
@@ -551,7 +551,7 @@ def enhance_with_ai_callback():
             簡潔で専門的な表現に整えてください。出力は修正後の本文のみ。
         """) + "\n" + st.session_state.pi_summary
         st.session_state.pi_summary = model.generate_content(prompt1).text
-
+        st.write(st.session_state.pi_summary)
         # 各案件
         for i, p in enumerate(st.session_state.projects):
             if p.get("work_content"):
@@ -560,6 +560,7 @@ def enhance_with_ai_callback():
                     実績が簡潔に伝わるように箇条書きに整えてください。出力は本文のみ。
                 """) + "\n" + p["work_content"]
                 st.session_state.projects[i]["work_content"] = model.generate_content(prompt2).text
+                st.write(st.session_state.projects[i]["work_content"])
         st.success("AIで文章を整形しました。")
     except Exception as e:
         st.error(f"AI処理でエラー: {e}")
