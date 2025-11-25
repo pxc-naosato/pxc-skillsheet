@@ -609,7 +609,7 @@ def add_new_project():
 # =========================
 st.set_page_config(page_title="PXグループスキルシート作成アプリ", layout="centered")
 st.title("PXグループスキルシート作成")
-st.caption("経歴書Excelファイルをアップロードしてください")
+st.caption("経歴書Excelファイルをアップロードするか、GoogleドライブのURLを入力してください")
 
 with st.sidebar:
     st.header("📂 サイドメニュー")
