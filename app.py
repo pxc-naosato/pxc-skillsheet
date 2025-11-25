@@ -603,13 +603,16 @@ uploaded_file = st.file_uploader(
     on_change=load_from_excel_callback
 )
 
-url = st.text_input("Google Drive の共有リンクを入力")
+url = st.text_input("Excelファイル（.xlsx推奨）",
+    type=["xlsx", "csv"],
+    key="excel_uploader",
+    on_change=load_from_excel_callback
+)
 
 if url:
     file_id = url.split('/d/')[1].split('/')[0]
     download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
     content = requests.get(download_url).content
-    load_from_excel_callback()
     st.write("ダウンロード成功")
 
 def basic_info():
