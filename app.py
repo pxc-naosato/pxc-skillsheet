@@ -614,11 +614,11 @@ with st.sidebar:
     st.header("📂 サイドメニュー")
     page = st.radio("ページ選択", ["ホーム", "基本情報", "開発経験サマリ", "業務履歴", "AIによる改善"])
     
-uploaded_file = st.file_uploader(
-    "Excelファイル（.xlsx推奨）",
-    type=["xlsx", "csv"],
-    key="excel_uploader",
-    on_change=load_from_excel_callback(True))
+#uploaded_file = st.file_uploader(
+#    "Excelファイル（.xlsx推奨）",
+#    type=["xlsx", "csv"],
+#    key="excel_uploader",
+#    on_change=load_from_excel_callback(False))
 
 
 url = st.text_input("Google Driveの共有リンクを入力",
