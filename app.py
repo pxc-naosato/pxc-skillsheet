@@ -6,6 +6,7 @@ from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 import re
 import google.generativeai as genai
 import os
+import requests
 from textwrap import dedent
 from typing import Union
 
