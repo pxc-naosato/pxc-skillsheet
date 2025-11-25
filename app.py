@@ -490,7 +490,7 @@ initialize_session_state()
 # =========================
 def load_from_excel_callback():
     uploaded_file = st.session_state.excel_uploader
-    if uploaded_file is None:
+    if uploaded_file is None or gdrive_url is None:
         st.warning("ファイルがアップロードされていないです")
         return
     try:
@@ -599,9 +599,8 @@ with st.sidebar:
 uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
     type=["xlsx", "csv"],
-    key="excel_uploader",
-    on_change=load_from_excel_callback
-)
+    key="gdrive_url",
+    on_change=load_from_excel_callback)
 
 url = st.text_input("Excelファイル（.xlsx推奨）",
     type=["xlsx", "csv"],
