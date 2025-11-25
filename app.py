@@ -490,7 +490,8 @@ initialize_session_state()
 # =========================
 def load_from_excel_callback():
     uploaded_file = st.session_state.excel_uploader
-    if gdrive_url is None:
+    gdrive_url = st.session_state.excel_uploader
+    if uploaded_file is None or gdrive_url is None:
         st.warning("ファイルがアップロードされていないです")
         return
     try:
