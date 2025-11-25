@@ -491,7 +491,21 @@ initialize_session_state()
 def load_from_excel_callback():
     uploaded_file = st.session_state.excel_uploader
     gdrive_url = st.session_state.excel_uploader
-    if uploaded_file is None or gdrive_url is None:
+
+    if gdrive_url is None:
+        file_id = url.split('/d/')[1].split('/')[0]
+        download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        content = requests.get(download_url).content
+
+        try:
+            xl = pd.ExcelFile(uploaded_file)
+            df = choose_best_sheet(xl)
+            if df is None:
+                st.error("有効なシートが見つかりませんでした。")
+                return
+
+    
+    if uploaded_file is None:
         st.warning("ファイルがアップロードされていないです")
         return
     try:
@@ -606,14 +620,7 @@ uploaded_file = st.file_uploader(
 
 url = st.text_input("Google Driveの共有リンクを入力",
     key="gdrive_url",
-    on_change=load_from_excel_callback
-)
-
-if url:
-    file_id = url.split('/d/')[1].split('/')[0]
-    download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
-    content = requests.get(download_url).content
-    st.write("ダウンロード成功")
+    on_change=load_from_excel_callback)
 
 def basic_info():
     st.header("個人情報")
