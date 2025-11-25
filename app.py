@@ -608,6 +608,7 @@ if url:
     file_id = url.split('/d/')[1].split('/')[0]
     download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
     content = requests.get(download_url).content
+    load_from_excel_callback()
     st.write("ダウンロード成功")
 
 def basic_info():
