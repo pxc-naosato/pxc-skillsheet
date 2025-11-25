@@ -501,7 +501,7 @@ def load_from_excel_callback(drive: bool):
             content = requests.get(download_url).content
     else:
         if uploaded_file is None:
-        return
+            return
 
     try:
         if drive == True:
