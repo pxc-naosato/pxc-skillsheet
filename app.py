@@ -552,7 +552,6 @@ def enhance_with_ai_callback():
         """) + "\n" + st.session_state.pi_summary
         st.session_state.pi_summary = model.generate_content(prompt1).text
 
-        st.write(st.session_state.pi_summary)
         # 各案件
         for i, p in enumerate(st.session_state.projects):
             if p.get("work_content"):
@@ -699,7 +698,9 @@ def business_history():
 def ai_impr():
     st.header("生成AIによるスキルシート改善")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
-
+    if st.session_state.pi_summary:
+        st.success("AIで文章を整形しました。")
+        
     st.header("スキルシート概要の抽出")
     st.button("概要を抽出", on_click=generate_overview_callback)
     if st.session_state.generated_overview:
