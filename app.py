@@ -501,7 +501,7 @@ def load_from_excel_callback():
         ex = pd.ExcelFile(gdrive_url)
         cbs = choose_best_sheet(ex)
         
-        if df is None and cbs is None:
+        if cbs is None:
             st.error("有効なシートが見つかりませんでした。")
             return
 
