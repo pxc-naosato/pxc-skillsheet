@@ -490,14 +490,17 @@ initialize_session_state()
 # =========================
 def load_from_excel_callback():
     gdrive_url = st.session_state.gdrive_url
-    st.write(gdrive_url, gdrive_url is None)
+    
     if gdrive_url is None:
         st.write("読み込めてないです")
         return
     else:
         file_id = gdrive_url.split('/d/')[1].split('/')[0]
+        st.write(file_id)
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+        st.write(download_url)
         content = requests.get(download_url).content
+        st.write(content)
 
     try:
         xl = pd.ExcelFile(gdrive_url)
