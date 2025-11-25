@@ -493,15 +493,16 @@ def load_from_excel_callback():
     gdrive_url = st.session_state.gdrive_url
     
     if gdrive_url is None:
-        st.write()
         file_id = gdrive_url.split('/d/')[1].split('/')[0]
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         content = requests.get(download_url).content
+        st.write(file_id,download_url)
     else:
         st.write("読み込めてないです")
     try:
         ex = pd.ExcelFile(gdrive_url)
         cbs = choose_best_sheet(ex)
+        st.write(ex,cbs)
         
         if df is None and cbs is None:
             st.error("有効なシートが見つかりませんでした。")
