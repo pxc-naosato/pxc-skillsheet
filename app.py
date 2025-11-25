@@ -552,7 +552,7 @@ def enhance_with_ai_callback():
         """) + "\n" + st.session_state.pi_summary
         st.session_state.pi_summary = model.generate_content(prompt1).text
 
-        st.write(prompt1)
+        st.write(st.session_state.pi_summary)
         # 各案件
         for i, p in enumerate(st.session_state.projects):
             if p.get("work_content"):
