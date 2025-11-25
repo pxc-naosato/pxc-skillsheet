@@ -490,7 +490,7 @@ initialize_session_state()
 # =========================
 def load_from_excel_callback():
     uploaded_file = st.session_state.excel_uploader
-    gdrive_url = st.session_state.excel_uploader
+    gdrive_url = st.session_state.gdrive_url
     st.write(gdrive_url, uploaded_file)
     if gdrive_url is None:
         file_id = gdrive_url.split('/d/')[1].split('/')[0]
