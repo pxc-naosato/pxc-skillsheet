@@ -496,16 +496,7 @@ def load_from_excel_callback():
         file_id = url.split('/d/')[1].split('/')[0]
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         content = requests.get(download_url).content
-
-        try:
-            xl = pd.ExcelFile(uploaded_file)
-            df = choose_best_sheet(xl)
-            if df is None:
-                st.error("有効なシートが見つかりませんでした。")
-                return
-
-    
-    if uploaded_file is None:
+    elif uploaded_file is None:
         st.warning("ファイルがアップロードされていないです")
         return
     try:
