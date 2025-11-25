@@ -505,11 +505,9 @@ def load_from_excel_callback(drive: bool):
             file_id = gdrive_url.split('/d/')[1].split('/')[0]
             download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
             content = requests.get(download_url).content
-            
+            st.write(io.BytesIO(content))
             xl = io.BytesIO(content)
-            st.write(xl)
             df = pd.read_excel(xl)
-            st.write(df)
         
             if df is None:
                 st.error("有効なシートが見つかりませんでした。")
