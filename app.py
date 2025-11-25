@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 from datetime import datetime, date
-import io
+from io import BytesIO
 from openpyxl.styles import Font, Alignment, Border, Side, PatternFill
 import re
 import google.generativeai as genai
@@ -499,7 +499,7 @@ def load_from_excel_callback():
         download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
         content = requests.get(download_url).content
 
-        xl = io(content)
+        xl = BytesIO(content)
         st.write(xl)
         df = choose_best_sheet(xl)
         st.write(df)
