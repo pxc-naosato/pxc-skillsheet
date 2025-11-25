@@ -679,6 +679,7 @@ def ai_impr():
     st.button("概要を抽出", on_click=generate_overview_callback)
     if st.session_state.generated_overview:
         st.text_area("抽出された概要", value=st.session_state.generated_overview, height=240)
+        st.success("概要を抽出しました。")
 
     # ---- Excel出力（添付ファイル形式にレイアウト変更） ----
     if st.button("スキルシートを生成 (Excel形式)"):
