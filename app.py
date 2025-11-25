@@ -551,7 +551,7 @@ def enhance_with_ai_callback():
             簡潔で専門的な表現に整えてください。出力は修正後の本文のみ。
         """) + "\n" + st.session_state.pi_summary
         st.session_state.pi_summary = model.generate_content(prompt1).text
-        st.write(st.session_state.pi_summary)
+
         # 各案件
         for i, p in enumerate(st.session_state.projects):
             if p.get("work_content"):
@@ -560,7 +560,7 @@ def enhance_with_ai_callback():
                     実績が簡潔に伝わるように箇条書きに整えてください。出力は本文のみ。
                 """) + "\n" + p["work_content"]
                 st.session_state.projects[i]["work_content"] = model.generate_content(prompt2).text
-                st.write(st.session_state.projects[i]["work_content"])
+
         st.success("AIで文章を整形しました。")
     except Exception as e:
         st.error(f"AI処理でエラー: {e}")
@@ -700,6 +700,7 @@ def ai_impr():
     st.header("生成AIによるスキルシート改善")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
     if st.session_state.pi_summary:
+        st.write(st.session_state.pi_summary)
         st.success("AIで文章を整形しました。")
         
     st.header("スキルシート概要の抽出")
