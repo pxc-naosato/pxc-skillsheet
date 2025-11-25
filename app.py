@@ -552,6 +552,7 @@ def enhance_with_ai_callback():
         """) + "\n" + st.session_state.pi_summary
         st.session_state.pi_summary = model.generate_content(prompt1).text
 
+        st.write(prompt1)
         # 各案件
         for i, p in enumerate(st.session_state.projects):
             if p.get("work_content"):
@@ -595,7 +596,6 @@ def generate_overview_callback():
         overview_text = "\n".join(lines)
 
         st.session_state.generated_overview = overview_text.strip()
-        st.write(overview_text.strip())
     except Exception as e:
         st.error(f"概要作成エラー: {e}")
 
