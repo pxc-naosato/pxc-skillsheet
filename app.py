@@ -718,8 +718,8 @@ def business_history():
 def ai_impr():
     st.header("生成AIによるスキルシート改善")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
-    if st.session_state.pi_summary:
-        st.success("AIで文章を整形しました。")
+    #if st.session_state.pi_summary:
+    #    st.success("AIで文章を整形しました。")
         
     st.header("スキルシート概要の抽出")
     st.button("概要を抽出", on_click=generate_overview_callback)
