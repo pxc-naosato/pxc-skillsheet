@@ -764,7 +764,7 @@ def ai_impr():
 
             cur = 1 # 現在の行番号
 
-            cell = ws.cell(row=cur, column=TABLE_COLS, value="作成日："datetime.now().date())
+            cell = ws.cell(row=cur, column=TABLE_COLS, value="作成日：" + datetime.now().date())
             style(cell, align=Alignment(horizontal = 'under', vertical = 'under'))
             
             # --- 1行目: 空白 ---
