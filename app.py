@@ -491,7 +491,6 @@ initialize_session_state()
 def load_from_excel_callback(drive: bool):
     uploaded_file = st.session_state.get("excel_uploader")
     if uploaded_file is None:
-        st.error("消えたよ")
         return
     try:
         xl = pd.ExcelFile(uploaded_file)
@@ -512,7 +511,7 @@ def load_from_excel_callback(drive: bool):
         st.session_state.pi_available_date = pi["available"]
         st.session_state.pi_qualifications_input = pi["qualification"]
         st.session_state.pi_summary = pi["summary"]
-        st.write(st.session_state.pi_name)
+        
         # --- 業務経歴 ---
         st.session_state.projects = parse_projects(df)
 
@@ -602,7 +601,7 @@ uploaded_file = st.file_uploader(
     key="excel_uploader",
     on_change=load_from_excel_callback(False))
 
-
+st.write(st.session_state.pi_name)
 #url = st.text_input(
 #    "Google Driveの共有リンクを入力(リンクを知っている全員限定)",
 #    key="gdrive_url",
@@ -682,7 +681,6 @@ def ai_impr():
     st.header("生成AIによるスキルシート改善")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
     if st.session_state.pi_summary:
-        st.write(st.session_state.pi_summary)
         st.success("AIで文章を整形しました。")
         
     st.header("スキルシート概要の抽出")
