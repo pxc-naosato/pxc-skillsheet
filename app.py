@@ -489,7 +489,7 @@ initialize_session_state()
 # コールバック
 # =========================
 def load_from_excel_callback(drive: bool):
-    uploaded_file = st.session_state.excel_uploader
+    uploaded_file = st.session_state.get("excel_uploader")
     if uploaded_file is None:
         return
     try:
