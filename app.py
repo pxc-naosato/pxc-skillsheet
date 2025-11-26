@@ -1101,9 +1101,9 @@ def ai_impr():
             ws.column_dimensions["J"].width = 22 # ポジション
             ws.column_dimensions["K"].width = 11 # 規模
 
-            ws.row_dimensions[1].height = 43
-            ws.row_dimensions[2].height = 30
-            ws.row_dimensions[3].height = 30
+            ws.row_dimensions[1].height = 33
+            ws.row_dimensions[2].height = 20
+            ws.row_dimensions[3].height = 20
     
         st.download_button(
             label="スキルシートをダウンロード",
