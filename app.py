@@ -488,16 +488,35 @@ initialize_session_state()
 # =========================
 # コールバック
 # =========================
-def load_from_excel_callback():
-    uploaded_file = st.session_state.excel_uploader
-    if uploaded_file is None:
-        return
-    try:
-        xl = pd.ExcelFile(uploaded_file)
-        df = choose_best_sheet(xl)
-        if df is None:
-            st.error("有効なシートが見つかりませんでした。")
+def load_from_excel_callback(drive: bool):
+    if drive == True:
+        gdrive_url = st.session_state.get("gdrive_url")
+        if gdrive_url is None:
             return
+        #elif not gdrive_url:
+        #    return
+    else:
+        uploaded_file = st.session_state.get("excel_uploader")
+        if uploaded_file is None:
+            return
+
+    try:
+        if drive == True:
+            file_id = gdrive_url.split('/d/')[1].split('/')[0]
+            download_url = f"https://drive.google.com/uc?export=download&id={file_id}"
+            content = requests.get(download_url).content
+            
+            xl = io.BytesIO(content)
+            df = pd.read_excel(xl)
+            if df is None:
+                st.error("有効なシートが見つかりませんでした。")
+                return
+        else:
+            xl = pd.ExcelFile(uploaded_file)
+            df = choose_best_sheet(xl)
+            if df is None:
+                st.error("有効なシートが見つかりませんでした。")
+                return
                 
         # --- 個人情報＆資格 ---
         pi = read_personal(df)
@@ -599,7 +618,7 @@ uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
     type=["xlsx", "csv"],
     key="excel_uploader",
-    on_change=load_from_excel_callback)
+    on_change=load_from_excel_callback(False))
 
 
 #url = st.text_input(
