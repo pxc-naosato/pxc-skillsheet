@@ -764,8 +764,7 @@ def ai_impr():
 
             cur = 1 # 現在の行番号
 
-            cell = ws.cell(row=cur, column=TABLE_COLS, value=datetime.now().date())
-            style(cell)
+            ws.cell(row=cur, column=TABLE_COLS, value=datetime.now().date())
             
             # --- 1行目: 空白 ---
             cur += 1 # 2行目からスタート
