@@ -764,7 +764,7 @@ def ai_impr():
 
             cur = 1 # 現在の行番号
 
-            ws.cell(row=cur, column=TABLE_COLS, value=f"作成日：{datetime.now().strftime('%Y/%m/%d')}")
+            ws.cell(row=cur, column=TABLE_COLS -1, value=f"作成日：{datetime.now().strftime('%Y/%m/%d')}")
             
             # --- 1行目: 空白 ---
             cur += 1 # 2行目からスタート
