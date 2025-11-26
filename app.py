@@ -224,7 +224,6 @@ def read_personal(df: pd.DataFrame):
     if pos:
         r, c = pos
         result["summary"] = safe_str(df.iloc[r + 1, c])
-        st.write(safe_str(df.iloc[r + 1, c]))
     return result
 
 def find_header_row(df_str: pd.DataFrame) -> Union[int, None]:
