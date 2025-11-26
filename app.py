@@ -488,7 +488,7 @@ initialize_session_state()
 # =========================
 # コールバック
 # =========================
-def load_from_excel_callback():
+def load_from_excel_callback(drive: bool):
     uploaded_file = st.session_state.excel_uploader
     if uploaded_file is None:
         return
@@ -599,7 +599,7 @@ uploaded_file = st.file_uploader(
     "Excelファイル（.xlsx推奨）",
     type=["xlsx", "csv"],
     key="excel_uploader",
-    on_change=load_from_excel_callback)
+    on_change=load_from_excel_callback(False))
 
 
 #url = st.text_input(
