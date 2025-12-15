@@ -563,7 +563,7 @@ def enhance_with_ai_callback():
         st.warning("Gemini APIキーが未設定のためスキップしました。")
         return
     try:
-        model = genai.GenerativeModel("gemini-2.5-flash")
+        model = genai.GenerativeModel("gemini-2.5-flash-lite")
         # サマリ
         prompt1 = dedent("""
             あなたは経験豊富なキャリアアドバイザーです。以下の「開発経験サマリ」を、
@@ -595,7 +595,7 @@ def generate_overview_callback():
         all_work = "\n".join([str(p.get("work_content","")) for p in st.session_state.projects])
         remarks = ""
         if API_KEY:
-            model = genai.GenerativeModel("gemini-2.5-flash")
+            model = genai.GenerativeModel("gemini-2.5-flash-lite")
             prompt = dedent("""
                 あなたはエンジニアの職務経歴書を作成する専門家です。以下の作業内容を要約し、備考として150文字程度でまとめてください。出力は本文のみ。
             """) + "\n" + all_work
