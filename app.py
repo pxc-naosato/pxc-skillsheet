@@ -273,7 +273,7 @@ def parse_projects(df: pd.DataFrame) -> list:
     C_SCALE = col_at_multiheader(df_str, [header_r, subheader_r], ["規模", "人数"])
 
     # 必須
-    if any(x is None for x in [, C_NAME, C_CONTENT]):
+    if any(x is None for x in [C_PERIOD, C_NAME, C_CONTENT]):
         return []
 
     projects = []
