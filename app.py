@@ -273,7 +273,7 @@ def parse_projects(df: pd.DataFrame) -> list:
     C_SCALE = col_at_multiheader(df_str, [header_r, subheader_r], ["規模", "人数"])
 
     # 必須
-    if any(x is None for x in [C_PERIOD, C_NAME, C_CONTENT]):
+    if any(x is None for x in [, C_NAME, C_CONTENT]):
         return []
 
     projects = []
@@ -296,7 +296,7 @@ def parse_projects(df: pd.DataFrame) -> list:
         end_date = max(dates) if dates else None
         # 「現」「現在」対策
         txt_all = " ".join(cur["periods"])
-        if re.search(r"(現|現在)", txt_all):
+        if re.search(r"(現|現在|継続|継続中)", txt_all):
             end_date = datetime.now().date()
 
         # 作業工程（番号→ラベル）
