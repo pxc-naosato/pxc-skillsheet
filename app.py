@@ -716,6 +716,7 @@ def business_history():
 
 def ai_impr():
     st.header("生成AIによるスキルシート改善")
+    st.text_area("開発経験サマリの内容と案件内容をAIが改善します")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
     #if st.session_state.pi_summary:
     #    st.success("AIで文章を整形しました。")
