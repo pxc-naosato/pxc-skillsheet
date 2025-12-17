@@ -664,7 +664,7 @@ def basic_info():
 
 def deve_expe():
     st.subheader("開発経験サマリ")
-    st.session_state.pi_summary = st.text_area("自由記述", value=st.session_state.pi_summary,
+    st.session_state.pi_summary = st.text_area("自由記述\n内容を書き込むと「生成AIに改善を依頼」でAIがまとめます", value=st.session_state.pi_summary,
                                   placeholder="例：\n経験年数\n使用してきた技術(言語、フレームワーク、クラウドなど)\n役割(要件定義、基本設計、実装、運用など)\n実績・得意分野", height=175)
 
 def business_history():
@@ -716,7 +716,6 @@ def business_history():
 
 def ai_impr():
     st.header("生成AIによるスキルシート改善")
-    st.text_area("開発経験サマリの内容と案件内容をAIが改善します")
     st.button("生成AIに改善を依頼", on_click=enhance_with_ai_callback)
     #if st.session_state.pi_summary:
     #    st.success("AIで文章を整形しました。")
