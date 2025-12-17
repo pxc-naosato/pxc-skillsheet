@@ -671,8 +671,8 @@ def business_history():
     st.header("業務経歴")
 
     roles = ["PM", "PL", "SPL", "SE", "PG"]
-    roles_with_name = ["PM プロジェクトマネージャー", "PL プロジェクトリーダー",
-                   "SPL サブリーダー", "SE システムエンジニア", "PG プログラマー"]
+    roles_with_name = ["PM", "PL",
+                   "SPL", "SE", "PG"]
 
     for i, p in enumerate(st.session_state.projects):
         st.subheader(f"案件 {i+1}")
