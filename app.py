@@ -418,7 +418,7 @@ def parse_projects(df: pd.DataFrame) -> list:
             cur["oss"].append(os_val)
 
         lang_val = cell(r, C_LANG)
-        if lang_val is not "" and cur["judge"] == False:
+        if lang_val != "" and cur["judge"] == False:
             for t in re.split(r"[、,/\n]+", lang_val):
                 t = t.strip().lstrip("-・").strip()
                 if t:
