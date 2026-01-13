@@ -7,6 +7,8 @@ import re
 import google.generativeai as genai
 import os
 import requests
+import unicodedata
+import math
 from textwrap import dedent
 from typing import Union
 
