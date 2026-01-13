@@ -464,6 +464,28 @@ def parse_projects(df: pd.DataFrame) -> list:
     projects = [p for p in projects if (p["project_name"] or p["work_content"])]
     return projects
 
+def chara_count(text):
+    #文字列の表示幅を計算する（全角=1, 半角=0.5 として換算）
+    width = 0
+    for c in text:
+        # East Asian Width: F(Fullwidth), W(Wide), A(Ambiguous) -> 2
+        if unicodedata.east_asian_width(c) in ('F', 'W', 'A'):
+            width += 1
+        else:
+            width += 0.5
+    return width
+
+def calculate_row_size(text, max_width=57):
+    if not text:
+        return 1
+
+    lines = 1
+    current_width = 0.0
+    num_chara = chara_count(str(text))
+    
+    required_lines = math.ceil(num_chara / 57)
+
+    return required_lines
 # =========================
 # Session 初期化
 # =========================
@@ -1094,7 +1116,8 @@ def ai_impr():
             ws.row_dimensions[1].height = 33
             ws.row_dimensions[2].height = 23
             ws.row_dimensions[3].height = 23
-    
+            ws.row_dimensions[12].height = calculate_row_size(st.session_state.pi_summary) * 20
+            
         st.download_button(
             label="スキルシートをダウンロード",
             data=output.getvalue(),
